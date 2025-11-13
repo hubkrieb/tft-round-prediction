@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tft-round-prediction"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.3.3",
+    "polars>=1.35.2",
+    "scikit-learn>=1.7.2",
+    "xgboost>=3.1.1",
+    "typer>=0.9.0",
+    "pyarrow>=22.0.0",
+    "requests>=2.32.5",
+]
+
+[project.scripts]
+trp = "src.cli:app"
+
+[tool.setuptools]
+py-modules = ["src"]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.4.0",
+    "ruff>=0.14.4",
+]

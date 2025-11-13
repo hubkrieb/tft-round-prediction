@@ -1,0 +1,33 @@
+# ruff.toml
+
+[lint]
+select = [
+    "E",
+    "W",   # pycodestyle
+    "F",   # pyflakes
+    "UP",  # pyupgrade
+    "D",   # pydocstyle
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "NPY", # NumPy
+    "YTT", # flake8-2020
+    "Q",   # flake8-quotes
+    "PLE",
+    "PLW", # pylint (add "PLR" in the future)
+    "PIE", # misc lints
+    "TID", # tidy imports
+    "ISC", # implicit string concatenation
+    "TCH", # type-checking imports
+    "ANN", # flake8-annotations
+]
+ignore = ["D100", "D104", "D212", "ISC001"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.pycodestyle]
+max-doc-length = 100
+max-line-length = 119
+
+[format]
+docstring-code-format = true
