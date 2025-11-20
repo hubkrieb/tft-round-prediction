@@ -14,3 +14,6 @@ wheels/
 
 # Data folder
 data/
+
+# Training logs
+lightning_logs/

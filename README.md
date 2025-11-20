@@ -17,3 +17,11 @@ Train & Evaluate baseline XGBoost model:
 ```bash
 trp train-baseline --feature-path path/to/features
 ```
+
+## Results
+
+
+
+## References
+
+Ran Cao (Riot Games) "Machine Learning Summit: Simulating Teamfight Tactics Using Deep Learning for Fast Reinforcement Learning AI Training" ([Slides](https://gdcvault.com/play/1028851/Machine-Learning-Summit-Simulating-Teamfight)) ([Video](https://gdcvault.com/play/1029228/Machine-Learning-Summit-Simulating-Teamfight))

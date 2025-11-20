@@ -6,7 +6,7 @@ from src.baseline.transform import extract_features
 app = typer.Typer()
 
 
-@app.command(name="extract-features")
+@app.command(name="extract-baseline-features")
 def extract_feature_command(
     raw_path: str | None = typer.Option(
         None, "--raw-path", "-r", help="Path to the raw data parquet file"
