@@ -1,7 +1,7 @@
 import lightning as L
-from torch.utils.data import DataLoader
+from lightning.pytorch.loggers import WandbLogger
 
-from src.cnn.data import TFTBoardDataset
+from src.cnn.data import TFTBoardDataModule
 from src.cnn.model import TFTCNN
 from src.utils.static_data import ITEMS, UNITS
 
@@ -21,17 +21,16 @@ def train_cnn(
             device/CUDA pinned memory before returning them.
     """
     model = TFTCNN(n_units=len(UNITS) + 1, n_items=len(ITEMS) + 1, n_traits=1)
-    dataset = TFTBoardDataset(npz_path=feature_path)
 
-    dataloader = DataLoader(
-        dataset,
+    datamodule = TFTBoardDataModule(
+        data_path=feature_path,
         batch_size=batch_size,
-        shuffle=True,
         num_workers=num_workers,
         pin_memory=pin_memory,
-        persistent_workers=(num_workers > 0),
     )
 
-    trainer = L.Trainer(accelerator="auto")
+    wandb_logger = WandbLogger(project="my-project")
 
-    trainer.fit(model, train_dataloaders=dataloader)
+    trainer = L.Trainer(accelerator="auto", logger=wandb_logger)
+
+    trainer.fit(model, datamodule=datamodule)

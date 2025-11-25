@@ -17,3 +17,5 @@ data/
 
 # Training logs
 lightning_logs/
+wandb/
+*.ckpt

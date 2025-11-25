@@ -48,6 +48,7 @@ class TFTCNN(L.LightningModule):
         n_traits: int,
         emb_size_unit: int = 16,
         emb_size_item: int = 8,
+        learning_rate: float = 1e-4,
     ) -> None:
         super().__init__()
         self.encoder = TFTBoardEncoder(
@@ -65,6 +66,10 @@ class TFTCNN(L.LightningModule):
 
         # Final classification head
         self.fc = nn.Linear(128 * 8 * 7, 1)  # TODO: parametrize size * n_rows * n_cols
+
+        self.lr = learning_rate
+
+        self.save_hyperparameters()
 
     def forward(self, X: torch.Tensor) -> torch.Tensor:  # noqa: D102
         units = X[:, 0]
@@ -108,5 +113,9 @@ class TFTCNN(L.LightningModule):
         return self.forward(x)
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
         return optimizer
+
+    def on_fit_start(self) -> None:  # noqa: D102
+        self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size
