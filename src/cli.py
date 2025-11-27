@@ -55,9 +55,17 @@ def train_cnn_command(
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
     ),
+    max_epochs: int = typer.Option(
+        100, "--max-epochs", "-e", help="Maximum amount of training epochs"
+    ),
 ) -> None:
     """Train round prediction CNN model."""
-    train_cnn(feature_path=feature_path, batch_size=batch_size, num_workers=num_workers)
+    train_cnn(
+        feature_path=feature_path,
+        batch_size=batch_size,
+        num_workers=num_workers,
+        max_epochs=max_epochs,
+    )
 
 
 if __name__ == "__main__":

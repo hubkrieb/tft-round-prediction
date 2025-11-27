@@ -1,6 +1,7 @@
 import lightning as L
 import torch
 import torch.nn as nn
+from torchmetrics import Accuracy, F1Score
 
 
 class TFTBoardEncoder(nn.Module):
@@ -69,6 +70,9 @@ class TFTCNN(L.LightningModule):
 
         self.lr = learning_rate
 
+        self.test_accuracy = Accuracy(task="binary")
+        self.test_f1 = F1Score(task="binary")
+
         self.save_hyperparameters()
 
     def forward(self, X: torch.Tensor) -> torch.Tensor:  # noqa: D102
@@ -108,9 +112,32 @@ class TFTCNN(L.LightningModule):
         self.log("val_loss", loss)
         return loss
 
+    def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+        x, y = batch
+        x_hat = self.forward(x)
+        loss = nn.functional.binary_cross_entropy(x_hat, y)
+
+        preds = (x_hat > 0.5).int()
+
+        self.test_accuracy.update(preds, y.int())
+        self.test_f1.update(preds, y.int())
+
+        self.log("test_loss", loss)
+        return loss
+
     def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
         x, _ = batch
         return self.forward(x)
+
+    def on_test_epoch_end(self) -> None:  # noqa: D102
+        acc = self.test_accuracy.compute()
+        f1 = self.test_f1.compute()
+
+        self.log("test_accuracy", acc)
+        self.log("test_f1", f1)
+
+        self.test_accuracy.reset()
+        self.test_f1.reset()
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
