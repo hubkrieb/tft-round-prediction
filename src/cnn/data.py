@@ -15,24 +15,27 @@ class TFTBoardDataset(Dataset):
 
     def __init__(self, npz_path: str, transform: Callable | None = None):
         data = np.load(npz_path, mmap_mode="r")
-        self.X = data["x"]  # mem-mapped, no RAM load
+        self.X_units = data["x_units"]  # mem-mapped, no RAM load
+        self.X_traits = data["x_traits"]
         self.y = data["y"]
         self.transform = transform
 
     def __len__(self):
-        return self.X.shape[0]
+        return self.X_units.shape[0]
 
     def __getitem__(self, idx: int):
-        x = self.X[idx]  # shape (C, 8, 7)
+        x_units = self.X_units[idx]  # shape (C, 8, 7)
+        x_traits = self.X_traits[idx]
         y = self.y[idx]
 
-        x = torch.as_tensor(x, dtype=torch.int32)
+        x_units = torch.as_tensor(x_units, dtype=torch.int32)
+        x_traits = torch.as_tensor(x_traits, dtype=torch.int8)
         y = torch.as_tensor(y, dtype=torch.float32)
 
         if self.transform is not None:
-            x = self.transform(x)
+            x_units = self.transform(x_units)
 
-        return x, y
+        return x_units, x_traits, y
 
 
 class TFTBoardDataModule(L.LightningDataModule):
@@ -69,14 +72,7 @@ class TFTBoardDataModule(L.LightningDataModule):
         self.seed = seed
 
     def setup(self, stage: str | None = None) -> None:
-        """
-        Create dataset splits.
-
-        Lightning calls this method at appropriate times:
-        - Once before `fit`
-        - Once before `test`
-        - Once before `predict`
-        """
+        """Create dataset splits."""
         full_dataset = TFTBoardDataset(self.data_path)
         train_size = int(self.train_split * len(full_dataset))
         val_size = int(self.val_split * len(full_dataset))

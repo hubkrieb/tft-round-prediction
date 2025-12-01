@@ -66,7 +66,9 @@ class TFTCNN(L.LightningModule):
         )
 
         # Final classification head
-        self.fc = nn.Linear(128 * 8 * 7, 1)  # TODO: parametrize size * n_rows * n_cols
+        self.fc = nn.Linear(
+            128 * 8 * 7 + n_traits, 1
+        )  # TODO: parametrize size * n_rows * n_cols
 
         self.lr = learning_rate
 
@@ -75,10 +77,10 @@ class TFTCNN(L.LightningModule):
 
         self.save_hyperparameters()
 
-    def forward(self, X: torch.Tensor) -> torch.Tensor:  # noqa: D102
-        units = X[:, 0]
-        tiers = X[:, 1]
-        items = X[:, 2:5]
+    def forward(self, X_units: torch.Tensor, X_traits: torch.Tensor) -> torch.Tensor:  # noqa: D102
+        units = X_units[:, 0]
+        tiers = X_units[:, 1]
+        items = X_units[:, 2:5]
 
         # Encode both boards
         embedding = self.encoder(units, tiers, items)  # (B, R, C, F)
@@ -91,7 +93,7 @@ class TFTCNN(L.LightningModule):
         feat = feat.flatten(1)  # (B, 128)
 
         # Combine CNN features with trait tiers
-        # combined = torch.cat([feat, traits.float()], dim=-1)
+        feat = torch.cat([feat, X_traits.float()], dim=-1)
 
         # Prediction
         logit = self.fc(feat)
@@ -99,22 +101,22 @@ class TFTCNN(L.LightningModule):
         return prob.squeeze(1)
 
     def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x, y = batch
-        x_hat = self.forward(x)
+        x_units, x_traits, y = batch
+        x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
         self.log("train_loss", loss)
         return loss
 
     def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x, y = batch
-        x_hat = self.forward(x)
+        x_units, x_traits, y = batch
+        x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
         self.log("val_loss", loss)
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x, y = batch
-        x_hat = self.forward(x)
+        x_units, x_traits, y = batch
+        x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
 
         preds = (x_hat > 0.5).int()
@@ -126,8 +128,8 @@ class TFTCNN(L.LightningModule):
         return loss
 
     def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x, _ = batch
-        return self.forward(x)
+        x_units, x_traits, _ = batch
+        return self.forward(x_units, x_traits)
 
     def on_test_epoch_end(self) -> None:  # noqa: D102
         acc = self.test_accuracy.compute()

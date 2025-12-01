@@ -4,7 +4,7 @@ from lightning.pytorch.loggers import WandbLogger
 
 from src.cnn.data import TFTBoardDataModule
 from src.cnn.model import TFTCNN
-from src.utils.static_data import ITEMS, UNITS
+from src.utils.static_data import ITEMS, TRAITS, UNITS
 
 
 def train_cnn(
@@ -26,7 +26,11 @@ def train_cnn(
             device/CUDA pinned memory before returning them.
         max_epochs (int): Maximum amount of training epochs.
     """
-    model = TFTCNN(n_units=len(UNITS) + 1, n_items=len(ITEMS) + 1, n_traits=1)
+    model = TFTCNN(
+        n_units=len(UNITS) + 1,
+        n_items=len(ITEMS) + 1,
+        n_traits=2 * sum(len(bp) for bp in TRAITS.values()),
+    )
 
     datamodule = TFTBoardDataModule(
         data_path=feature_path,

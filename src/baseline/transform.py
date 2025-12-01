@@ -28,7 +28,7 @@ FEATURE_KEYS = (
 # --- Pre-computation for Native Polars ---
 
 # Create a DataFrame mapping units to their info
-unit_info_df = pl.DataFrame(
+UNIT_INFO_DF = pl.DataFrame(
     [
         {"unit": api_name, "cost": info["cost"], "traits": info["traits"]}
         for api_name, info in UNITS.items()
@@ -103,6 +103,14 @@ def extract_traits_one_hot(team_data: pl.DataFrame, team_name: str) -> pl.DataFr
         ]
     )
 
+    all_rounds = team_data.select("round_idx").unique()
+
+    trait_features = all_rounds.join(
+        trait_features, on="round_idx", how="left"
+    ).fill_null(0)
+
+    print(trait_features.shape)
+
     return trait_features
 
 
@@ -127,7 +135,7 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
         .explode(board_col)
         .unnest(board_col)
         .select(["round_idx", "unit", "item_ids", "loc", "tier"])
-        .join(unit_info_df, on="unit", how="left")
+        .join(UNIT_INFO_DF, on="unit", how="left")
     )
 
     # 2. Calculate Total Cost
@@ -232,9 +240,11 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
         (~pl.col("round_type").eq("PVE"))
         & (pl.col("round_outcome").is_not_null())
         & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
+        & (
+            pl.all_horizontal(pl.col("board_data").struct.unnest().list.len() > 0)
+        )  # TODO: Double check that if one is empty it's most of the time garbage data
     )
 
-    # Select base data and unnest the boards
     base_df = df.filter(mask).select(
         pl.col("match_uuid"),
         pl.col("round_idx"),

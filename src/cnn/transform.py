@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
+import polars as pl
 from numba import njit, prange
 
+from src.baseline.transform import UNIT_INFO_DF, extract_traits_one_hot
 from src.utils.static_data import ITEMS, UNITS
 
 UNIT_TO_ID = {unit: i + 1 for i, unit in enumerate(UNITS)}
@@ -56,18 +58,18 @@ def loc_to_rc(loc_str: str) -> tuple[int, int]:
 
 
 def build_units_arrays(
-    board_series: pd.Series,
+    board_df: pd.DataFrame,
     unit_to_id: dict[str, int],
     item_to_id: dict[str, int],
     max_units: int = MAX_UNITS,
 ) -> tuple[np.ndarray, np.ndarray]:
     """
-    Converts a pandas Series of board_data dicts into two numpy arrays.
+    Converts a pandas DataFrame containing board_data columns into two numpy arrays.
 
     Each unit record has fields: r, c, unit_id, tier, item1, item2, item3, is_player
 
     Args:
-        board_series (pd.Series): Series containing the board information
+        board_df (pd.DataFrame): DataFrame containing the board information
         unit_to_id (dict[str, int]): Dictionary mapping unit names to their id
         item_to_id (dict[str, int]): Dictionary mapping unit items to their id
         max_units (int): The maximum amount of units contained
@@ -75,17 +77,17 @@ def build_units_arrays(
     Returns:
         tuple[np.ndarray, np.ndarray]: The units' arrays and the unit counts for each board.
     """
-    n = len(board_series)
+    n = len(board_df)
     units_all = np.zeros((n, max_units, FIELDS), dtype=np.int32)
     counts = np.zeros(n, dtype=np.int32)
 
-    for i, bd in enumerate(board_series):
+    for i, bd in board_df.iterrows():
         if bd is None:
             counts[i] = 0
             continue
         k = 0
         for side_name, is_player in (("player_board", 1), ("opponent_board", 0)):
-            arr = bd.get(side_name, None)
+            arr = bd[side_name]
             if arr is None:
                 continue
             for rec in arr:
@@ -180,28 +182,75 @@ def extract_tensors(
         tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
 
     """
-    df = pd.read_parquet(raw_data_path)
+    df = pl.read_parquet(raw_data_path)
 
-    mask = (
-        (~df["round_name"].str.startswith("1-", na=True))
-        & (~df["round_name"].str.endswith("-4", na=True))
-        & (~df["round_name"].str.endswith("-7", na=True))
-        & (df["round_outcome"].notnull())
-        & (pd.json_normalize(df["board_data"]).notnull().all(axis=1))
+    df = df.with_columns(
+        pl.arange(0, pl.count())
+        .over(["match_uuid", "player_uuid", "round_name"])
+        .alias("round_instance")
+    ).with_columns(
+        round_idx=(
+            pl.col("match_uuid").cast(pl.Utf8)
+            + pl.lit("_")
+            + pl.col("round_name").cast(pl.Utf8)
+            + pl.lit("_")
+            + pl.col("round_instance").cast(pl.Utf8)
+        )
     )
 
-    df = df[mask]
+    # Filter out PVE rounds and missing input or target
+    mask = (
+        (~pl.col("round_type").eq("PVE"))
+        & (pl.col("round_outcome").is_not_null())
+        & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
+        & (pl.all_horizontal(pl.col("board_data").struct.unnest().list.len() > 0))
+    )
 
-    outcome = np.array((df["round_outcome"] == "victory").astype(int))
+    base_df = df.filter(mask).select(
+        pl.col("match_uuid"),
+        pl.col("round_idx"),
+        (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
+        pl.col("board_data").struct.unnest(),
+    )
 
-    units_all, counts = build_units_arrays(df["board_data"], UNIT_TO_ID, ITEM_TO_ID)
+    print(base_df.shape)
+
+    player_data = (
+        base_df.select("round_idx", "player_board")
+        .explode("player_board")
+        .unnest("player_board")
+        .select(["round_idx", "unit", "item_ids", "loc", "tier"])
+        .join(UNIT_INFO_DF, on="unit", how="left")
+    )
+
+    opponent_data = (
+        base_df.select("round_idx", "opponent_board")
+        .explode("opponent_board")
+        .unnest("opponent_board")
+        .select(["round_idx", "unit", "item_ids", "loc", "tier"])
+        .join(UNIT_INFO_DF, on="unit", how="left")
+    )
+
+    player_traits = extract_traits_one_hot(team_data=player_data, team_name="player")
+    opponent_traits = extract_traits_one_hot(
+        team_data=opponent_data, team_name="opponent"
+    )
+    trait_features = (
+        player_traits.join(opponent_traits, on="round_idx", how="inner")
+        .select(pl.all().exclude("round_idx"))
+        .to_numpy()
+    )
+
+    base_df = base_df.to_pandas()
+
+    outcome = np.array((base_df["outcome"]).astype(int))
+
+    units_all, counts = build_units_arrays(base_df, UNIT_TO_ID, ITEM_TO_ID)
 
     tensors = assemble_tensors_numba(units_all, counts, units_all.shape[0])
 
-    np.savez_compressed(feature_path, x=tensors, y=outcome)
+    np.savez_compressed(
+        feature_path, x_units=tensors, x_traits=trait_features, y=outcome
+    )
 
-    return tensors, outcome
-
-
-if __name__ == "__main__":
-    extract_tensors("data/set15/raw/1758831215577.parquet")
+    return tensors, trait_features, outcome
