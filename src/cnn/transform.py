@@ -213,8 +213,6 @@ def extract_tensors(
         pl.col("board_data").struct.unnest(),
     )
 
-    print(base_df.shape)
-
     player_data = (
         base_df.select("round_idx", "player_board")
         .explode("player_board")

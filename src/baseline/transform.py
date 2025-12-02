@@ -109,8 +109,6 @@ def extract_traits_one_hot(team_data: pl.DataFrame, team_name: str) -> pl.DataFr
         trait_features, on="round_idx", how="left"
     ).fill_null(0)
 
-    print(trait_features.shape)
-
     return trait_features
 
 
