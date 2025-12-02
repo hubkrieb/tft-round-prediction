@@ -59,16 +59,29 @@ class TFTCNN(L.LightningModule):
 
         # Convolutional backbone
         self.cnn = nn.Sequential(
-            nn.Conv2d(in_channels, 64, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
             nn.ReLU(),
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
+            # nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            # nn.BatchNorm2d(256),
+            # nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
         )
 
-        # Final classification head
-        self.fc = nn.Linear(
-            128 * 8 * 7 + n_traits, 1
-        )  # TODO: parametrize size * n_rows * n_cols
+        self.mlp = nn.Sequential(
+            nn.Linear(64 + n_traits, 256),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            # nn.Linear(512, 256),
+            # nn.ReLU(),
+            # nn.Dropout(0.2),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, 1),  # binary classification (logit output)
+        )
 
         self.lr = learning_rate
 
@@ -96,7 +109,7 @@ class TFTCNN(L.LightningModule):
         feat = torch.cat([feat, X_traits.float()], dim=-1)
 
         # Prediction
-        logit = self.fc(feat)
+        logit = self.mlp(feat)
         prob = torch.sigmoid(logit)  # win probability
         return prob.squeeze(1)
 
