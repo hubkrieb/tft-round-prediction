@@ -1,9 +1,35 @@
-from collections.abc import Callable
+from random import random
 
 import lightning as L
 import numpy as np
 import torch
+import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader, Dataset, random_split
+
+
+def rotate_board(
+    x_units: torch.Tensor, x_traits: torch.Tensor
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Rotate the board representation by 180 degrees.
+
+    Is equivalent to switch the opponent and the player side.
+
+    Args:
+        x_units (torch.Tensor): Tensor of shape (C, 8, 7) representing unit IDs on the board.
+        x_traits (torch.Tensor): Tensor of shape (T,) representing trait features.
+
+    Returns:
+        torch.Tensor: Rotated unit tensor of shape (C, 8, 7).
+        torch.Tensor: Unchanged trait tensor of shape (T,).
+    """
+    x_units_rotated = F.rotate(x_units, angle=180)
+
+    n = len(x_traits)
+    swapped_idx = (torch.arange(n) + n // 2) % n
+
+    x_traits_swapped = x_traits[swapped_idx]
+
+    return x_units_rotated, x_traits_swapped
 
 
 class TFTBoardDataset(Dataset):
@@ -13,12 +39,12 @@ class TFTBoardDataset(Dataset):
         npz_path (str): Path to the features .npz file.
     """
 
-    def __init__(self, npz_path: str, transform: Callable | None = None):
+    def __init__(self, npz_path: str, transform_prob: float = 0.5):
         data = np.load(npz_path, mmap_mode="r")
         self.X_units = data["x_units"]  # mem-mapped, no RAM load
         self.X_traits = data["x_traits"]
         self.y = data["y"]
-        self.transform = transform
+        self.transform_prob = transform_prob
 
     def __len__(self):
         return self.X_units.shape[0]
@@ -32,8 +58,8 @@ class TFTBoardDataset(Dataset):
         x_traits = torch.as_tensor(x_traits, dtype=torch.int8)
         y = torch.as_tensor(y, dtype=torch.float32)
 
-        if self.transform is not None:
-            x_units = self.transform(x_units)
+        if random() < self.transform_prob:
+            x_units, x_traits = rotate_board(x_units, x_traits)
 
         return x_units, x_traits, y
 
