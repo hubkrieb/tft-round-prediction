@@ -1,15 +1,19 @@
 import json
+import os
 
 import requests
 
 
-def generate_static_data(set_number: int, patch: str = "latest") -> tuple[dict, dict]:
+def generate_static_data(
+    set_number: int, output_dir: str, patch: str | int = "latest"
+) -> tuple[dict, dict]:
     """
     Extracts formatted units and traits static data from Community Dragon.
 
     Args:
         set_number (int): Set number.
-        patch (str): Patch number. Default to "latest".
+        output_dir (str): Directory of the set static data.
+        patch (str | int): Patch number. Default to "latest".
 
     Returns:
         tuple[dict, dict]: Tuple containing both units and trait data.
@@ -38,12 +42,14 @@ def generate_static_data(set_number: int, patch: str = "latest") -> tuple[dict, 
                 bp["minUnits"] for bp in breakpoints if "minUnits" in bp
             ]
 
-        with open("static_data/unit.json", "w") as f:
+        os.makedirs(output_dir, exist_ok=True)
+
+        with open(f"{output_dir}/unit.json", "w") as f:
             json.dump(unit_info, f, indent=4)
-        with open("static_data/trait.json", "w") as f:
+        with open(f"{output_dir}/trait.json", "w") as f:
             json.dump(trait_breakpoints, f, indent=4)
         return unit_info, trait_breakpoints
 
 
 if __name__ == "__main__":
-    generate_static_data("15")
+    generate_static_data(16)
