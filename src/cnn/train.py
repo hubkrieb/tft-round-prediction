@@ -39,7 +39,7 @@ def train_cnn(
         pin_memory=pin_memory,
     )
 
-    callbacks = [EarlyStopping(monitor="val_loss", mode="min")]
+    callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=5)]
 
     wandb_logger = WandbLogger(project="my-project")
 

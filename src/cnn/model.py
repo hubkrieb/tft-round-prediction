@@ -155,7 +155,7 @@ class TFTCNN(L.LightningModule):
         self.test_f1.reset()
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
         self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
         return optimizer
 
