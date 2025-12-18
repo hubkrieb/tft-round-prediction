@@ -47,6 +47,8 @@ class TFTCNN(L.LightningModule):
         n_units: int,
         n_items: int,
         n_traits: int,
+        board_height: int = 8,
+        board_width: int = 7,
         emb_size_unit: int = 16,
         emb_size_item: int = 8,
         learning_rate: float = 1e-4,
@@ -68,7 +70,7 @@ class TFTCNN(L.LightningModule):
         )
 
         self.mlp = nn.Sequential(
-            nn.Linear(64 + n_traits, 256),
+            nn.Linear(64 * board_height * board_width + n_traits, 256),
             nn.ReLU(),
             nn.Dropout(0.2),
             nn.Linear(256, 128),
@@ -95,8 +97,8 @@ class TFTCNN(L.LightningModule):
         embedding = embedding.permute(0, 3, 1, 2)
 
         # CNN
-        feat = self.cnn(embedding)  # (B, 128, 1, 1)
-        feat = feat.flatten(1)  # (B, 128)
+        feat = self.cnn(embedding)
+        feat = feat.flatten(1)
 
         # Combine CNN features with trait tiers
         feat = torch.cat([feat, X_traits.float()], dim=-1)
