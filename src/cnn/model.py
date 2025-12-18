@@ -19,7 +19,7 @@ class TFTBoardEncoder(nn.Module):
         self.unit_embedding = nn.Embedding(n_units, emb_size_unit)
         self.tier_embedding = nn.Embedding(n_tiers, emb_size_unit)
         self.item_embedding = nn.Embedding(n_items, emb_size_item)
-        self.norm = nn.LayerNorm(emb_size_unit + emb_size_item)
+        self.norm = nn.LayerNorm(emb_size_unit + 3 * emb_size_item)
 
     def forward(  # noqa: D102
         self, unit_id: torch.Tensor, tier: torch.Tensor, item_ids: torch.Tensor
@@ -32,8 +32,8 @@ class TFTBoardEncoder(nn.Module):
 
         item_vecs = self.item_embedding(item_ids)
 
-        # TODO: Try without sum
-        item_final = item_vecs.sum(dim=-4)
+        # Flatten the 3 items into one long vector: (B, H, W, 3*I_Dim)
+        item_final = item_vecs.permute(0, 2, 3, 1, 4).flatten(start_dim=3)
 
         board_vec = torch.cat([unit_final, item_final], dim=-1)
         return self.norm(board_vec)
@@ -55,7 +55,7 @@ class TFTCNN(L.LightningModule):
         self.encoder = TFTBoardEncoder(
             n_units, n_items, emb_size_unit=emb_size_unit, emb_size_item=emb_size_item
         )
-        in_channels = emb_size_unit + emb_size_item
+        in_channels = emb_size_unit + 3 * emb_size_item
 
         # Convolutional backbone
         self.cnn = nn.Sequential(
@@ -65,19 +65,12 @@ class TFTCNN(L.LightningModule):
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64),
             nn.ReLU(),
-            # nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            # nn.BatchNorm2d(256),
-            # nn.ReLU(),
-            nn.AdaptiveAvgPool2d((1, 1)),
         )
 
         self.mlp = nn.Sequential(
             nn.Linear(64 + n_traits, 256),
             nn.ReLU(),
             nn.Dropout(0.2),
-            # nn.Linear(512, 256),
-            # nn.ReLU(),
-            # nn.Dropout(0.2),
             nn.Linear(256, 128),
             nn.ReLU(),
             nn.Linear(128, 1),  # binary classification (logit output)
