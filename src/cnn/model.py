@@ -1,6 +1,7 @@
 import lightning as L
 import torch
 import torch.nn as nn
+from torch.optim.lr_scheduler import CosineAnnealingLR
 from torchmetrics import Accuracy, F1Score
 
 
@@ -51,7 +52,7 @@ class TFTCNN(L.LightningModule):
         board_width: int = 7,
         emb_size_unit: int = 16,
         emb_size_item: int = 8,
-        learning_rate: float = 1e-4,
+        learning_rate: float = 1e-3,
     ) -> None:
         super().__init__()
         self.encoder = TFTBoardEncoder(
@@ -151,8 +152,11 @@ class TFTCNN(L.LightningModule):
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
+        scheduler = CosineAnnealingLR(
+            optimizer, T_max=self.trainer.max_epochs, eta_min=1e-6
+        )
         self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
-        return optimizer
+        return {"optimizer": optimizer, "lr_scheduler": scheduler}
 
     def on_fit_start(self) -> None:  # noqa: D102
         self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size

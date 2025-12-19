@@ -52,6 +52,9 @@ def train_cnn_command(
     batch_size: int = typer.Option(
         512, "--batch-size", "-b", help="Batch size to use for training"
     ),
+    learning_rate: float = typer.Option(
+        0.001, "--lr", help="Learning rate to use for training"
+    ),
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
     ),
@@ -63,6 +66,7 @@ def train_cnn_command(
     train_cnn(
         feature_path=feature_path,
         batch_size=batch_size,
+        learning_rate=learning_rate,
         num_workers=num_workers,
         max_epochs=max_epochs,
     )
