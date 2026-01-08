@@ -84,6 +84,9 @@ class TFTCNN(L.LightningModule):
         self.warmup_steps = 5000
         self.total_steps = 50000
 
+        self.val_accuracy = Accuracy(task="binary")
+        self.val_f1 = F1Score(task="binary")
+
         self.test_accuracy = Accuracy(task="binary")
         self.test_f1 = F1Score(task="binary")
 
@@ -116,14 +119,22 @@ class TFTCNN(L.LightningModule):
         x_units, x_traits, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
-        self.log("train_loss", loss)
+        self.log("train_loss", loss, prog_bar=True)
         return loss
 
     def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
         x_units, x_traits, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
-        self.log("val_loss", loss)
+
+        preds = (x_hat > 0.5).int()
+
+        self.val_accuracy.update(preds, y.int())
+        self.val_f1.update(preds, y.int())
+
+        self.log("val_accuracy", self.val_accuracy, prog_bar=True)
+        self.log("val_f1", self.val_f1, prog_bar=True)
+        self.log("val_loss", loss, prog_bar=True)
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
