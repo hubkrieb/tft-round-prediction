@@ -1,7 +1,8 @@
+import math
+
 import lightning as L
 import torch
 import torch.nn as nn
-from torch.optim.lr_scheduler import CosineAnnealingLR
 from torchmetrics import Accuracy, F1Score
 
 
@@ -50,8 +51,8 @@ class TFTCNN(L.LightningModule):
         n_traits: int,
         board_height: int = 8,
         board_width: int = 7,
-        emb_size_unit: int = 16,
-        emb_size_item: int = 8,
+        emb_size_unit: int = 32,
+        emb_size_item: int = 32,
         learning_rate: float = 1e-3,
     ) -> None:
         super().__init__()
@@ -80,6 +81,8 @@ class TFTCNN(L.LightningModule):
         )
 
         self.lr = learning_rate
+        self.warmup_steps = 5000
+        self.total_steps = 50000
 
         self.test_accuracy = Accuracy(task="binary")
         self.test_f1 = F1Score(task="binary")
@@ -152,11 +155,26 @@ class TFTCNN(L.LightningModule):
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
-        scheduler = CosineAnnealingLR(
-            optimizer, T_max=self.trainer.max_epochs, eta_min=1e-6
-        )
+
+        def lr_lambda(step: int):  # noqa: ANN202
+            if step < self.warmup_steps:
+                return step / self.warmup_steps
+            progress = (step - self.warmup_steps) / (
+                self.total_steps - self.warmup_steps
+            )
+            return 0.5 * (1 + math.cos(math.pi * progress))
+
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+
         self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
-        return {"optimizer": optimizer, "lr_scheduler": scheduler}
+        return {
+            "optimizer": optimizer,
+            "lr_scheduler": {
+                "scheduler": scheduler,
+                "interval": "step",
+                "frequency": 1,
+            },
+        }
 
     def on_fit_start(self) -> None:  # noqa: D102
         self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size
