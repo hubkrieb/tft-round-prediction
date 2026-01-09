@@ -1,5 +1,3 @@
-import math
-
 import lightning as L
 import torch
 import torch.nn as nn
@@ -82,6 +80,7 @@ class TFTCNN(L.LightningModule):
 
         self.lr = learning_rate
         self.warmup_steps = 5000
+        self.plateau_steps = 35000
         self.total_steps = 50000
 
         self.val_accuracy = Accuracy(task="binary")
@@ -169,11 +168,20 @@ class TFTCNN(L.LightningModule):
 
         def lr_lambda(step: int):  # noqa: ANN202
             if step < self.warmup_steps:
-                return step / self.warmup_steps
-            progress = (step - self.warmup_steps) / (
-                self.total_steps - self.warmup_steps
-            )
-            return 0.5 * (1 + math.cos(math.pi * progress))
+                return step / max(1, self.warmup_steps)
+
+            if step < self.warmup_steps + self.plateau_steps:
+                return 1.0
+
+            decay_steps = self.total_steps - self.warmup_steps - self.plateau_steps
+            if decay_steps <= 0:
+                return 1.0  # safety fallback
+
+            decay_progress = (
+                step - self.warmup_steps - self.plateau_steps
+            ) / decay_steps
+
+            return max(0.0, 1.0 - decay_progress)
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
