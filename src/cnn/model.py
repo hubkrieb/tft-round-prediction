@@ -52,6 +52,9 @@ class TFTCNN(L.LightningModule):
         emb_size_unit: int = 32,
         emb_size_item: int = 32,
         learning_rate: float = 1e-3,
+        warmup_steps: int = 5000,
+        plateau_steps: int = 35000,
+        total_steps: int = 50000,
     ) -> None:
         super().__init__()
         self.encoder = TFTBoardEncoder(
@@ -79,9 +82,9 @@ class TFTCNN(L.LightningModule):
         )
 
         self.lr = learning_rate
-        self.warmup_steps = 5000
-        self.plateau_steps = 35000
-        self.total_steps = 50000
+        self.warmup_steps = warmup_steps
+        self.plateau_steps = plateau_steps
+        self.total_steps = total_steps
 
         self.val_accuracy = Accuracy(task="binary")
         self.val_f1 = F1Score(task="binary")
