@@ -100,6 +100,9 @@ def train_cnn_command(
     max_epochs: int = typer.Option(
         100, "--max-epochs", "-e", help="Maximum amount of training epochs"
     ),
+    seed: int = typer.Option(
+        42, "--seed", "-s", help="Random seed for reproducibility"
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -111,6 +114,7 @@ def train_cnn_command(
         learning_rate=learning_rate,
         num_workers=num_workers,
         max_epochs=max_epochs,
+        seed=seed,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),

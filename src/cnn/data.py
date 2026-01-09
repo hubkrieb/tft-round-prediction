@@ -75,7 +75,6 @@ class TFTBoardDataModule(L.LightningDataModule):
         pin_memory (bool): Whether to pin memory (improves GPU transfer speed).
         train_split (float): Percentage of data to use for training.
         val_split (float): Percentage of data to use for validation.
-        seed (int): Random seed for deterministic splitting.
     """
 
     def __init__(
@@ -86,7 +85,6 @@ class TFTBoardDataModule(L.LightningDataModule):
         pin_memory: bool = True,
         train_split: float = 0.8,
         val_split: float = 0.1,
-        seed: int = 42,
     ):
         super().__init__()
         self.data_path = data_path
@@ -95,7 +93,6 @@ class TFTBoardDataModule(L.LightningDataModule):
         self.pin_memory = pin_memory
         self.train_split = train_split
         self.val_split = val_split
-        self.seed = seed
 
     def setup(self, stage: str | None = None) -> None:
         """Create dataset splits."""
@@ -107,7 +104,7 @@ class TFTBoardDataModule(L.LightningDataModule):
         self.train_ds, self.val_ds, self.test_ds = random_split(
             full_dataset,
             [train_size, val_size, test_size],
-            generator=torch.Generator().manual_seed(self.seed),
+            generator=torch.Generator(),
         )
 
     def train_dataloader(self) -> DataLoader:

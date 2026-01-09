@@ -1,4 +1,4 @@
-import lightning as L
+from lightning import Trainer, seed_everything
 from lightning.pytorch.callbacks import EarlyStopping
 from lightning.pytorch.loggers import WandbLogger
 
@@ -14,6 +14,7 @@ def train_cnn(
     num_workers: int,
     pin_memory: bool = True,
     max_epochs: int = 100,
+    seed: int = 54,
     *,
     data_kwargs: dict | None = None,
     model_kwargs: dict | None = None,
@@ -31,6 +32,7 @@ def train_cnn(
         pin_memory (bool): If ``True``, the data loader will copy Tensors into
             device/CUDA pinned memory before returning them.
         max_epochs (int): Maximum amount of training epochs.
+        seed (int): Random seed for reproducibility.
         data_kwargs (dict | None): Additional keyword arguments for the data module.
         model_kwargs (dict | None): Additional keyword arguments for the model.
         trainer_kwargs (dict | None): Additional keyword arguments for the trainer.
@@ -38,6 +40,8 @@ def train_cnn(
     data_kwargs = data_kwargs or {}
     model_kwargs = model_kwargs or {}
     trainer_kwargs = trainer_kwargs or {}
+
+    seed_everything(seed=seed, workers=True)
 
     model = TFTCNN(
         n_units=len(UNITS) + 1,
@@ -59,7 +63,7 @@ def train_cnn(
 
     wandb_logger = WandbLogger(project="my-project")
 
-    trainer = L.Trainer(
+    trainer = Trainer(
         accelerator="auto",
         logger=wandb_logger,
         max_epochs=max_epochs,
