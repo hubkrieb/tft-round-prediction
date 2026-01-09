@@ -14,6 +14,10 @@ def train_cnn(
     num_workers: int,
     pin_memory: bool = True,
     max_epochs: int = 100,
+    *,
+    data_kwargs: dict | None = None,
+    model_kwargs: dict | None = None,
+    trainer_kwargs: dict | None = None,
 ) -> None:
     """Trains a CNN model using the provided feature data.
 
@@ -27,12 +31,20 @@ def train_cnn(
         pin_memory (bool): If ``True``, the data loader will copy Tensors into
             device/CUDA pinned memory before returning them.
         max_epochs (int): Maximum amount of training epochs.
+        data_kwargs (dict | None): Additional keyword arguments for the data module.
+        model_kwargs (dict | None): Additional keyword arguments for the model.
+        trainer_kwargs (dict | None): Additional keyword arguments for the trainer.
     """
+    data_kwargs = data_kwargs or {}
+    model_kwargs = model_kwargs or {}
+    trainer_kwargs = trainer_kwargs or {}
+
     model = TFTCNN(
         n_units=len(UNITS) + 1,
         n_items=len(ITEMS) + 1,
         n_traits=2 * sum(len(bp) for bp in TRAITS.values()),
         learning_rate=learning_rate,
+        **model_kwargs,
     )
 
     datamodule = TFTBoardDataModule(
@@ -40,6 +52,7 @@ def train_cnn(
         batch_size=batch_size,
         num_workers=num_workers,
         pin_memory=pin_memory,
+        **data_kwargs,
     )
 
     callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=10)]
@@ -51,6 +64,7 @@ def train_cnn(
         logger=wandb_logger,
         max_epochs=max_epochs,
         callbacks=callbacks,
+        **trainer_kwargs,
     )
 
     trainer.fit(model, datamodule=datamodule)

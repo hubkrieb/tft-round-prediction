@@ -1,3 +1,5 @@
+import json
+
 import typer
 
 from src.baseline.train import train_baseline
@@ -6,6 +8,43 @@ from src.cnn.train import train_cnn
 from src.cnn.transform import extract_tensors
 
 app = typer.Typer()
+
+DATA_KW = typer.Option(
+    None,
+    "--data-kw",
+    help="Extra KEY=VALUE arguments forwarded to the data module",
+)
+
+MODEL_KW = typer.Option(
+    None,
+    "--model-kw",
+    help="Extra KEY=VALUE arguments forwarded to the model",
+)
+
+TRAINER_KW = typer.Option(
+    None,
+    "--trainer-kw",
+    help="Extra KEY=VALUE arguments forwarded to the Trainer",
+)
+
+
+def parse_kv_options(values: list[str] | None) -> dict:
+    """Parse repeated KEY=VALUE CLI options into a dict.
+
+    Args:
+        values (list[str] | None): List of KEY=VALUE strings.
+
+    Returns:
+        dict: Parsed key-value pairs.
+    """
+    if not values:
+        return {}
+
+    parsed = {}
+    for item in values:
+        key, value = item.split("=", 1)
+        parsed[key] = json.loads(value)
+    return parsed
 
 
 @app.command(name="extract-baseline-features")
@@ -61,6 +100,9 @@ def train_cnn_command(
     max_epochs: int = typer.Option(
         100, "--max-epochs", "-e", help="Maximum amount of training epochs"
     ),
+    data_kw: list[str] | None = DATA_KW,
+    model_kw: list[str] | None = MODEL_KW,
+    trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction CNN model."""
     train_cnn(
@@ -69,6 +111,9 @@ def train_cnn_command(
         learning_rate=learning_rate,
         num_workers=num_workers,
         max_epochs=max_epochs,
+        data_kwargs=parse_kv_options(data_kw),
+        model_kwargs=parse_kv_options(model_kw),
+        trainer_kwargs=parse_kv_options(trainer_kw),
     )
 
 
