@@ -52,9 +52,9 @@ class TFTCNN(L.LightningModule):
         emb_size_unit: int = 32,
         emb_size_item: int = 32,
         learning_rate: float = 1e-3,
-        warmup_steps: int = 5000,
-        plateau_steps: int = 35000,
-        total_steps: int = 50000,
+        warmup_ratio: float = 0.1,
+        plateau_ratio: float = 0.7,
+        dropout_rate: float = 0.2,
     ) -> None:
         super().__init__()
         self.encoder = TFTBoardEncoder(
@@ -75,16 +75,16 @@ class TFTCNN(L.LightningModule):
         self.mlp = nn.Sequential(
             nn.Linear(64 * board_height * board_width + n_traits, 256),
             nn.ReLU(),
-            nn.Dropout(0.2),
+            nn.Dropout(dropout_rate),
             nn.Linear(256, 128),
             nn.ReLU(),
             nn.Linear(128, 1),  # binary classification (logit output)
         )
 
+        self.dropout_rate = dropout_rate
         self.lr = learning_rate
-        self.warmup_steps = warmup_steps
-        self.plateau_steps = plateau_steps
-        self.total_steps = total_steps
+        self.warmup_ratio = warmup_ratio
+        self.plateau_ratio = plateau_ratio
 
         self.val_accuracy = Accuracy(task="binary")
         self.val_f1 = F1Score(task="binary")
@@ -169,20 +169,23 @@ class TFTCNN(L.LightningModule):
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
-        def lr_lambda(step: int):  # noqa: ANN202
-            if step < self.warmup_steps:
-                return step / max(1, self.warmup_steps)
+        total_steps = self.trainer.estimated_stepping_batches
 
-            if step < self.warmup_steps + self.plateau_steps:
+        warmup_steps = int(self.warmup_ratio * total_steps)
+        plateau_steps = int(self.plateau_ratio * total_steps)
+
+        def lr_lambda(step: int) -> float:  # noqa: ANN202
+            if step < warmup_steps:
+                return step / max(1, warmup_steps)
+
+            if step < warmup_steps + plateau_steps:
                 return 1.0
 
-            decay_steps = self.total_steps - self.warmup_steps - self.plateau_steps
+            decay_steps = total_steps - warmup_steps - plateau_steps
             if decay_steps <= 0:
                 return 1.0  # safety fallback
 
-            decay_progress = (
-                step - self.warmup_steps - self.plateau_steps
-            ) / decay_steps
+            decay_progress = (step - warmup_steps - plateau_steps) / decay_steps
 
             return max(0.0, 1.0 - decay_progress)
 

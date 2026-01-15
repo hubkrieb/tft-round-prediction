@@ -1,5 +1,5 @@
 from lightning import Trainer, seed_everything
-from lightning.pytorch.callbacks import EarlyStopping
+from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
 from lightning.pytorch.loggers import WandbLogger
 
 from src.cnn.data import TFTBoardDataModule
@@ -59,7 +59,10 @@ def train_cnn(
         **data_kwargs,
     )
 
-    callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=10)]
+    callbacks = [
+        EarlyStopping(monitor="val_loss", mode="min", patience=10),
+        LearningRateMonitor(logging_interval="step"),
+    ]
 
     wandb_logger = WandbLogger(project="my-project")
 
