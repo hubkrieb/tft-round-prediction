@@ -19,3 +19,6 @@ data/
 lightning_logs/
 wandb/
 *.ckpt
+
+# Optuna DB
+*.db
