@@ -14,3 +14,11 @@ wheels/
 
 # Data folder
 data/
+
+# Training logs
+lightning_logs/
+wandb/
+*.ckpt
+
+# Optuna DB
+*.db

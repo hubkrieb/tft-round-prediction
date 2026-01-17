@@ -20,7 +20,7 @@ select = [
     "TCH", # type-checking imports
     "ANN", # flake8-annotations
 ]
-ignore = ["D100", "D104", "D212", "ISC001"]
+ignore = ["D100", "D104", "D105", "D107", "D212", "ISC001", "ANN101", "ANN204"]
 
 [lint.pydocstyle]
 convention = "google"

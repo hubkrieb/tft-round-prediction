@@ -15,7 +15,7 @@ def train_baseline(feature_path: str) -> None:
     data = pd.read_parquet(feature_path)
 
     # Split data into train and test sets
-    X = data.drop(["uuid", "round_id", "outcome"], axis=1)
+    X = data.drop(["round_idx", "outcome"], axis=1)
     y = data["outcome"]
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42

@@ -28,7 +28,7 @@ FEATURE_KEYS = (
 # --- Pre-computation for Native Polars ---
 
 # Create a DataFrame mapping units to their info
-unit_info_df = pl.DataFrame(
+UNIT_INFO_DF = pl.DataFrame(
     [
         {"unit": api_name, "cost": info["cost"], "traits": info["traits"]}
         for api_name, info in UNITS.items()
@@ -42,6 +42,74 @@ trait_bps_df = pl.DataFrame(
 
 # Create a Polars Series for TIER_MULT for use with list.gather
 TIER_MULT_PL = pl.Series(TIER_MULT)
+
+
+def extract_traits_one_hot(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
+    """
+    Calculates one-hot encoded trait features for a single team (player or opponent).
+
+    Args:
+        team_data (pl.DataFrame): Dataframe containing exploded team data with unit info.
+        team_name (str): Name of the team. Either "player" or "opponent".
+
+    Returns:
+        pl.DataFrame: One-hot encoded trait features dataframe.
+    """
+    trait_counts = (
+        team_data.explode("traits")
+        .group_by("round_idx", "traits")
+        .count()
+        .join(trait_bps_df, left_on="traits", right_on="trait", how="left")
+    )
+
+    trait_features_calc = (
+        trait_counts.explode("breakpoints")
+        .with_columns((pl.col("breakpoints") <= pl.col("count")).alias("active_bp"))
+        .group_by("round_idx", "traits")
+        .agg(
+            pl.col("active_bp").sum().alias("breakpoint_num"),
+        )
+        .filter(pl.col("breakpoint_num") > 0)
+    )
+
+    trait_features = (
+        trait_features_calc.with_columns(
+            pl.concat_str(
+                [pl.lit(team_name), pl.col("traits"), pl.col("breakpoint_num")],
+                separator="_",
+            ).alias("feature_name"),
+            pl.lit(1).cast(pl.Int8).alias("value"),
+        )
+        .pivot(
+            index="round_idx",
+            columns="feature_name",
+            values="value",
+            aggregate_function="first",  # 'first' or 'max' will work
+        )
+        .fill_null(0)
+    )
+
+    trait_cols = [
+        f"{team_name}_{trait}_{bp}"
+        for trait, bps in TRAIT_ITEMS
+        for bp in range(1, len(bps) + 1)
+    ]
+
+    trait_features = trait_features.with_columns(
+        [
+            pl.lit(0).cast(pl.Int8).alias(c)
+            for c in trait_cols
+            if c not in trait_features.columns
+        ]
+    )
+
+    all_rounds = team_data.select("round_idx").unique()
+
+    trait_features = all_rounds.join(
+        trait_features, on="round_idx", how="left"
+    ).fill_null(0)
+
+    return trait_features
 
 
 def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame:
@@ -61,11 +129,11 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
 
     # 1. Explode board list and join unit info
     team_data = (
-        base_df.select("uuid", "round_id", board_col)
+        base_df.select("round_idx", board_col)
         .explode(board_col)
         .unnest(board_col)
-        .join(unit_info_df, on="unit", how="left")
-        .filter(pl.col("cost").is_not_null())  # Remove units not in our map
+        .select(["round_idx", "unit", "item_ids", "loc", "tier"])
+        .join(UNIT_INFO_DF, on="unit", how="left")
     )
 
     # 2. Calculate Total Cost
@@ -86,7 +154,7 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
                 .otherwise(0)
             ).alias("unit_total_cost")
         )
-        .group_by("uuid", "round_id")
+        .group_by("round_idx")
         .agg(pl.col("unit_total_cost").sum().alias(f"{team_name}_total_cost"))
     )
 
@@ -98,7 +166,7 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
             ).alias("feature_name")
         )
         .pivot(
-            index=["uuid", "round_id"],
+            index="round_idx",
             columns="feature_name",
             values="unit",
             aggregate_function="count",
@@ -106,50 +174,30 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
         .fill_null(0)
     )
 
+    unit_cols = [
+        f"{team_name}_{api_name}_{t}" for api_name in UNIT_NAMES for t in range(1, 5)
+    ]
+
+    unit_features = unit_features.with_columns(
+        [
+            pl.lit(0).cast(pl.Int8).alias(c)
+            for c in unit_cols
+            if c not in unit_features.columns
+        ]
+    )
+
     if len(unit_features.columns) > 1:
         unit_features = unit_features.with_columns(
-            pl.all().exclude("uuid", "round_id").cast(pl.Int8)
+            pl.all().exclude("round_idx").cast(pl.Int8)
         )
 
     # 4. Calculate Trait features
-    trait_counts = (
-        team_data.explode("traits")
-        .group_by("uuid", "round_id", "traits")
-        .count()
-        .join(trait_bps_df, left_on="traits", right_on="trait", how="left")
-    )
-
-    trait_features_calc = (
-        trait_counts.explode("breakpoints")
-        .with_columns((pl.col("breakpoints") <= pl.col("count")).alias("active_bp"))
-        .group_by("uuid", "round_id", "traits")  # or whatever unique ID per row
-        .agg(
-            pl.col("active_bp").sum().alias("breakpoint_num"),
-        )
-        .filter(pl.col("breakpoint_num") > 0)
-    )
-
-    trait_features = (
-        trait_features_calc.with_columns(
-            pl.concat_str(
-                [pl.lit(team_name), pl.col("traits"), pl.col("breakpoint_num")],
-                separator="_",
-            ).alias("feature_name"),
-            pl.lit(1).cast(pl.Int8).alias("value"),
-        )
-        .pivot(
-            index=["uuid", "round_id"],
-            columns="feature_name",
-            values="value",
-            aggregate_function="first",  # 'first' or 'max' will work
-        )
-        .fill_null(0)
-    )
+    trait_features = extract_traits_one_hot(team_data=team_data, team_name=team_name)
 
     # 5. Join all features for this team
     return (
-        unit_features.join(trait_features, on=["uuid", "round_id"], how="inner")
-        .join(team_cost, on=["uuid", "round_id"], how="inner")
+        unit_features.join(trait_features, on="round_idx", how="inner")
+        .join(team_cost, on="round_idx", how="inner")
         .fill_null(0)
     )
 
@@ -165,55 +213,61 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
     Returns:
         pl.DataFrame: A Polars DataFrame containing the extracted features, including:
             - uuid (str): Unique identifier for the game/round.
-            - round_id (int): Identifier for the round.
+            - round_name (int): Identifier for the round.
             - outcome (int): Binary target (1 if victory, 0 otherwise).
             - *FEATURE_KEYS: Columns representing processed features for both players and opponents.
     """
     df = pl.read_parquet(raw_data_path)
 
-    # Filter out PVE rounds and missing data or target
-    mask = (
-        (~pl.col("round_name").str.starts_with("1-"))
-        & (~pl.col("round_name").str.ends_with("-4"))
-        & (~pl.col("round_name").str.ends_with("-7"))
-        & (pl.col("round_outcome").is_not_null())
-        & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
+    df = df.with_columns(
+        pl.arange(0, pl.count())
+        .over(["match_uuid", "player_uuid", "round_name"])
+        .alias("round_instance")
+    ).with_columns(
+        round_idx=(
+            pl.col("match_uuid").cast(pl.Utf8)
+            + pl.lit("_")
+            + pl.col("round_name").cast(pl.Utf8)
+            + pl.lit("_")
+            + pl.col("round_instance").cast(pl.Utf8)
+        )
     )
 
-    # Select base data and unnest the boards
+    # Filter out PVE rounds and missing input or target
+    mask = (
+        (~pl.col("round_type").eq("PVE"))
+        & (pl.col("round_outcome").is_not_null())
+        & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
+        & (
+            pl.all_horizontal(pl.col("board_data").struct.unnest().list.len() > 0)
+        )  # TODO: Double check that if one is empty it's most of the time garbage data
+    )
+
     base_df = df.filter(mask).select(
-        pl.col("uuid"),
-        pl.col("round_id").cast(pl.Int8),
+        pl.col("match_uuid"),
+        pl.col("round_idx"),
         (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
         pl.col("board_data").struct.unnest(),
     )
 
     # Process features for each team in parallel
     player_features = process_team_features(
-        base_df.select("uuid", "round_id", "player_board"), "player"
+        base_df.select("round_idx", "player_board"), "player"
     )
     opponent_features = process_team_features(
-        base_df.select("uuid", "round_id", "opponent_board"), "opponent"
+        base_df.select("round_idx", "opponent_board"), "opponent"
     )
 
     # Join all features together
     final_features = (
-        base_df.select("uuid", "round_id", "outcome")
-        .join(player_features, on=["uuid", "round_id"], how="inner")
-        .join(opponent_features, on=["uuid", "round_id"], how="inner")
+        base_df.select("round_idx", "outcome")
+        .join(player_features, on="round_idx", how="inner")
+        .join(opponent_features, on="round_idx", how="inner")
     )
-
-    # Fill df to go from sparse to dense
-    cols_to_add = set(FEATURE_KEYS) - set(final_features.columns)
-
-    if cols_to_add:
-        final_features = final_features.with_columns(
-            [pl.lit(0).cast(pl.Int8).alias(c) for c in cols_to_add]
-        )
 
     # Select in correct order and fill any remaining nulls from left joins
     final_features = final_features.select(
-        "uuid", "round_id", "outcome", *FEATURE_KEYS
+        "round_idx", "outcome", *FEATURE_KEYS
     ).fill_null(0)
 
     final_features.write_parquet(feature_path)
