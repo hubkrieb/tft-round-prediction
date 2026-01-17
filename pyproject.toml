@@ -21,6 +21,8 @@ dependencies = [
     "torch>=2.9.1",
     "wandb>=0.23.0",
     "torchvision>=0.24.1",
+    "optuna>=4.6.0",
+    "optuna-integration[lightning]>=4.6.0",
 ]
 
 [project.scripts]
