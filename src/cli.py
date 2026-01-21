@@ -7,6 +7,7 @@ from src.baseline.transform import extract_features
 from src.cnn.hpo import run_optuna
 from src.cnn.train import train_cnn
 from src.cnn.transform import extract_tensors
+from src.vit.train import train_vit
 
 app = typer.Typer()
 
@@ -93,7 +94,7 @@ def train_cnn_command(
         512, "--batch-size", "-b", help="Batch size to use for training"
     ),
     learning_rate: float = typer.Option(
-        0.001, "--lr", help="Learning rate to use for training"
+        0.004, "--lr", help="Learning rate to use for training"
     ),
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
@@ -161,6 +162,44 @@ def hpo_cnn_command(
         pin_memory=pin_memory,
         study_dir=study_dir,
         wandb_project=wandb_project,
+    )
+
+
+@app.command(name="train-vit")
+def train_vit_command(
+    feature_path: str | None = typer.Option(
+        None, "--feature-path", "-f", help="Path to features .npz file"
+    ),
+    batch_size: int = typer.Option(
+        512, "--batch-size", "-b", help="Batch size to use for training"
+    ),
+    learning_rate: float = typer.Option(
+        1e-3, "--lr", help="Learning rate to use for training"
+    ),
+    num_workers: int = typer.Option(
+        4, "--num-workers", "-w", help="Number of workers to use for dataloader"
+    ),
+    max_epochs: int = typer.Option(
+        100, "--max-epochs", "-e", help="Maximum amount of training epochs"
+    ),
+    seed: int = typer.Option(
+        54, "--seed", "-s", help="Random seed for reproducibility"
+    ),
+    data_kw: list[str] | None = DATA_KW,
+    model_kw: list[str] | None = MODEL_KW,
+    trainer_kw: list[str] | None = TRAINER_KW,
+) -> None:
+    """Train round prediction ViT model."""
+    train_vit(
+        feature_path=feature_path,
+        batch_size=batch_size,
+        learning_rate=learning_rate,
+        num_workers=num_workers,
+        max_epochs=max_epochs,
+        seed=seed,
+        data_kwargs=parse_kv_options(data_kw),
+        model_kwargs=parse_kv_options(model_kw),
+        trainer_kwargs=parse_kv_options(trainer_kw),
     )
 
 
