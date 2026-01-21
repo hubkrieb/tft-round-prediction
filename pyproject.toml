@@ -23,6 +23,7 @@ dependencies = [
     "torchvision>=0.24.1",
     "optuna>=4.6.0",
     "optuna-integration[lightning]>=4.6.0",
+    "timm>=1.0.24",
 ]
 
 [project.scripts]
