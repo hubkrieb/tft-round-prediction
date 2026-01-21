@@ -33,8 +33,6 @@ class PatchEmbedding(nn.Module):
         self.tier_embed = nn.Embedding(n_tiers, d_model // 8, padding_idx=0)
         self.item_embed = nn.Embedding(n_items, d_model // 8, padding_idx=0)
 
-        # self.dropout = nn.Dropout(p=dropout_rate)
-
         # Patch embedding: project combined features to d_model
         # Each patch has: unit + tier + 3*item features
         patch_features = (d_model // 4) + (d_model // 8) + 3 * (d_model // 8)
@@ -223,16 +221,6 @@ class TFTViT(L.LightningModule):
             on_step=False,
             on_epoch=True,
         )
-
-        pos_rate = preds.mean()
-
-        self.log(
-            "val_pos_rate",
-            pos_rate,
-            prog_bar=True,
-            on_step=False,
-            on_epoch=True,
-        )
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
@@ -268,8 +256,37 @@ class TFTViT(L.LightningModule):
     def configure_optimizers(self) -> dict:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
+        total_steps = self.trainer.estimated_stepping_batches
+
+        warmup_steps = int(self.warmup_ratio * total_steps)
+        plateau_steps = int(self.plateau_ratio * total_steps)
+
+        def lr_lambda(step: int) -> float:  # noqa: ANN202
+            if step < warmup_steps:
+                return step / max(1, warmup_steps)
+
+            if step < warmup_steps + plateau_steps:
+                return 1.0
+
+            decay_steps = total_steps - warmup_steps - plateau_steps
+            if decay_steps <= 0:
+                return 1.0  # safety fallback
+
+            decay_progress = (step - warmup_steps - plateau_steps) / decay_steps
+
+            return max(0.0, 1.0 - decay_progress)
+
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+
         self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
-        return optimizer
+        return {
+            "optimizer": optimizer,
+            "lr_scheduler": {
+                "scheduler": scheduler,
+                "interval": "step",
+                "frequency": 1,
+            },
+        }
 
     def on_fit_start(self) -> None:  # noqa: D102
         self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size
