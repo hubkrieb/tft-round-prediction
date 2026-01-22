@@ -10,7 +10,7 @@ UNIT_TO_ID = {unit: i + 1 for i, unit in enumerate(UNITS)}
 ITEM_TO_ID = {item: i + 1 for i, item in enumerate(ITEMS)}
 
 MAX_UNITS = 24
-CHANNELS = 6
+CHANNELS = 5
 ROWS = 4
 COLS = 7
 
