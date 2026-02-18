@@ -1,10 +1,14 @@
 from lightning import Trainer, seed_everything
-from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
+from lightning.pytorch.callbacks import (
+    EarlyStopping,
+    LearningRateMonitor,
+    ModelCheckpoint,
+)
 from lightning.pytorch.loggers import WandbLogger
 
 from src.cnn.data import TFTBoardDataModule
 from src.utils.static_data import ITEMS, TRAITS, UNITS
-from src.vit.model import TFTViT
+from src.vit.only_trait_model import TFTViT
 
 
 def train_vit(
@@ -15,6 +19,7 @@ def train_vit(
     pin_memory: bool = True,
     max_epochs: int = 100,
     seed: int = 54,
+    ckpt_path: str | None = None,
     *,
     data_kwargs: dict | None = None,
     model_kwargs: dict | None = None,
@@ -33,6 +38,7 @@ def train_vit(
             device/CUDA pinned memory before returning them.
         max_epochs (int): Maximum amount of training epochs.
         seed (int): Random seed for reproducibility.
+        ckpt_path (str | None): Path to a checkpoint to resume training from.
         data_kwargs (dict | None): Additional keyword arguments for the data module.
         model_kwargs (dict | None): Additional keyword arguments for the model.
         trainer_kwargs (dict | None): Additional keyword arguments for the trainer.
@@ -60,8 +66,15 @@ def train_vit(
     )
 
     callbacks = [
-        EarlyStopping(monitor="val_loss", mode="min", patience=20),
+        EarlyStopping(monitor="val_loss", mode="min", patience=50),
         LearningRateMonitor(logging_interval="step"),
+        ModelCheckpoint(
+            monitor="val_loss",
+            mode="min",
+            save_top_k=1,
+            save_last=True,
+            filename="best-{epoch}-{val_loss:.4f}",
+        ),
     ]
 
     wandb_logger = WandbLogger(project="tft-vit")
@@ -75,6 +88,6 @@ def train_vit(
         **trainer_kwargs,
     )
 
-    trainer.fit(model, datamodule=datamodule)
+    trainer.fit(model, datamodule=datamodule, ckpt_path=ckpt_path)
 
     trainer.test(model, ckpt_path="best", datamodule=datamodule)
