@@ -101,7 +101,9 @@ def build_units_arrays(
                     # skip invalid locs
                     continue
                 unit_name = rec.get("unit", None)
-                unit_id = unit_to_id.get(unit_name, 0)
+                unit_id = unit_to_id.get(unit_name, None)
+                if unit_id is None:
+                    continue
                 tier = rec.get("tier", 0) or 0
                 item_ids = rec.get("item_ids", None)
                 it1 = it2 = it3 = 0
