@@ -6,8 +6,9 @@ from src.baseline.train import train_baseline
 from src.baseline.transform import extract_features
 from src.cnn.hpo import run_optuna
 from src.cnn.train import train_cnn
-from src.cnn.transform import extract_tensors
+from src.cnn.transform import extract_tensors as extract_cnn_tensors
 from src.vit.train import train_vit
+from src.vit.transform import extract_tensors as extract_vit_tensors
 
 app = typer.Typer()
 
@@ -82,7 +83,7 @@ def extract_cnn_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
-    extract_tensors(raw_data_path=raw_path, feature_path=feature_path)
+    extract_cnn_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
 
 @app.command(name="train-cnn")
@@ -165,6 +166,19 @@ def hpo_cnn_command(
     )
 
 
+@app.command(name="extract-vit-features")
+def extract_vit_feature_command(
+    raw_path: str | None = typer.Option(
+        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    ),
+    feature_path: str | None = typer.Option(
+        None, "--feature-path", "-f", help="Path to features .npz file"
+    ),
+) -> None:
+    """Transform raw TFT round data into feature tensors."""
+    extract_vit_tensors(raw_data_path=raw_path, feature_path=feature_path)
+
+
 @app.command(name="train-vit")
 def train_vit_command(
     feature_path: str | None = typer.Option(
@@ -185,6 +199,9 @@ def train_vit_command(
     seed: int = typer.Option(
         54, "--seed", "-s", help="Random seed for reproducibility"
     ),
+    ckpt_path: str | None = typer.Option(
+        None, "--ckpt-path", "-c", help="Path to checkpoint to resume from"
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -197,6 +214,7 @@ def train_vit_command(
         num_workers=num_workers,
         max_epochs=max_epochs,
         seed=seed,
+        ckpt_path=ckpt_path,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),
