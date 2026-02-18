@@ -14,11 +14,13 @@ class PatchEmbedding(nn.Module):
         self,
         n_units: int,
         n_items: int,
-        n_tiers: int = 5,
-        img_height: int = 8,
-        img_width: int = 7,
-        d_model: int = 128,
-        dropout_rate: float = 0.2,
+        n_tiers: int,
+        img_height: int,
+        img_width: int,
+        unit_embed_dim: int,
+        tier_embed_dim: int,
+        item_embed_dim: int,
+        d_model: int,
     ) -> None:
         super().__init__()
 
@@ -29,13 +31,13 @@ class PatchEmbedding(nn.Module):
         self.n_patches = self.n_patches_h * self.n_patches_w
 
         # Embeddings for each channel
-        self.unit_embed = nn.Embedding(n_units, d_model // 4, padding_idx=0)
-        self.tier_embed = nn.Embedding(n_tiers, d_model // 8, padding_idx=0)
-        self.item_embed = nn.Embedding(n_items, d_model // 8, padding_idx=0)
+        self.unit_embed = nn.Embedding(n_units, unit_embed_dim, padding_idx=0)
+        self.tier_embed = nn.Embedding(n_tiers, tier_embed_dim, padding_idx=0)
+        self.item_embed = nn.Embedding(n_items, item_embed_dim, padding_idx=0)
 
         # Patch embedding: project combined features to d_model
         # Each patch has: unit + tier + 3*item features
-        patch_features = (d_model // 4) + (d_model // 8) + 3 * (d_model // 8)
+        patch_features = unit_embed_dim + tier_embed_dim + 3 * item_embed_dim
 
         self.patch_projection = nn.Linear(patch_features, d_model)
         self.norm = nn.LayerNorm(d_model)
@@ -81,6 +83,10 @@ class TFTViT(L.LightningModule):
         n_traits: int,
         board_height: int = 8,
         board_width: int = 7,
+        unit_embed_dim: int = 16,
+        tier_embed_dim: int = 8,
+        item_embed_dim: int = 8,
+        trait_embed_dim: int = 32,
         d_model: int = 64,
         n_heads: int = 4,
         n_layers: int = 3,
@@ -96,11 +102,18 @@ class TFTViT(L.LightningModule):
         self.patch_embed = PatchEmbedding(
             n_units=n_units,
             n_items=n_items,
+            n_tiers=5,
             img_height=board_height,
             img_width=board_width,
             d_model=d_model,
-            dropout_rate=dropout_rate,
+            unit_embed_dim=unit_embed_dim,
+            tier_embed_dim=tier_embed_dim,
+            item_embed_dim=item_embed_dim,
         )
+
+        # self.traits_embed = nn.Embedding(n_traits, trait_embed_dim, padding_idx=0)
+        # self.traits_proj = nn.Linear(trait_embed_dim, d_model)
+        # self.traits_norm = nn.LayerNorm(d_model)
 
         # CLS token
         self.cls_token = nn.Parameter(torch.randn(1, 1, d_model))
@@ -136,8 +149,8 @@ class TFTViT(L.LightningModule):
 
         # Classification head
         self.mlp = nn.Sequential(
-            nn.LayerNorm(d_model + n_traits),
-            nn.Linear(d_model + n_traits, 256),
+            nn.LayerNorm(d_model),
+            nn.Linear(d_model, 256),
             nn.GELU(),
             nn.Dropout(dropout_rate),
             nn.Linear(256, 128),
@@ -164,8 +177,13 @@ class TFTViT(L.LightningModule):
     def forward(self, X_units: torch.Tensor, X_traits: torch.Tensor) -> torch.Tensor:  # noqa: D102
         B = X_units.shape[0]
 
+        X_traits = X_traits.long()
+
         # Extract patch embeddings
         patches = self.patch_embed(X_units)  # (B, N, d_model)
+        # traits_tokens = self.traits_embed(X_traits)  # (B, M, d_model)
+        # traits_tokens = self.traits_proj(traits_tokens)
+        # traits_tokens = self.traits_norm(traits_tokens)
 
         # Prepend CLS token
         cls_tokens = self.cls_token.expand(B, -1, -1)  # (B, 1, d_model)
@@ -175,19 +193,21 @@ class TFTViT(L.LightningModule):
         x = x + self.pos_embed
         x = self.pos_drop(x)
 
+        # x = torch.cat([x, traits_tokens], dim=1)  # (B, N+M+1, d_model)
+
         for blk in self.blocks:
             x = blk(x)
 
-        x = self.norm(x)  # (B, N+1, d_model)
+        x = self.norm(x)  # (B, N+M+1, d_model)
 
         # Extract CLS token output
         cls_output = x[:, 0]  # (B, d_model)
 
         # Combine with trait features
-        combined = torch.cat([cls_output, X_traits.float()], dim=-1)
+        # combined = torch.cat([cls_output, X_traits.float()], dim=-1)
 
         # Classification
-        logit = self.mlp(combined)
+        logit = self.mlp(cls_output)
         return logit.squeeze(1)
 
     def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
