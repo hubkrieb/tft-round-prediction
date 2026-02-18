@@ -12,13 +12,13 @@ class TFTBoardEncoder(nn.Module):
         n_units: int,
         n_items: int,
         n_tiers: int = 5,
-        emb_size_unit: int = 16,
-        emb_size_item: int = 8,
+        emb_size_unit: int = 32,
+        emb_size_item: int = 16,
     ) -> None:
         super().__init__()
-        self.unit_embedding = nn.Embedding(n_units, emb_size_unit)
-        self.tier_embedding = nn.Embedding(n_tiers, emb_size_unit)
-        self.item_embedding = nn.Embedding(n_items, emb_size_item)
+        self.unit_embedding = nn.Embedding(n_units, emb_size_unit, padding_idx=0)
+        self.tier_embedding = nn.Embedding(n_tiers, emb_size_unit, padding_idx=0)
+        self.item_embedding = nn.Embedding(n_items, emb_size_item, padding_idx=0)
         self.norm = nn.LayerNorm(emb_size_unit + 3 * emb_size_item)
 
     def forward(  # noqa: D102
@@ -50,11 +50,11 @@ class TFTCNN(L.LightningModule):
         board_height: int = 8,
         board_width: int = 7,
         emb_size_unit: int = 32,
-        emb_size_item: int = 32,
-        learning_rate: float = 1e-3,
-        warmup_ratio: float = 0.1,
-        plateau_ratio: float = 0.7,
-        dropout_rate: float = 0.2,
+        emb_size_item: int = 16,
+        learning_rate: float = 4e-3,
+        warmup_ratio: float = 0.02,
+        plateau_ratio: float = 0.2,
+        dropout_rate: float = 0.1,
     ) -> None:
         super().__init__()
         self.encoder = TFTBoardEncoder(
