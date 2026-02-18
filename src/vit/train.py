@@ -8,7 +8,7 @@ from lightning.pytorch.loggers import WandbLogger
 
 from src.cnn.data import TFTBoardDataModule
 from src.utils.static_data import ITEMS, TRAITS, UNITS
-from src.vit.only_trait_model import TFTViT
+from src.vit.model import TFTViT
 
 
 def train_vit(
