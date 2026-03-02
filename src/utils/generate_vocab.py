@@ -1,4 +1,5 @@
 import json
+import os
 
 from static_data import ITEMS, TRAITS, UNITS
 
@@ -9,6 +10,7 @@ def generate_vocab(output_dir: str) -> None:
     Args:
         output_dir (str): The directory where the vocab will be saved.
     """
+    os.makedirs(output_dir, exist_ok=True)
     unit_vocab = {unit: i + 1 for i, unit in enumerate(UNITS)}
     item_vocab = {item: i + 1 for i, item in enumerate(ITEMS)}
     trait_list = []
