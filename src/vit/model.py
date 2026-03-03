@@ -122,7 +122,7 @@ class TFTViT(L.LightningModule):
         pos_embed = get_2d_sincos_pos_embed(
             d_model, board_height, board_width, cls_token=True
         )
-        self.pos_embed = nn.Parameter(pos_embed.float())
+        self.pos_embed = nn.Parameter(pos_embed.float(), requires_grad=False)
         self.pos_drop = nn.Dropout(dropout_rate)
 
         # Stochastic depth decay rule
