@@ -40,7 +40,6 @@ class PatchEmbedding(nn.Module):
         patch_features = unit_embed_dim + tier_embed_dim + 3 * item_embed_dim
 
         self.patch_projection = nn.Linear(patch_features, d_model)
-        self.norm = nn.LayerNorm(d_model)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:  # noqa: D102
         B = x.shape[0]
@@ -69,8 +68,7 @@ class PatchEmbedding(nn.Module):
         patches = combined.reshape(B, self.n_patches, -1)  # (B, H*W, C)
 
         # Project to d_model
-        patches = self.patch_projection(patches)  # (B, n_patches, d_model)
-        return self.norm(patches)
+        return self.patch_projection(patches)  # (B, n_patches, d_model)
 
 
 class TFTViT(L.LightningModule):
@@ -126,7 +124,7 @@ class TFTViT(L.LightningModule):
         self.pos_drop = nn.Dropout(dropout_rate)
 
         # Stochastic depth decay rule
-        dpr = torch.linspace(0, dropout_rate, n_layers)
+        dpr = [x.item() for x in torch.linspace(0, dropout_rate, n_layers)]
 
         # Transformer encoder
         self.blocks = nn.ModuleList(
@@ -149,17 +147,16 @@ class TFTViT(L.LightningModule):
 
         # Classification head
         self.mlp = nn.Sequential(
-            nn.LayerNorm(d_model),
-            nn.Linear(d_model, 256),
+            nn.Linear(d_model, 2 * d_model),
             nn.GELU(),
             nn.Dropout(dropout_rate),
-            nn.Linear(256, 128),
+            nn.Linear(2 * d_model, d_model),
             nn.GELU(),
             nn.Dropout(dropout_rate),
-            nn.Linear(128, 1),
+            nn.Linear(d_model, 1),
         )
 
-        nn.init.trunc_normal_(self.cls_token, std=0.02)
+        nn.init.trunc_normal_(self.cls_token, std=1e-6)
 
         self.dropout_rate = dropout_rate
         self.lr = learning_rate
