@@ -8,19 +8,21 @@ from torch.utils.data import DataLoader, Dataset, random_split
 
 
 def rotate_board(
-    x_units: torch.Tensor, x_traits: torch.Tensor
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """Rotate the board representation by 180 degrees.
+    x_units: torch.Tensor, x_traits: torch.Tensor, y: torch.Tensor
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Rotate the board representation by 180 degrees and invert the outcome.
 
     Is equivalent to switch the opponent and the player side.
 
     Args:
         x_units (torch.Tensor): Tensor of shape (C, 8, 7) representing unit IDs on the board.
         x_traits (torch.Tensor): Tensor of shape (T,) representing trait features.
+        y (torch.Tensor): Tensor of shape (1,) representing the outcome.
 
     Returns:
         torch.Tensor: Rotated unit tensor of shape (C, 8, 7).
-        torch.Tensor: Unchanged trait tensor of shape (T,).
+        torch.Tensor: Swapped trait tensor of shape (T,).
+        torch.Tensor: Inverted outcome `y` tensor.
     """
     x_units_rotated = F.rotate(x_units, angle=180)
 
@@ -29,7 +31,9 @@ def rotate_board(
 
     x_traits_swapped = x_traits[swapped_idx]
 
-    return x_units_rotated, x_traits_swapped
+    y_inverted = 1.0 - y
+
+    return x_units_rotated, x_traits_swapped, y_inverted
 
 
 class TFTBoardDataset(Dataset):
@@ -58,8 +62,8 @@ class TFTBoardDataset(Dataset):
         x_traits = torch.as_tensor(x_traits, dtype=torch.int8)
         y = torch.as_tensor(y, dtype=torch.float32)
 
-        if random() < self.transform_prob:
-            x_units, x_traits = rotate_board(x_units, x_traits)
+        if self.transform_prob > 0 and random() < self.transform_prob:
+            x_units, x_traits, y = rotate_board(x_units, x_traits, y)
 
         return x_units, x_traits, y
 
