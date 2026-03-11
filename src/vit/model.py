@@ -109,9 +109,8 @@ class TFTViT(L.LightningModule):
             item_embed_dim=item_embed_dim,
         )
 
-        # self.traits_embed = nn.Embedding(n_traits, trait_embed_dim, padding_idx=0)
-        # self.traits_proj = nn.Linear(trait_embed_dim, d_model)
-        # self.traits_norm = nn.LayerNorm(d_model)
+        self.traits_embed = nn.Embedding(n_traits, trait_embed_dim, padding_idx=0)
+        self.traits_proj = nn.Linear(trait_embed_dim, d_model)
 
         # CLS token
         self.cls_token = nn.Parameter(torch.randn(1, 1, d_model))
@@ -178,9 +177,8 @@ class TFTViT(L.LightningModule):
 
         # Extract patch embeddings
         patches = self.patch_embed(X_units)  # (B, N, d_model)
-        # traits_tokens = self.traits_embed(X_traits)  # (B, M, d_model)
-        # traits_tokens = self.traits_proj(traits_tokens)
-        # traits_tokens = self.traits_norm(traits_tokens)
+        traits_tokens = self.traits_embed(X_traits)  # (B, M, d_model)
+        traits_tokens = self.traits_proj(traits_tokens)
 
         # Prepend CLS token
         cls_tokens = self.cls_token.expand(B, -1, -1)  # (B, 1, d_model)
@@ -190,7 +188,7 @@ class TFTViT(L.LightningModule):
         x = x + self.pos_embed
         x = self.pos_drop(x)
 
-        # x = torch.cat([x, traits_tokens], dim=1)  # (B, N+M+1, d_model)
+        x = torch.cat([x, traits_tokens], dim=1)  # (B, N+M+1, d_model)
 
         for blk in self.blocks:
             x = blk(x)
