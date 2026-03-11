@@ -40,9 +40,31 @@ Run hyperparameter optimization:
 trp hpo-cnn --feature-path path/to/features --n-trials 50
 ```
 
+## ViT
+
+The ViT model takes units and items placement and traits as input
+
+Extract features from raw data:
+
+```bash
+trp extract-vit-features --raw-path path/to/raw/data --feature-path path/to/features
+```
+
+Train & Evaluate ViT model:
+
+```bash
+trp train-vit --feature-path path/to/features --batch-size 512 --model-kv dropout=0.2
+```
+
 ## Results
 
+Here is a comparison of the different models evaluated on the test set.
 
+| Model | Accuracy | F1-Score |
+| :--- | :---: | :---: |
+| **XGBoost** | 00.0% | 0.00 |
+| **CNN** | 00.0% | 0.00 |
+| **ViT** | 82.8% | 82.7% |
 
 ## References
 
