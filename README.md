@@ -2,6 +2,23 @@
 
 A machine learning project designed to predict the outcomes of combat rounds in Teamfight Tactics (TFT). This repository contains the full pipeline for raw data processing, feature engineering, and model training. It evaluates multiple machine learning architectures, ranging from a baseline tree-based model (XGBoost) to deep learning models (Convolutional Neural Networks and Vision Transformers). The models process comprehensive game states, including unit placements, item distributions, and active traits.
 
+## Setup
+
+This project uses uv for dependency management.
+
+1. Install dependencies:
+   ```bash
+   uv sync
+   ```
+2. Activate the virtual environment:
+   ```bash
+   # On Windows
+   .venv\Scripts\activate
+
+   # On macOS/Linux
+   source .venv/bin/activate
+   ```
+
 ## Baseline
 
 The baseline model take the list of units, traits and the total board costs as input
