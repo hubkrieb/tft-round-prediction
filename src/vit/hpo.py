@@ -62,12 +62,12 @@ def objective(
 
     # Regularization & Learning Rate
     dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.4)
-    learning_rate = trial.suggest_float("learning_rate", 5e-5, 2e-3, log=True)
+    learning_rate = trial.suggest_float("learning_rate", 1e-4, 5e-3, log=True)
     warmup_ratio = trial.suggest_float("warmup_ratio", 0.01, 0.2, step=0.01)
     # Ensuring plateau + warmup <= 1.0; 0.7 plateau gives room for scheduler decay.
     plateau_ratio = trial.suggest_float("plateau_ratio", 0.2, 0.7, step=0.1)
 
-    batch_size = trial.suggest_categorical("batch_size", [128, 256, 512, 1024])
+    batch_size = trial.suggest_categorical("batch_size", [256, 512, 1024])
 
     seed_everything(seed, workers=True)
 
