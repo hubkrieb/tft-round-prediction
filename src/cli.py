@@ -7,6 +7,7 @@ from src.baseline.transform import extract_features
 from src.cnn.hpo import run_optuna
 from src.cnn.train import train_cnn
 from src.cnn.transform import extract_tensors as extract_cnn_tensors
+from src.vit.hpo import run_optuna as run_optuna_vit
 from src.vit.train import train_vit
 from src.vit.transform import extract_tensors as extract_vit_tensors
 
@@ -218,6 +219,48 @@ def train_vit_command(
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),
+    )
+
+
+@app.command(name="hpo-vit")
+def hpo_vit_command(
+    feature_path: str | None = typer.Option(
+        None, "--feature-path", "-f", help="Path to features .npz file"
+    ),
+    n_trials: int = typer.Option(
+        30, "--n-trials", "-n", help="Number of HPO trials to run"
+    ),
+    max_epochs: int = typer.Option(
+        100, "--max-epochs", "-e", help="Maximum amount of training epochs"
+    ),
+    seed: int = typer.Option(
+        54, "--seed", "-s", help="Random seed for reproducibility"
+    ),
+    num_workers: int = typer.Option(
+        4, "--num-workers", "-w", help="Number of workers to use for dataloader"
+    ),
+    pin_memory: bool = typer.Option(
+        True,
+        "--pin-memory/--no-pin-memory",
+        help="Whether to pin memory in data loader",
+    ),
+    study_dir: str = typer.Option(
+        "optuna_vit_runs", "--study-dir", help="Directory to save study results"
+    ),
+    wandb_project: str = typer.Option(
+        "tft-vit", "--wandb-project", help="Weights & Biases project name"
+    ),
+) -> None:
+    """Run hyperparameter optimization for ViT model."""
+    run_optuna_vit(
+        feature_path=feature_path,
+        n_trials=n_trials,
+        max_epochs=max_epochs,
+        seed=seed,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+        study_dir=study_dir,
+        wandb_project=wandb_project,
     )
 
 

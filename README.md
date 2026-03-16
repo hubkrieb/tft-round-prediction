@@ -56,6 +56,12 @@ Train & Evaluate ViT model:
 trp train-vit --feature-path path/to/features --batch-size 512 --model-kv dropout=0.2
 ```
 
+Run hyperparameter optimization:
+
+```bash
+trp hpo-vit --feature-path path/to/features --n-trials 50
+```
+
 ## Results
 
 Here is a comparison of the different models evaluated on the test set.
