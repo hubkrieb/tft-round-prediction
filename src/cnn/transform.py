@@ -4,13 +4,13 @@ import polars as pl
 from numba import njit, prange
 
 from src.baseline.transform import UNIT_INFO_DF, extract_traits_one_hot
-from src.utils.static_data import ITEMS, UNITS
+from src.utils.vocab import load_vocab
 
-UNIT_TO_ID = {unit: i + 1 for i, unit in enumerate(UNITS)}
-ITEM_TO_ID = {item: i + 1 for i, item in enumerate(ITEMS)}
+UNIT_VOCAB = load_vocab("data/set16/static/vocabulary/unit_vocab.json")
+ITEM_VOCAB = load_vocab("data/set16/static/vocabulary/item_vocab.json")
 
 MAX_UNITS = 24
-CHANNELS = 6
+CHANNELS = 5
 ROWS = 4
 COLS = 7
 
@@ -101,7 +101,9 @@ def build_units_arrays(
                     # skip invalid locs
                     continue
                 unit_name = rec.get("unit", None)
-                unit_id = unit_to_id.get(unit_name, 0)
+                unit_id = unit_to_id.get(unit_name, None)
+                if unit_id is None:
+                    continue
                 tier = rec.get("tier", 0) or 0
                 item_ids = rec.get("item_ids", None)
                 it1 = it2 = it3 = 0
@@ -243,7 +245,7 @@ def extract_tensors(
 
     outcome = np.array((base_df["outcome"]).astype(int))
 
-    units_all, counts = build_units_arrays(base_df, UNIT_TO_ID, ITEM_TO_ID)
+    units_all, counts = build_units_arrays(base_df, UNIT_VOCAB, ITEM_VOCAB)
 
     tensors = assemble_tensors_numba(units_all, counts, units_all.shape[0])
 
