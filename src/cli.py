@@ -186,10 +186,10 @@ def train_vit_command(
         None, "--feature-path", "-f", help="Path to features .npz file"
     ),
     batch_size: int = typer.Option(
-        512, "--batch-size", "-b", help="Batch size to use for training"
+        1024, "--batch-size", "-b", help="Batch size to use for training"
     ),
     learning_rate: float = typer.Option(
-        1e-3, "--lr", help="Learning rate to use for training"
+        2e-3, "--lr", help="Learning rate to use for training"
     ),
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"

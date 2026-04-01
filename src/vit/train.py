@@ -66,7 +66,7 @@ def train_vit(
     )
 
     callbacks = [
-        EarlyStopping(monitor="val_loss", mode="min", patience=50),
+        EarlyStopping(monitor="val_loss", mode="min", patience=10),
         LearningRateMonitor(logging_interval="step"),
         ModelCheckpoint(
             monitor="val_loss",
