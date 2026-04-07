@@ -4,7 +4,7 @@ import lightning as L
 import numpy as np
 import torch
 import torchvision.transforms.functional as F
-from torch.utils.data import DataLoader, Dataset, Subset, random_split
+from torch.utils.data import DataLoader, Dataset, Subset
 
 
 def rotate_board(
@@ -105,17 +105,17 @@ class TFTBoardDataModule(L.LightningDataModule):
 
         train_size = int(self.train_split * len(train_dataset))
         val_size = int(self.val_split * len(train_dataset))
-        test_size = len(train_dataset) - train_size - val_size
 
-        train_ds_temp, val_ds_temp, test_ds_temp = random_split(
-            train_dataset,
-            [train_size, val_size, test_size],
-            generator=torch.Generator(),
-        )
+        n = len(train_dataset)
+        indices = list(range(n))[::-1]
 
-        self.train_ds = train_ds_temp
-        self.val_ds = Subset(eval_dataset, val_ds_temp.indices)
-        self.test_ds = Subset(eval_dataset, test_ds_temp.indices)
+        train_indices = indices[:train_size]
+        val_indices = indices[train_size : train_size + val_size]
+        test_indices = indices[train_size + val_size :]
+
+        self.train_ds = Subset(train_dataset, train_indices)
+        self.val_ds = Subset(eval_dataset, val_indices)
+        self.test_ds = Subset(eval_dataset, test_indices)
 
     def train_dataloader(self) -> DataLoader:
         """Return the training dataloader."""
