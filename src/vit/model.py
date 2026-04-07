@@ -2,7 +2,7 @@ import lightning as L
 import torch
 import torch.nn as nn
 from timm.models.vision_transformer import Block
-from torchmetrics import Accuracy, F1Score
+from torchmetrics import Accuracy
 
 from src.vit.positional_encoding import get_2d_sincos_pos_embed
 
@@ -163,10 +163,7 @@ class TFTViT(L.LightningModule):
         self.plateau_ratio = plateau_ratio
 
         self.val_accuracy = Accuracy(task="binary")
-        self.val_f1 = F1Score(task="binary")
-
         self.test_accuracy = Accuracy(task="binary")
-        self.test_f1 = F1Score(task="binary")
 
         self.save_hyperparameters()
 
@@ -229,13 +226,6 @@ class TFTViT(L.LightningModule):
             on_step=False,
             on_epoch=True,
         )
-        self.log(
-            "val_f1",
-            self.val_f1(preds, y.int()),
-            prog_bar=True,
-            on_step=False,
-            on_epoch=True,
-        )
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
@@ -253,7 +243,6 @@ class TFTViT(L.LightningModule):
             on_step=False,
             on_epoch=True,
         )
-        self.log("test_f1", self.test_f1(preds, y.int()), on_step=False, on_epoch=True)
         return loss
 
     def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> torch.Tensor:  # noqa: D102
@@ -262,11 +251,9 @@ class TFTViT(L.LightningModule):
 
     def on_validation_epoch_end(self) -> None:  # noqa: D102
         self.val_accuracy.reset()
-        self.val_f1.reset()
 
     def on_test_epoch_end(self) -> None:  # noqa: D102
         self.test_accuracy.reset()
-        self.test_f1.reset()
 
     def configure_optimizers(self) -> dict:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
