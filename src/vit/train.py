@@ -81,6 +81,7 @@ def train_vit(
 
     trainer = Trainer(
         accelerator="auto",
+        precision="16-mixed",
         logger=wandb_logger,
         max_epochs=max_epochs,
         callbacks=callbacks,
