@@ -3,12 +3,13 @@ import polars as pl
 
 from src.baseline.transform import UNIT_INFO_DF
 from src.cnn.transform import assemble_tensors_numba, build_units_arrays
-from src.utils.static_data import TRAITS
+from src.utils.static_data import PATCHES, TRAITS
 from src.utils.vocab import load_vocab
 
 UNIT_VOCAB = load_vocab("data/set16/static/vocabulary/unit_vocab.json")
 ITEM_VOCAB = load_vocab("data/set16/static/vocabulary/item_vocab.json")
 TRAIT_VOCAB = load_vocab("data/set16/static/vocabulary/trait_vocab.json")
+PATCH_VOCAB = load_vocab("data/set16/static/vocabulary/patch_vocab.json")
 
 MAX_TRAITS = 15  # Max active traits per player to keep
 
@@ -93,6 +94,59 @@ def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
     return trait_vectors.with_columns(cols).drop("trait_ids")
 
 
+def build_patch_df() -> pl.DataFrame:
+    """
+    Build a DataFrame containing patch information.
+
+    Returns:
+        pl.DataFrame: DataFrame with the patch_id column
+    """
+    rows = []
+
+    for patch_name, patch_ts in PATCHES.items():
+        rows.append(
+            {
+                "patch": patch_name,
+                "release_ts": patch_ts,
+                "patch_id": PATCH_VOCAB[patch_name],
+            }
+        )
+
+    patch_df = (
+        pl.DataFrame(rows)
+        .with_columns(pl.col("release_ts").cast(pl.Int64))
+        .sort("release_ts")
+    )
+
+    return patch_df
+
+
+def add_patch_ids(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Assigns patch_id to each row based on timestamp using asof join.
+
+    Args:
+        df (pl.DataFrame): DataFrame containing the game data
+        patch_df (pl.DataFrame): DataFrame containing the patch information
+
+    Returns:
+        pl.DataFrame: DataFrame with the patch_id column
+    """
+    df = df.with_columns(pl.col("timestamp").cast(pl.Int64)).sort("timestamp")
+
+    df = df.join_asof(
+        patch_df,
+        left_on="timestamp",
+        right_on="release_ts",
+        strategy="backward",
+    )
+
+    # Fill null patch_ids with 0 (pre-set16)
+    df = df.with_columns(pl.col("patch_id").fill_null(0))
+
+    return df
+
+
 def extract_tensors(
     raw_data_path: str, feature_path: str
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -108,6 +162,9 @@ def extract_tensors(
 
     """
     df = pl.read_parquet(raw_data_path)
+
+    patch_df = build_patch_df()
+    df = add_patch_ids(df, patch_df)
 
     df = df.with_columns(
         pl.arange(0, pl.count())
@@ -135,6 +192,7 @@ def extract_tensors(
     base_df = df.filter(mask).select(
         pl.col("match_uuid"),
         pl.col("round_idx"),
+        pl.col("patch_id"),
         (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
         pl.col("board_data").struct.unnest(),
     )
@@ -167,6 +225,7 @@ def extract_tensors(
     base_df = base_df.to_pandas()
 
     outcome = np.array((base_df["outcome"]).astype(int))
+    patch_ids = np.array(base_df["patch_id"].astype(int))
 
     units_all, counts = build_units_arrays(base_df, UNIT_VOCAB, ITEM_VOCAB)
 
@@ -176,8 +235,9 @@ def extract_tensors(
         feature_path,
         x_units=tensors,
         x_traits=trait_features,
+        x_patch=patch_ids,
         y=outcome,
         round_idx=base_df["round_idx"].to_numpy(),
     )
 
-    return tensors, trait_features, outcome
+    return tensors, trait_features, patch_ids, outcome

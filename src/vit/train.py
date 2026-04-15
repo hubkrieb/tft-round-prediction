@@ -6,8 +6,8 @@ from lightning.pytorch.callbacks import (
 )
 from lightning.pytorch.loggers import WandbLogger
 
-from src.cnn.data import TFTBoardDataModule
 from src.utils.static_data import ITEMS, TRAITS, UNITS
+from src.vit.data import TFTBoardDataModule
 from src.vit.model import TFTViT
 
 
@@ -85,7 +85,7 @@ def train_vit(
         logger=wandb_logger,
         max_epochs=max_epochs,
         callbacks=callbacks,
-        gradient_clip_val=1,
+        gradient_clip_val=3,
         **trainer_kwargs,
     )
 

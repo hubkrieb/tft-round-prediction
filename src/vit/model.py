@@ -203,15 +203,19 @@ class TFTViT(L.LightningModule):
         return logit.squeeze(1)
 
     def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, w, y = batch
         x_hat = self.forward(x_units, x_traits)
-        loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
+        loss = nn.functional.binary_cross_entropy_with_logits(
+            x_hat, y, reduction="none"
+        )
+
+        loss = (loss * w).sum() / w.sum()
 
         self.log("train_loss", loss, prog_bar=True)
         return loss
 
     def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
@@ -229,7 +233,7 @@ class TFTViT(L.LightningModule):
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
@@ -246,7 +250,7 @@ class TFTViT(L.LightningModule):
         return loss
 
     def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> torch.Tensor:  # noqa: D102
-        x_units, x_traits, _ = batch
+        x_units, x_traits, _, _, _ = batch
         return torch.sigmoid(self.forward(x_units, x_traits))
 
     def on_validation_epoch_end(self) -> None:  # noqa: D102
