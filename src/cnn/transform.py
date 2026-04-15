@@ -203,6 +203,7 @@ def extract_tensors(
     # Filter out PVE rounds and missing input or target
     mask = (
         (~pl.col("round_type").eq("PVE"))
+        & (~pl.col("round_name").str.starts_with("1-"))
         & (pl.col("round_outcome").is_not_null())
         & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
         & (pl.all_horizontal(pl.col("board_data").struct.unnest().list.len() > 0))
