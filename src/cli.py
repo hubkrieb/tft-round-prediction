@@ -195,7 +195,7 @@ def train_vit_command(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
     ),
     max_epochs: int = typer.Option(
-        100, "--max-epochs", "-e", help="Maximum amount of training epochs"
+        50, "--max-epochs", "-e", help="Maximum amount of training epochs"
     ),
     seed: int = typer.Option(
         54, "--seed", "-s", help="Random seed for reproducibility"

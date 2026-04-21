@@ -3,7 +3,7 @@ import polars as pl
 
 from src.baseline.transform import UNIT_INFO_DF
 from src.cnn.transform import assemble_tensors_numba, build_units_arrays
-from src.utils.static_data import PATCHES, TRAITS
+from src.utils.static_data import EMBLEMS, PATCHES, TRAITS
 from src.utils.vocab import load_vocab
 
 UNIT_VOCAB = load_vocab("data/set16/static/vocabulary/unit_vocab.json")
@@ -18,6 +18,9 @@ def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
     """
     Calculates trait features as a list of IDs for a single team.
 
+    Emblem items carried by units are counted towards trait totals,
+    allowing them to push traits to higher breakpoints.
+
     Args:
         team_data (pl.DataFrame): Dataframe containing exploded team data with unit info.
         team_name (str): Name of the team. Either "player" or "opponent".
@@ -31,16 +34,37 @@ def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
         [{"trait": name, "breakpoints": list(bps)} for name, bps in TRAITS.items()]
     )
 
-    # 1. Count units per trait for each round
-    trait_counts = (
+    # 1. Count units per trait for each round (from innate unit traits)
+    unit_trait_counts = (
         team_data.unique(subset=["round_idx", "unit"])
         .explode("traits")
         .group_by("round_idx", "traits")
         .len()
+    )
+
+    # 2. Count bonus traits from emblem items
+    emblem_map_df = pl.DataFrame(
+        [{"item": item, "traits": trait} for item, trait in EMBLEMS.items()]
+    )
+
+    emblem_trait_counts = (
+        team_data.select("round_idx", "item_ids")
+        .with_columns(pl.col("item_ids").cast(pl.List(pl.String)))
+        .explode("item_ids")
+        .join(emblem_map_df, left_on="item_ids", right_on="item", how="inner")
+        .group_by("round_idx", "traits")
+        .len()
+    )
+
+    # 3. Combine innate and emblem trait counts
+    trait_counts = (
+        pl.concat([unit_trait_counts, emblem_trait_counts])
+        .group_by("round_idx", "traits")
+        .agg(pl.col("len").sum())
         .join(trait_bps_df, left_on="traits", right_on="trait", how="left")
     )
 
-    # 2. Determine active breakpoints
+    # 4. Determine active breakpoints
     active_traits = (
         trait_counts.explode("breakpoints")
         .filter(pl.col("len") >= pl.col("breakpoints"))
@@ -48,7 +72,7 @@ def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
         .agg(pl.col("breakpoints").max().alias("active_bp"))
     )
 
-    # 3. Map to IDs
+    # 5. Map to IDs
     # Create mapping DataFrame for join
     trait_map_df = pl.DataFrame(
         [
@@ -65,7 +89,7 @@ def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
         .filter(pl.col("id").is_not_null())
     )
 
-    # 4. Aggregate into lists and pad
+    # 6. Aggregate into lists and pad
     # We want a fix width output of IDs
     trait_vectors = (
         trait_ids.sort("id")  # Sort for consistent order or any other logic

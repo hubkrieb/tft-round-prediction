@@ -11,3 +11,6 @@ with open("data/set16/static/trait.json") as f:
 
 with open("data/set16/static/patch.json") as f:
     PATCHES = json.load(f)
+
+with open("data/set16/static/emblem.json") as f:
+    EMBLEMS = json.load(f)
