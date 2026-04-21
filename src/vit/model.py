@@ -90,8 +90,9 @@ class TFTViT(L.LightningModule):
         n_layers: int = 4,
         dim_feedforward: int = 512,
         learning_rate: float = 2e-3,
-        warmup_ratio: float = 0.1,
-        plateau_ratio: float = 0.7,
+        warmup_steps: int = 5000,
+        plateau_steps: int = 13000,
+        decay_steps: int = 12000,
         dropout_rate: float = 0.02,
     ) -> None:
         super().__init__()
@@ -159,8 +160,9 @@ class TFTViT(L.LightningModule):
 
         self.dropout_rate = dropout_rate
         self.lr = learning_rate
-        self.warmup_ratio = warmup_ratio
-        self.plateau_ratio = plateau_ratio
+        self.warmup_steps = warmup_steps
+        self.plateau_steps = plateau_steps
+        self.decay_steps = decay_steps
 
         self.val_accuracy = Accuracy(task="binary")
         self.test_accuracy = Accuracy(task="binary")
@@ -262,23 +264,16 @@ class TFTViT(L.LightningModule):
     def configure_optimizers(self) -> dict:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
-        total_steps = self.trainer.estimated_stepping_batches
-
-        warmup_steps = int(self.warmup_ratio * total_steps)
-        plateau_steps = int(self.plateau_ratio * total_steps)
-
         def lr_lambda(step: int) -> float:  # noqa: ANN202
-            if step < warmup_steps:
-                return step / max(1, warmup_steps)
+            if step < self.warmup_steps:
+                return step / max(1, self.warmup_steps)
 
-            if step < warmup_steps + plateau_steps:
+            if step < self.warmup_steps + self.plateau_steps:
                 return 1.0
 
-            decay_steps = total_steps - warmup_steps - plateau_steps
-            if decay_steps <= 0:
-                return 1.0  # safety fallback
-
-            decay_progress = (step - warmup_steps - plateau_steps) / decay_steps
+            decay_progress = (
+                step - self.warmup_steps - self.plateau_steps
+            ) / self.decay_steps
 
             return max(0.0, 1.0 - decay_progress)
 
