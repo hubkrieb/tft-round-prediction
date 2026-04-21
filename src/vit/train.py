@@ -85,7 +85,7 @@ def train_vit(
         logger=wandb_logger,
         max_epochs=max_epochs,
         callbacks=callbacks,
-        gradient_clip_val=3,
+        gradient_clip_val=5,
         **trainer_kwargs,
     )
 
