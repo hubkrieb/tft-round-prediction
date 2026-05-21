@@ -1,5 +1,7 @@
 import numpy as np
 import polars as pl
+import pyarrow.parquet as pq
+from tqdm import tqdm
 
 from src.baseline.transform import UNIT_INFO_DF
 from src.cnn.transform import assemble_tensors_numba, build_units_arrays
@@ -12,6 +14,11 @@ TRAIT_VOCAB = load_vocab("data/set16/static/vocabulary/trait_vocab.json")
 PATCH_VOCAB = load_vocab("data/set16/static/vocabulary/patch_vocab.json")
 
 MAX_TRAITS = 15  # Max active traits per player to keep
+
+# Number of parquet row groups to read per chunk. Tune this to balance
+# memory usage vs. overhead.  With ~30 k rows per row group the default
+# of 10 gives chunks of ~300 k rows which keeps peak RAM well under 32 GB.
+ROW_GROUPS_PER_CHUNK = 10
 
 
 def extract_traits_ids(team_data: pl.DataFrame, team_name: str) -> pl.DataFrame:
@@ -171,23 +178,18 @@ def add_patch_ids(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def extract_tensors(
-    raw_data_path: str, feature_path: str
-) -> tuple[np.ndarray, np.ndarray]:
+def _process_chunk(df: pl.DataFrame, patch_df: pl.DataFrame) -> dict:
     """
-    Extracts and processes features from raw game data and saves them as a .npz file.
+    Process a single chunk of raw data through the full feature pipeline.
 
     Args:
-        raw_data_path (str): Path to the input Parquet file containing raw game data.
-        feature_path (str): Path where the processed feature .npz file will be saved.
+        df (pl.DataFrame): A chunk of raw parquet data.
+        patch_df (pl.DataFrame): Patch lookup table.
 
     Returns:
-        tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
-
+        dict: Dictionary with keys 'tensors', 'trait_features', 'patch_ids',
+              'outcome', 'round_idx'.
     """
-    df = pl.read_parquet(raw_data_path)
-
-    patch_df = build_patch_df()
     df = add_patch_ids(df, patch_df)
 
     df = df.with_columns(
@@ -220,7 +222,12 @@ def extract_tensors(
         (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
         pl.col("board_data").struct.unnest(),
     )
+    del df
 
+    if base_df.height == 0:
+        return None
+
+    # --- trait features ---
     player_data = (
         base_df.select("round_idx", "player_board")
         .explode("player_board")
@@ -239,21 +246,95 @@ def extract_tensors(
 
     player_traits = extract_traits_ids(team_data=player_data, team_name="player")
     opponent_traits = extract_traits_ids(team_data=opponent_data, team_name="opponent")
+    del player_data, opponent_data
 
     trait_features = (
         player_traits.join(opponent_traits, on="round_idx", how="inner")
         .select(pl.all().exclude("round_idx"))
         .to_numpy()
     )
+    del player_traits, opponent_traits
 
-    base_df = base_df.to_pandas()
+    # --- board tensors ---
+    base_pd = base_df.to_pandas()
+    del base_df
 
-    outcome = np.array((base_df["outcome"]).astype(int))
-    patch_ids = np.array(base_df["patch_id"].astype(int))
+    outcome = np.array(base_pd["outcome"].astype(int))
+    patch_ids = np.array(base_pd["patch_id"].astype(int))
+    round_idx = base_pd["round_idx"].to_numpy()
 
-    units_all, counts = build_units_arrays(base_df, UNIT_VOCAB, ITEM_VOCAB)
+    units_all, counts = build_units_arrays(base_pd, UNIT_VOCAB, ITEM_VOCAB)
+    del base_pd
 
     tensors = assemble_tensors_numba(units_all, counts, units_all.shape[0])
+    del units_all, counts
+
+    return {
+        "tensors": tensors,
+        "trait_features": trait_features,
+        "patch_ids": patch_ids,
+        "outcome": outcome,
+        "round_idx": round_idx,
+    }
+
+
+def extract_tensors(
+    raw_data_path: str, feature_path: str
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Extracts and processes features from raw game data and saves them as a .npz file.
+
+    Reads the parquet file in chunks of row groups to keep memory usage
+    bounded, even for very large datasets.
+
+    Args:
+        raw_data_path (str): Path to the input Parquet file containing raw game data.
+        feature_path (str): Path where the processed feature .npz file will be saved.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
+
+    """
+    patch_df = build_patch_df()
+    pf = pq.ParquetFile(raw_data_path)
+    n_groups = pf.metadata.num_row_groups
+
+    # Build list of row-group index batches
+    group_batches = [
+        list(range(start, min(start + ROW_GROUPS_PER_CHUNK, n_groups)))
+        for start in range(0, n_groups, ROW_GROUPS_PER_CHUNK)
+    ]
+
+    all_tensors: list[np.ndarray] = []
+    all_traits: list[np.ndarray] = []
+    all_patches: list[np.ndarray] = []
+    all_outcomes: list[np.ndarray] = []
+    all_round_idx: list[np.ndarray] = []
+
+    for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
+        table = pf.read_row_groups(batch)
+        df = pl.from_arrow(table)
+        del table
+
+        result = _process_chunk(df, patch_df)
+        del df
+
+        if result is None:
+            continue
+
+        all_tensors.append(result["tensors"])
+        all_traits.append(result["trait_features"])
+        all_patches.append(result["patch_ids"])
+        all_outcomes.append(result["outcome"])
+        all_round_idx.append(result["round_idx"])
+        del result
+
+    tensors = np.concatenate(all_tensors)
+    trait_features = np.concatenate(all_traits)
+    patch_ids = np.concatenate(all_patches)
+    outcome = np.concatenate(all_outcomes)
+    round_idx = np.concatenate(all_round_idx)
+    del all_tensors, all_traits, all_patches, all_outcomes, all_round_idx
 
     np.savez_compressed(
         feature_path,
@@ -261,7 +342,7 @@ def extract_tensors(
         x_traits=trait_features,
         x_patch=patch_ids,
         y=outcome,
-        round_idx=base_df["round_idx"].to_numpy(),
+        round_idx=round_idx,
     )
 
     return tensors, trait_features, patch_ids, outcome

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import polars as pl
 from numba import njit, prange
+from tqdm import tqdm
 
 from src.baseline.transform import UNIT_INFO_DF, extract_traits_one_hot
 from src.utils.vocab import load_vocab
@@ -81,7 +82,9 @@ def build_units_arrays(
     units_all = np.zeros((n, max_units, FIELDS), dtype=np.int32)
     counts = np.zeros(n, dtype=np.int32)
 
-    for i, bd in board_df.iterrows():
+    for i, bd in tqdm(
+        board_df.iterrows(), total=n, desc="Building unit arrays", leave=False
+    ):
         if bd is None:
             counts[i] = 0
             continue

@@ -24,6 +24,7 @@ dependencies = [
     "optuna>=4.6.0",
     "optuna-integration[lightning]>=4.6.0",
     "timm>=1.0.24",
+    "tqdm>=4.60.0",
 ]
 
 [project.scripts]
