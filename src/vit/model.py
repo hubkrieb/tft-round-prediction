@@ -89,10 +89,10 @@ class TFTViT(L.LightningModule):
         n_heads: int = 4,
         n_layers: int = 4,
         dim_feedforward: int = 512,
-        learning_rate: float = 2e-3,
-        warmup_steps: int = 5000,
-        plateau_steps: int = 13000,
-        decay_steps: int = 12000,
+        learning_rate: float = 4e-3,
+        warmup_steps: int = 2500,
+        plateau_steps: int = 6500,
+        decay_steps: int = 6000,
         dropout_rate: float = 0.02,
     ) -> None:
         super().__init__()

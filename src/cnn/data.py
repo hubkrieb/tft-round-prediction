@@ -3,7 +3,6 @@ from random import random
 import lightning as L
 import numpy as np
 import torch
-import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader, Dataset, Subset
 
 
@@ -24,7 +23,7 @@ def rotate_board(
         torch.Tensor: Swapped trait tensor of shape (T,).
         torch.Tensor: Inverted outcome `y` tensor.
     """
-    x_units_rotated = F.rotate(x_units, angle=180)
+    x_units_rotated = torch.flip(x_units, dims=(-2, -1))
 
     n = len(x_traits)
     swapped_idx = (torch.arange(n) + n // 2) % n

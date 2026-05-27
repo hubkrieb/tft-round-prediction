@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import polars as pl
 import pyarrow.parquet as pq
@@ -282,14 +284,17 @@ def extract_tensors(
     raw_data_path: str, feature_path: str
 ) -> tuple[np.ndarray, np.ndarray]:
     """
-    Extracts and processes features from raw game data and saves them as a .npz file.
+    Extracts and processes features from raw game data and saves them as per-array .npy files.
 
     Reads the parquet file in chunks of row groups to keep memory usage
     bounded, even for very large datasets.
 
     Args:
         raw_data_path (str): Path to the input Parquet file containing raw game data.
-        feature_path (str): Path where the processed feature .npz file will be saved.
+        feature_path (str): Directory where the processed feature .npy files will be saved
+            (x_units.npy, x_traits.npy, x_patch.npy, y.npy, round_idx.npy). Storing each
+            array in its own .npy file lets the dataloader memory-map them at training
+            time; a single .npz bundles them in a zip and cannot be mmap'd.
 
     Returns:
         tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
@@ -336,13 +341,12 @@ def extract_tensors(
     round_idx = np.concatenate(all_round_idx)
     del all_tensors, all_traits, all_patches, all_outcomes, all_round_idx
 
-    np.savez_compressed(
-        feature_path,
-        x_units=tensors,
-        x_traits=trait_features,
-        x_patch=patch_ids,
-        y=outcome,
-        round_idx=round_idx,
-    )
+    out_dir = Path(feature_path)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    np.save(out_dir / "x_units.npy", tensors)
+    np.save(out_dir / "x_traits.npy", trait_features)
+    np.save(out_dir / "x_patch.npy", patch_ids)
+    np.save(out_dir / "y.npy", outcome)
+    np.save(out_dir / "round_idx.npy", round_idx)
 
     return tensors, trait_features, patch_ids, outcome

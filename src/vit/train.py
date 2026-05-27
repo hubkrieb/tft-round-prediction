@@ -28,8 +28,8 @@ def train_vit(
     """Trains a Vision Transformer model using the provided feature data.
 
     Args:
-        feature_path (str): The file path (e.g., path to an NPZ file) containing
-            the preprocessed board feature data.
+        feature_path (str): Directory containing the preprocessed board feature
+            .npy files (x_units, x_traits, x_patch, y).
         batch_size (int): The number of samples per batch to load for training.
         learning_rate (float): The learning rate used for training.
         num_workers (int): The number of subprocesses to use for data loading.

@@ -1,4 +1,5 @@
 import os
+import shutil
 import tempfile
 from unittest.mock import patch
 
@@ -182,7 +183,7 @@ def test_extract_tensors() -> None:
     """Test that extract_tensors correctly parses raw parquet data and returns valid tensors."""
     temp_dir = tempfile.mkdtemp()
     raw_data_path = os.path.join(temp_dir, "dummy_raw.parquet")
-    feature_path = os.path.join(temp_dir, "dummy_features.npz")
+    feature_path = os.path.join(temp_dir, "dummy_features")
 
     player_board = [{"unit": "TFT16_Tristana", "item_ids": [], "loc": 0, "tier": 1}]
     opponent_board = [{"unit": "TFT16_Lulu", "item_ids": [], "loc": 1, "tier": 1}]
@@ -214,8 +215,16 @@ def test_extract_tensors() -> None:
         assert traits_feat.shape[0] == 1
         assert outcome.shape[0] == 1
 
-        # Ensure the output file was created
-        assert os.path.exists(feature_path)
+        # Ensure the output directory and per-array files were created
+        assert os.path.isdir(feature_path)
+        for name in (
+            "x_units.npy",
+            "x_traits.npy",
+            "x_patch.npy",
+            "y.npy",
+            "round_idx.npy",
+        ):
+            assert os.path.exists(os.path.join(feature_path, name))
 
         # Ensure outcome was parsed correctly ('victory' -> 1)
         assert outcome[0] == 1
@@ -223,6 +232,6 @@ def test_extract_tensors() -> None:
     finally:
         if os.path.exists(raw_data_path):
             os.remove(raw_data_path)
-        if os.path.exists(feature_path):
-            os.remove(feature_path)
+        if os.path.isdir(feature_path):
+            shutil.rmtree(feature_path)
         os.rmdir(temp_dir)

@@ -173,7 +173,7 @@ def extract_vit_feature_command(
         None, "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
@@ -183,13 +183,13 @@ def extract_vit_feature_command(
 @app.command(name="train-vit")
 def train_vit_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         1024, "--batch-size", "-b", help="Batch size to use for training"
     ),
     learning_rate: float = typer.Option(
-        2e-3, "--lr", help="Learning rate to use for training"
+        2.8e-3, "--lr", help="Learning rate to use for training"
     ),
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
@@ -225,7 +225,7 @@ def train_vit_command(
 @app.command(name="hpo-vit")
 def hpo_vit_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"
