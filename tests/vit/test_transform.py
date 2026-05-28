@@ -221,6 +221,7 @@ def test_extract_tensors() -> None:
             "x_units.npy",
             "x_traits.npy",
             "x_patch.npy",
+            "timestamp.npy",
             "y.npy",
             "round_idx.npy",
         ):

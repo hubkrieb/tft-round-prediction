@@ -162,19 +162,41 @@ class TFTBoardDataModule(L.LightningDataModule):
         self.val_split = val_split
 
     def setup(self, stage: str | None = None) -> None:
-        """Create dataset splits."""
+        """Create chronological train/val/test splits.
+
+        Extraction saves the feature arrays already sorted by ``timestamp``
+        ascending, so the chronological split is just a contiguous slice:
+        oldest ``train_split`` -> train, next ``val_split`` -> val, newest
+        remainder -> test. The pre-sort invariant is asserted from
+        ``timestamp.npy`` so legacy unsorted dirs fail fast (pointing at the
+        :func:`src.vit.transform.sort_features_by_timestamp` migration helper)
+        instead of producing a silently-wrong split.
+        """
         train_dataset = TFTBoardDataset(self.data_path, transform_prob=0.5)
         eval_dataset = TFTBoardDataset(self.data_path, transform_prob=0.0)
 
-        train_size = int(self.train_split * len(train_dataset))
-        val_size = int(self.val_split * len(train_dataset))
+        ts_path = Path(self.data_path) / "timestamp.npy"
+        if not ts_path.exists():
+            raise FileNotFoundError(
+                f"{ts_path} not found; the chronological split needs per-row "
+                "timestamps. Re-extract features, or run "
+                "src.vit.transform.backfill_timestamps(feature_path, raw_data_path)."
+            )
+        timestamps = np.load(ts_path)
+        if timestamps.size > 1 and not bool(np.all(timestamps[:-1] <= timestamps[1:])):
+            raise ValueError(
+                f"{ts_path} is not monotonically non-decreasing; the saved feature "
+                "arrays must be globally timestamp-sorted for the chronological split. "
+                "Run src.vit.transform.sort_features_by_timestamp(feature_path)."
+            )
 
         n = len(train_dataset)
-        indices = list(range(n))[::-1]
+        train_size = int(self.train_split * n)
+        val_size = int(self.val_split * n)
 
-        train_indices = indices[:train_size]
-        val_indices = indices[train_size : train_size + val_size]
-        test_indices = indices[train_size + val_size :]
+        train_indices = range(train_size)
+        val_indices = range(train_size, train_size + val_size)
+        test_indices = range(train_size + val_size, n)
 
         self.train_ds = Subset(train_dataset, train_indices)
         self.val_ds = Subset(eval_dataset, val_indices)
