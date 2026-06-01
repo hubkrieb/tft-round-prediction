@@ -2,15 +2,6 @@ import json
 
 import typer
 
-from src.baseline.train import train_baseline
-from src.baseline.transform import extract_features
-from src.cnn.hpo import run_optuna
-from src.cnn.train import train_cnn
-from src.cnn.transform import extract_tensors as extract_cnn_tensors
-from src.vit.hpo import run_optuna as run_optuna_vit
-from src.vit.train import train_vit
-from src.vit.transform import extract_tensors as extract_vit_tensors
-
 app = typer.Typer()
 
 DATA_KW = typer.Option(
@@ -61,6 +52,8 @@ def extract_baseline_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into features."""
+    from src.baseline.transform import extract_features
+
     extract_features(raw_data_path=raw_path, feature_path=feature_path)
 
 
@@ -71,6 +64,8 @@ def train_baseline_command(
     ),
 ) -> None:
     """Train round prediction XGBoost model."""
+    from src.baseline.train import train_baseline
+
     train_baseline(feature_path=feature_path)
 
 
@@ -84,6 +79,8 @@ def extract_cnn_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
+    from src.cnn.transform import extract_tensors as extract_cnn_tensors
+
     extract_cnn_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
 
@@ -112,6 +109,8 @@ def train_cnn_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction CNN model."""
+    from src.cnn.train import train_cnn
+
     train_cnn(
         feature_path=feature_path,
         batch_size=batch_size,
@@ -155,6 +154,8 @@ def hpo_cnn_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for CNN model."""
+    from src.cnn.hpo import run_optuna
+
     run_optuna(
         feature_path=feature_path,
         n_trials=n_trials,
@@ -177,6 +178,8 @@ def extract_vit_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
+    from src.vit.transform import extract_tensors as extract_vit_tensors
+
     extract_vit_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
 
@@ -208,6 +211,8 @@ def train_vit_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction ViT model."""
+    from src.vit.train import train_vit
+
     train_vit(
         feature_path=feature_path,
         batch_size=batch_size,
@@ -252,6 +257,8 @@ def hpo_vit_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for ViT model."""
+    from src.vit.hpo import run_optuna as run_optuna_vit
+
     run_optuna_vit(
         feature_path=feature_path,
         n_trials=n_trials,
