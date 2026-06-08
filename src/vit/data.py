@@ -98,11 +98,11 @@ class TFTBoardDataset(Dataset):
         w = torch.from_numpy(np.exp(-self.lambda_ * age).astype(np.float32))
 
         if self.transform_prob > 0:
-            self._augment_(x_units, x_traits, y)
+            self._augment(x_units, x_traits, y)
 
         return x_units, x_traits, x_patch, w, y
 
-    def _augment_(
+    def _augment(
         self, x_units: torch.Tensor, x_traits: torch.Tensor, y: torch.Tensor
     ) -> None:
         """Rotate ~``transform_prob`` of the batch by 180°, in place.
@@ -165,12 +165,15 @@ class TFTBoardDataModule(L.LightningDataModule):
         """Create chronological train/val/test splits.
 
         Extraction saves the feature arrays already sorted by ``timestamp``
-        ascending, so the chronological split is just a contiguous slice:
-        oldest ``train_split`` -> train, next ``val_split`` -> val, newest
-        remainder -> test. The pre-sort invariant is asserted from
-        ``timestamp.npy`` so legacy unsorted dirs fail fast (pointing at the
-        :func:`src.vit.transform.sort_features_by_timestamp` migration helper)
-        instead of producing a silently-wrong split.
+        ascending (:func:`src.vit.transform.sort_features_by_timestamp` runs as
+        the last step of extraction), so the chronological split is just a
+        contiguous slice: the oldest ``train_split`` go to train, the next
+        ``val_split`` to val, and the most recent remainder to test. This is a
+        true temporal split — the model trains on the past and is
+        validated/tested on the most recent rounds. The pre-sort invariant is
+        asserted from ``timestamp.npy`` so a legacy unsorted dir fails fast
+        (pointing at the migration helper) instead of producing a
+        silently-wrong split.
         """
         train_dataset = TFTBoardDataset(self.data_path, transform_prob=0.5)
         eval_dataset = TFTBoardDataset(self.data_path, transform_prob=0.0)
@@ -179,8 +182,8 @@ class TFTBoardDataModule(L.LightningDataModule):
         if not ts_path.exists():
             raise FileNotFoundError(
                 f"{ts_path} not found; the chronological split needs per-row "
-                "timestamps. Re-extract features, or run "
-                "src.vit.transform.backfill_timestamps(feature_path, raw_data_path)."
+                "timestamps. Re-extract features with "
+                "src.vit.transform.extract_tensors."
             )
         timestamps = np.load(ts_path)
         if timestamps.size > 1 and not bool(np.all(timestamps[:-1] <= timestamps[1:])):
