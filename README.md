@@ -85,9 +85,9 @@ Here is a comparison of the different models evaluated on the test set.
 
 | Model | Accuracy |
 | :--- | :---: |
-| **XGBoost** | 75.0% |
-| **CNN** | 81.0% |
-| **ViT** | 82.8% |
+| **XGBoost** | 73.0% |
+| **CNN** | 79.1% |
+| **ViT** | 80.4% |
 
 ## References
 

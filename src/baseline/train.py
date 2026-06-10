@@ -1,25 +1,31 @@
 import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report
-from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
 
-def train_baseline(feature_path: str) -> None:
+def train_baseline(feature_path: str, test_size: float = 0.2) -> None:
     """
     Trains a baseline XGBoost model.
 
+    Uses a chronological train/test split (oldest rounds train, newest rounds
+    test) to match the CNN/ViT datamodules, so the three models are evaluated on
+    comparable held-out periods. ``extract_features`` writes the parquet sorted
+    by ``timestamp`` ascending; this re-sorts defensively before splitting.
+
     Args:
         feature_path (str): Path to the input features.
+        test_size (float): Fraction of the most recent rounds held out for test.
 
     """
     data = pd.read_parquet(feature_path)
 
-    # Split data into train and test sets
-    X = data.drop(["round_idx", "outcome"], axis=1)
+    # Chronological split: oldest -> train, newest -> test (no shuffle).
+    data = data.sort_values("timestamp").reset_index(drop=True)
+    X = data.drop(["round_idx", "outcome", "timestamp"], axis=1)
     y = data["outcome"]
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
+    train_size = int((1.0 - test_size) * len(data))
+    X_train, X_test = X.iloc[:train_size], X.iloc[train_size:]
+    y_train, y_test = y.iloc[:train_size], y.iloc[train_size:]
 
     # Train XGBoost classifier
     model = XGBClassifier(eval_metric="logloss")
