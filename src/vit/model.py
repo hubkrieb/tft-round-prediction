@@ -91,8 +91,8 @@ class TFTViT(L.LightningModule):
         dim_feedforward: int = 512,
         learning_rate: float = 4e-3,
         warmup_steps: int = 2500,
-        plateau_steps: int = 6500,
-        decay_steps: int = 6000,
+        plateau_steps: int = 10000,
+        decay_steps: int = 25000,
         dropout_rate: float = 0.02,
     ) -> None:
         super().__init__()
@@ -205,13 +205,9 @@ class TFTViT(L.LightningModule):
         return logit.squeeze(1)
 
     def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, _, w, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
-        loss = nn.functional.binary_cross_entropy_with_logits(
-            x_hat, y, reduction="none"
-        )
-
-        loss = (loss * w).sum() / w.sum()
+        loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
         self.log("train_loss", loss, prog_bar=True)
         return loss

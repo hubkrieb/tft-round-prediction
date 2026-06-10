@@ -1,89 +1,106 @@
+import numpy as np
 import torch
 
-from src.cnn.data import rotate_board
+from src.cnn.data import TFTBoardDataset, _identity_collate
 
 
-def test_rotate_board_shapes() -> None:
-    """Verify that rotate_board preserves the shape of units and traits."""
-    C, H, W = 3, 8, 7
-    T = 10
-
-    x_units = torch.randint(0, 100, (C, H, W), dtype=torch.int32)
-    x_traits = torch.randint(0, 5, (T,), dtype=torch.int8)
-    y = torch.tensor(1.0, dtype=torch.float32)
-
-    rotated_units, swapped_traits, inverted_y = rotate_board(x_units, x_traits, y)
-
-    assert rotated_units.shape == (C, H, W)
-    assert swapped_traits.shape == (T,)
-    assert rotated_units.dtype == torch.int32
-    assert swapped_traits.dtype == torch.int8
-    assert inverted_y.item() == 0.0
+def _make_dataset(
+    tmp_path: object, n: int = 4, n_traits: int = 6, transform_prob: float = 0.0
+) -> TFTBoardDataset:
+    """Write minimal per-array .npy files and return a dataset over them."""
+    np.save(tmp_path / "x_units.npy", np.zeros((n, 5, 8, 7), dtype=np.int32))
+    np.save(tmp_path / "x_traits.npy", np.zeros((n, n_traits), dtype=np.int8))
+    np.save(tmp_path / "y.npy", np.zeros(n, dtype=np.float32))
+    return TFTBoardDataset(str(tmp_path), transform_prob=transform_prob)
 
 
-def test_rotate_board_traits_swapping_even() -> None:
-    """Verify that the first half and second half of traits are swapped for even length."""
-    x_traits = torch.tensor([1, 2, 3, 4, 5, 6], dtype=torch.int8)
+def test_augment_inverts_y(tmp_path: object) -> None:
+    """With transform_prob=1.0 every row is rotated, so y is inverted."""
+    ds = _make_dataset(tmp_path, transform_prob=1.0)
 
-    # x_units isn't checked here
-    x_units = torch.zeros((1, 8, 7), dtype=torch.int32)
-    y_dummy = torch.tensor(1.0)
-    _, swapped_traits, _ = rotate_board(x_units, x_traits, y_dummy)
+    x_units = torch.zeros((2, 5, 8, 7), dtype=torch.int32)
+    x_traits = torch.zeros((2, 6), dtype=torch.int8)
+    y = torch.tensor([1.0, 0.0], dtype=torch.float32)
 
-    expected_traits = torch.tensor([4, 5, 6, 1, 2, 3], dtype=torch.int8)
-    assert torch.equal(swapped_traits, expected_traits)
+    ds._augment(x_units, x_traits, y)
 
-
-def test_rotate_board_traits_swapping_odd() -> None:
-    """Verify behavior on odd length traits."""
-    x_traits = torch.tensor([1, 2, 3, 4, 5], dtype=torch.int8)
-
-    x_units = torch.zeros((1, 8, 7), dtype=torch.int32)
-    y_dummy = torch.tensor(1.0)
-    _, swapped_traits, _ = rotate_board(x_units, x_traits, y_dummy)
-
-    # n=5, n//2=2. swapped_idx = (0,1,2,3,4 + 2) % 5 = [2, 3, 4, 0, 1]
-    expected_traits = torch.tensor([3, 4, 5, 1, 2], dtype=torch.int8)
-    assert torch.equal(swapped_traits, expected_traits)
+    assert torch.equal(y, torch.tensor([0.0, 1.0]))
 
 
-def test_rotate_board_units_rotation() -> None:
-    """Verify that units are correctly rotated by 180 degrees."""
-    C, H, W = 1, 8, 7
+def test_augment_swaps_trait_halves_even(tmp_path: object) -> None:
+    """The first and second half of the trait vector swap (player <-> opponent)."""
+    ds = _make_dataset(tmp_path, transform_prob=1.0)
 
-    # Create a tensor where each element is unique
-    x_units = torch.arange(H * W, dtype=torch.int32).reshape((C, H, W))
-    y_dummy = torch.tensor(1.0)
-
-    rotated_units, _, _ = rotate_board(x_units, torch.zeros(10), y_dummy)
-
-    # 180 degree rotation of a 2D matrix is equivalent to flipping both spatial dimensions
-    expected_units = torch.flip(x_units, dims=[-2, -1])
-
-    assert torch.equal(rotated_units, expected_units)
-
-
-def test_rotate_board_multichannel_units_rotation() -> None:
-    """Verify rotation works correctly independently for multiple channels."""
-    C, H, W = 3, 8, 7
-    x_units = torch.arange(C * H * W, dtype=torch.int32).reshape((C, H, W))
-    y_dummy = torch.tensor(1.0)
-
-    rotated_units, _, _ = rotate_board(x_units, torch.zeros(10), y_dummy)
-
-    expected_units = torch.flip(x_units, dims=[-2, -1])
-
-    assert torch.equal(rotated_units, expected_units)
-
-
-def test_dataset_augmentation_inverts_y(tmp_path: object) -> None:
-    """Verify that y is inverted when data augmentation is applied (board rotated)."""
-    C, H, W = 3, 8, 7
-
-    x_units = torch.zeros((1, C, H, W), dtype=torch.int32)
-    x_traits = torch.zeros((1, 10), dtype=torch.int8)
+    x_units = torch.zeros((1, 5, 8, 7), dtype=torch.int32)
+    x_traits = torch.tensor([[1, 2, 3, 4, 5, 6]], dtype=torch.int8)
     y = torch.tensor([1.0], dtype=torch.float32)
 
-    _, _, rotated_y = rotate_board(x_units, x_traits, y)
+    ds._augment(x_units, x_traits, y)
 
-    assert rotated_y.item() == 0.0
+    assert torch.equal(x_traits, torch.tensor([[4, 5, 6, 1, 2, 3]], dtype=torch.int8))
+
+
+def test_augment_swaps_trait_halves_odd(tmp_path: object) -> None:
+    """Odd-length trait vectors rotate by n // 2 (matches the ViT augment)."""
+    ds = _make_dataset(tmp_path, n_traits=5, transform_prob=1.0)
+
+    x_units = torch.zeros((1, 5, 8, 7), dtype=torch.int32)
+    x_traits = torch.tensor([[1, 2, 3, 4, 5]], dtype=torch.int8)
+    y = torch.tensor([1.0], dtype=torch.float32)
+
+    ds._augment(x_units, x_traits, y)
+
+    # n=5, n//2=2. swapped_idx = (0,1,2,3,4 + 2) % 5 = [2, 3, 4, 0, 1]
+    assert torch.equal(x_traits, torch.tensor([[3, 4, 5, 1, 2]], dtype=torch.int8))
+
+
+def test_augment_rotates_units(tmp_path: object) -> None:
+    """Units are rotated 180° (flip on both spatial axes), per channel."""
+    ds = _make_dataset(tmp_path, transform_prob=1.0)
+
+    C, H, W = 5, 8, 7
+    x_units = torch.arange(C * H * W, dtype=torch.int32).reshape((1, C, H, W))
+    x_traits = torch.zeros((1, 6), dtype=torch.int8)
+    y = torch.tensor([1.0], dtype=torch.float32)
+
+    expected = torch.flip(x_units, dims=(-2, -1))
+    ds._augment(x_units, x_traits, y)
+
+    assert torch.equal(x_units, expected)
+
+
+def test_augment_noop_when_unselected(tmp_path: object) -> None:
+    """transform_prob=0 selects no rows, leaving the batch untouched."""
+    ds = _make_dataset(tmp_path, transform_prob=0.0)
+
+    x_units = torch.arange(5 * 8 * 7, dtype=torch.int32).reshape((1, 5, 8, 7))
+    x_traits = torch.tensor([[1, 2, 3, 4, 5, 6]], dtype=torch.int8)
+    y = torch.tensor([1.0], dtype=torch.float32)
+
+    units_before = x_units.clone()
+    ds._augment(x_units, x_traits, y)
+
+    assert torch.equal(x_units, units_before)
+    assert torch.equal(x_traits, torch.tensor([[1, 2, 3, 4, 5, 6]], dtype=torch.int8))
+    assert y.item() == 1.0
+
+
+def test_getitem_and_getitems_shapes(tmp_path: object) -> None:
+    """__getitem__ returns single samples; __getitems__ returns a stacked batch."""
+    ds = _make_dataset(tmp_path, n=4, n_traits=6, transform_prob=0.0)
+
+    x_units, x_traits, y = ds[0]
+    assert x_units.shape == (5, 8, 7)
+    assert x_traits.shape == (6,)
+    assert y.shape == ()
+
+    bu, bt, by = ds.__getitems__([0, 1, 2])
+    assert bu.shape == (3, 5, 8, 7)
+    assert bt.shape == (3, 6)
+    assert by.shape == (3,)
+
+
+def test_identity_collate_passthrough() -> None:
+    """The collate fn returns its already-stacked argument unchanged."""
+    batch = (torch.zeros(2), torch.ones(2), torch.zeros(2))
+    assert _identity_collate(batch) is batch

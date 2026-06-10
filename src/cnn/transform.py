@@ -1,6 +1,9 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import polars as pl
+import pyarrow.parquet as pq
 from numba import njit, prange
 from tqdm import tqdm
 
@@ -14,6 +17,9 @@ MAX_UNITS = 24
 CHANNELS = 5
 ROWS = 4
 COLS = 7
+
+# Number of parquet row groups to read per chunk. Tune this to balance memory usage vs. overhead.
+ROW_GROUPS_PER_CHUNK = 10
 
 R_IDX = 0
 C_IDX = 1
@@ -173,22 +179,17 @@ def assemble_tensors_numba(
     return tensors
 
 
-def extract_tensors(
-    raw_data_path: str, feature_path: str
-) -> tuple[np.ndarray, np.ndarray]:
+def _process_chunk(df: pl.DataFrame) -> dict | None:
     """
-    Extracts and processes features from raw game data and saves them as a .npz file.
+    Process a single chunk of raw data through the full feature pipeline.
 
     Args:
-        raw_data_path (str): Path to the input Parquet file containing raw game data.
-        feature_path (str): Path where the processed feature .npz file will be saved.
+        df (pl.DataFrame): A chunk of raw parquet data.
 
     Returns:
-        tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
-
+        dict | None: Dictionary with keys 'tensors', 'trait_features',
+            'timestamps', 'outcome', or ``None`` if the chunk has no valid rows.
     """
-    df = pl.read_parquet(raw_data_path)
-
     df = df.with_columns(
         pl.arange(0, pl.count())
         .over(["match_uuid", "player_uuid", "round_name"])
@@ -215,10 +216,16 @@ def extract_tensors(
     base_df = df.filter(mask).select(
         pl.col("match_uuid"),
         pl.col("round_idx"),
+        pl.col("timestamp"),
         (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
         pl.col("board_data").struct.unnest(),
     )
+    del df
 
+    if base_df.height == 0:
+        return None
+
+    # --- trait features ---
     player_data = (
         base_df.select("round_idx", "player_board")
         .explode("player_board")
@@ -239,22 +246,134 @@ def extract_tensors(
     opponent_traits = extract_traits_one_hot(
         team_data=opponent_data, team_name="opponent"
     )
+    del player_data, opponent_data
+
     trait_features = (
         player_traits.join(opponent_traits, on="round_idx", how="inner")
         .select(pl.all().exclude("round_idx"))
         .to_numpy()
     )
+    del player_traits, opponent_traits
 
-    base_df = base_df.to_pandas()
+    # --- board tensors ---
+    base_pd = base_df.to_pandas()
+    del base_df
 
-    outcome = np.array((base_df["outcome"]).astype(int))
+    outcome = np.array(base_pd["outcome"].astype(int))
+    timestamps = np.array(base_pd["timestamp"].astype("int64"))
 
-    units_all, counts = build_units_arrays(base_df, UNIT_VOCAB, ITEM_VOCAB)
+    units_all, counts = build_units_arrays(base_pd, UNIT_VOCAB, ITEM_VOCAB)
+    del base_pd
 
     tensors = assemble_tensors_numba(units_all, counts, units_all.shape[0])
+    del units_all, counts
 
-    np.savez_compressed(
-        feature_path, x_units=tensors, x_traits=trait_features, y=outcome
-    )
+    return {
+        "tensors": tensors,
+        "trait_features": trait_features,
+        "timestamps": timestamps,
+        "outcome": outcome,
+    }
+
+
+def extract_tensors(
+    raw_data_path: str, feature_path: str
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Extracts and processes features from raw game data and saves them as per-array .npy files.
+
+    Reads the parquet file in chunks of row groups to keep memory usage
+    bounded, even for very large datasets.
+
+    Args:
+        raw_data_path (str): Path to the input Parquet file containing raw game data.
+        feature_path (str): Directory where the processed feature .npy files will be saved
+            (x_units.npy, x_traits.npy, timestamp.npy, y.npy). Storing each array in its
+            own .npy file lets the dataloader memory-map them at training time; a single
+            .npz bundles them in a zip and cannot be mmap'd. timestamp.npy holds the
+            per-row event time the datamodule sorts on to build a chronological
+            train/val/test split.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray, np.ndarray]: The board tensors, trait features and
+            round outcomes.
+
+    """
+    pf = pq.ParquetFile(raw_data_path)
+    n_groups = pf.metadata.num_row_groups
+
+    # Build list of row-group index batches
+    group_batches = [
+        list(range(start, min(start + ROW_GROUPS_PER_CHUNK, n_groups)))
+        for start in range(0, n_groups, ROW_GROUPS_PER_CHUNK)
+    ]
+
+    all_tensors: list[np.ndarray] = []
+    all_traits: list[np.ndarray] = []
+    all_timestamps: list[np.ndarray] = []
+    all_outcomes: list[np.ndarray] = []
+
+    for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
+        table = pf.read_row_groups(batch)
+        df = pl.from_arrow(table)
+        del table
+
+        result = _process_chunk(df)
+        del df
+
+        if result is None:
+            continue
+
+        all_tensors.append(result["tensors"])
+        all_traits.append(result["trait_features"])
+        all_timestamps.append(result["timestamps"])
+        all_outcomes.append(result["outcome"])
+        del result
+
+    tensors = np.concatenate(all_tensors)
+    trait_features = np.concatenate(all_traits)
+    timestamps = np.concatenate(all_timestamps)
+    outcome = np.concatenate(all_outcomes)
+    del all_tensors, all_traits, all_timestamps, all_outcomes
+
+    out_dir = Path(feature_path)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    np.save(out_dir / "x_units.npy", tensors)
+    np.save(out_dir / "x_traits.npy", trait_features)
+    np.save(out_dir / "timestamp.npy", timestamps)
+    np.save(out_dir / "y.npy", outcome)
+
+    sort_features_by_timestamp(feature_path)
 
     return tensors, trait_features, outcome
+
+
+_FEATURE_ARRAY_NAMES = ("x_units", "x_traits", "timestamp", "y")
+
+
+def sort_features_by_timestamp(feature_path: str) -> None:
+    """Reorder every per-row .npy in the feature dir to be globally timestamp-ascending.
+
+    Extraction only sorts rows within each row-group chunk, so the saved arrays
+    are not globally chronological. The datamodule's chronological split then
+    has to argsort by timestamp at setup, and the resulting train/val/test row
+    sets are scattered all over the file. A shuffled batch fans out random
+    memmap reads across the whole array, which makes training extremely slow
+    once the data is bigger than the OS page cache. Sorting once on disk makes
+    each split a contiguous range, restoring cache-friendly access.
+
+    All arrays in :data:`_FEATURE_ARRAY_NAMES` are permuted by the same order,
+    which preserves whatever per-row alignment already exists between them.
+    No-op if the file is already sorted.
+    """
+    out = Path(feature_path)
+    ts = np.load(out / "timestamp.npy")
+    if ts.size > 1 and bool(np.all(ts[:-1] <= ts[1:])):
+        return
+    order = np.argsort(ts, kind="stable")
+    for name in _FEATURE_ARRAY_NAMES:
+        path = out / f"{name}.npy"
+        if not path.exists():
+            continue
+        arr = np.load(path)
+        np.save(path, arr[order])
