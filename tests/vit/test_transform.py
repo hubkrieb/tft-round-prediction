@@ -79,7 +79,7 @@ def test_emblem_pushes_trait_to_higher_breakpoint() -> None:
     with (
         patch("src.vit.transform.TRAITS", mock_traits),
         patch("src.vit.transform.TRAIT_VOCAB", mock_trait_vocab),
-        patch("src.vit.transform.EMBLEM_TO_TRAIT", mock_emblem_to_trait),
+        patch("src.vit.transform.EMBLEMS", mock_emblem_to_trait),
     ):
         result = extract_traits_ids(team_data, "player")
 
@@ -108,7 +108,7 @@ def test_emblem_activates_new_trait() -> None:
     with (
         patch("src.vit.transform.TRAITS", mock_traits),
         patch("src.vit.transform.TRAIT_VOCAB", mock_trait_vocab),
-        patch("src.vit.transform.EMBLEM_TO_TRAIT", mock_emblem_to_trait),
+        patch("src.vit.transform.EMBLEMS", mock_emblem_to_trait),
     ):
         result = extract_traits_ids(team_data, "player")
 
@@ -140,7 +140,7 @@ def test_multiple_emblems_on_single_unit() -> None:
     with (
         patch("src.vit.transform.TRAITS", mock_traits),
         patch("src.vit.transform.TRAIT_VOCAB", mock_trait_vocab),
-        patch("src.vit.transform.EMBLEM_TO_TRAIT", mock_emblem_to_trait),
+        patch("src.vit.transform.EMBLEMS", mock_emblem_to_trait),
     ):
         result = extract_traits_ids(team_data, "player")
 
@@ -169,7 +169,7 @@ def test_no_emblem_items() -> None:
     with (
         patch("src.vit.transform.TRAITS", mock_traits),
         patch("src.vit.transform.TRAIT_VOCAB", mock_trait_vocab),
-        patch("src.vit.transform.EMBLEM_TO_TRAIT", mock_emblem_to_trait),
+        patch("src.vit.transform.EMBLEMS", mock_emblem_to_trait),
     ):
         result = extract_traits_ids(team_data, "player")
 
