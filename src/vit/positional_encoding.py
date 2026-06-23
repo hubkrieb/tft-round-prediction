@@ -12,8 +12,6 @@ def get_1d_sincos_pos_embed(embed_dim: int, pos: torch.Tensor) -> torch.Tensor:
     Returns:
         torch.Tensor: Positional embeddings of shape (len(pos), embed_dim)
     """
-    import torch
-
     assert embed_dim % 2 == 0, "Embed dimension must be even"
     omega = torch.arange(embed_dim // 2, dtype=torch.float32, device=pos.device)
     omega = 1.0 / (10000 ** (omega / (embed_dim / 2)))
@@ -40,8 +38,6 @@ def get_2d_sincos_pos_embed(
         torch.Tensor: Positional embeddings of shape
         (1, grid_size*grid_size (+1 if cls_token), embed_dim)
     """
-    import torch
-
     # Generate grid of positions
     grid_h = torch.arange(grid_height, dtype=torch.float32)
     grid_w = torch.arange(grid_width, dtype=torch.float32)

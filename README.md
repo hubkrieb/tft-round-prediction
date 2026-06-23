@@ -83,11 +83,11 @@ trp hpo-vit --feature-path path/to/features --n-trials 50
 
 Here is a comparison of the different models evaluated on the test set.
 
-| Model | Accuracy | F1-Score |
-| :--- | :---: | :---: |
-| **XGBoost** | 75.0% | 75.0% |
-| **CNN** | 81.0% | 80.6% |
-| **ViT** | 82.8% | 82.7% |
+| Model | Accuracy |
+| :--- | :---: |
+| **XGBoost** | 73.0% |
+| **CNN** | 79.1% |
+| **ViT** | 80.4% |
 
 ## References
 

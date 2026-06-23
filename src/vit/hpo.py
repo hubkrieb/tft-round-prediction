@@ -13,8 +13,8 @@ from lightning.pytorch.loggers import WandbLogger
 from optuna.integration import PyTorchLightningPruningCallback
 
 import wandb
-from src.cnn.data import TFTBoardDataModule
 from src.utils.static_data import ITEMS, TRAITS, UNITS
+from src.vit.data import TFTBoardDataModule
 from src.vit.model import TFTViT
 
 
@@ -63,9 +63,11 @@ def objective(
     # Regularization & Learning Rate
     dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.4)
     learning_rate = trial.suggest_float("learning_rate", 1e-4, 5e-3, log=True)
-    warmup_ratio = trial.suggest_float("warmup_ratio", 0.01, 0.2, step=0.01)
-    # Ensuring plateau + warmup <= 1.0; 0.7 plateau gives room for scheduler decay.
-    plateau_ratio = trial.suggest_float("plateau_ratio", 0.2, 0.7, step=0.1)
+    # LR schedule is now expressed in absolute optimizer steps (the model no
+    # longer derives them from ratios of total_steps).
+    warmup_steps = trial.suggest_int("warmup_steps", 500, 5000, step=500)
+    plateau_steps = trial.suggest_int("plateau_steps", 2000, 15000, step=1000)
+    decay_steps = trial.suggest_int("decay_steps", 10000, 40000, step=5000)
 
     batch_size = trial.suggest_categorical("batch_size", [256, 512, 1024])
 
@@ -115,8 +117,9 @@ def objective(
             dim_feedforward=dim_feedforward,
             dropout_rate=dropout_rate,
             learning_rate=learning_rate,
-            warmup_ratio=warmup_ratio,
-            plateau_ratio=plateau_ratio,
+            warmup_steps=warmup_steps,
+            plateau_steps=plateau_steps,
+            decay_steps=decay_steps,
         )
 
         datamodule = TFTBoardDataModule(

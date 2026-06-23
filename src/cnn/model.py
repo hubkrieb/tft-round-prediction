@@ -1,7 +1,7 @@
 import lightning as L
 import torch
 import torch.nn as nn
-from torchmetrics import Accuracy, F1Score
+from torchmetrics import Accuracy
 
 
 class TFTBoardEncoder(nn.Module):
@@ -87,10 +87,8 @@ class TFTCNN(L.LightningModule):
         self.plateau_ratio = plateau_ratio
 
         self.val_accuracy = Accuracy(task="binary")
-        self.val_f1 = F1Score(task="binary")
 
         self.test_accuracy = Accuracy(task="binary")
-        self.test_f1 = F1Score(task="binary")
 
         self.save_hyperparameters()
 
@@ -132,10 +130,8 @@ class TFTCNN(L.LightningModule):
         preds = (x_hat > 0.5).int()
 
         self.val_accuracy.update(preds, y.int())
-        self.val_f1.update(preds, y.int())
 
         self.log("val_accuracy", self.val_accuracy, prog_bar=True)
-        self.log("val_f1", self.val_f1, prog_bar=True)
         self.log("val_loss", loss, prog_bar=True)
         return loss
 
@@ -147,7 +143,6 @@ class TFTCNN(L.LightningModule):
         preds = (x_hat > 0.5).int()
 
         self.test_accuracy.update(preds, y.int())
-        self.test_f1.update(preds, y.int())
 
         self.log("test_loss", loss)
         return loss
@@ -158,13 +153,10 @@ class TFTCNN(L.LightningModule):
 
     def on_test_epoch_end(self) -> None:  # noqa: D102
         acc = self.test_accuracy.compute()
-        f1 = self.test_f1.compute()
 
         self.log("test_accuracy", acc)
-        self.log("test_f1", f1)
 
         self.test_accuracy.reset()
-        self.test_f1.reset()
 
     def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)

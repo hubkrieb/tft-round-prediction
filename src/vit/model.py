@@ -2,7 +2,7 @@ import lightning as L
 import torch
 import torch.nn as nn
 from timm.models.vision_transformer import Block
-from torchmetrics import Accuracy, F1Score
+from torchmetrics import Accuracy
 
 from src.vit.positional_encoding import get_2d_sincos_pos_embed
 
@@ -81,18 +81,19 @@ class TFTViT(L.LightningModule):
         n_traits: int,
         board_height: int = 8,
         board_width: int = 7,
-        unit_embed_dim: int = 16,
+        unit_embed_dim: int = 8,
         tier_embed_dim: int = 8,
         item_embed_dim: int = 8,
         trait_embed_dim: int = 32,
         d_model: int = 64,
         n_heads: int = 4,
-        n_layers: int = 3,
-        dim_feedforward: int = 256,
-        learning_rate: float = 5e-4,
-        warmup_ratio: float = 0.05,
-        plateau_ratio: float = 0.7,
-        dropout_rate: float = 0.1,
+        n_layers: int = 4,
+        dim_feedforward: int = 512,
+        learning_rate: float = 4e-3,
+        warmup_steps: int = 2500,
+        plateau_steps: int = 10000,
+        decay_steps: int = 25000,
+        dropout_rate: float = 0.02,
     ) -> None:
         super().__init__()
 
@@ -159,14 +160,12 @@ class TFTViT(L.LightningModule):
 
         self.dropout_rate = dropout_rate
         self.lr = learning_rate
-        self.warmup_ratio = warmup_ratio
-        self.plateau_ratio = plateau_ratio
+        self.warmup_steps = warmup_steps
+        self.plateau_steps = plateau_steps
+        self.decay_steps = decay_steps
 
         self.val_accuracy = Accuracy(task="binary")
-        self.val_f1 = F1Score(task="binary")
-
         self.test_accuracy = Accuracy(task="binary")
-        self.test_f1 = F1Score(task="binary")
 
         self.save_hyperparameters()
 
@@ -206,7 +205,7 @@ class TFTViT(L.LightningModule):
         return logit.squeeze(1)
 
     def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
@@ -214,7 +213,7 @@ class TFTViT(L.LightningModule):
         return loss
 
     def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
@@ -229,17 +228,10 @@ class TFTViT(L.LightningModule):
             on_step=False,
             on_epoch=True,
         )
-        self.log(
-            "val_f1",
-            self.val_f1(preds, y.int()),
-            prog_bar=True,
-            on_step=False,
-            on_epoch=True,
-        )
         return loss
 
     def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
-        x_units, x_traits, y = batch
+        x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
 
@@ -253,41 +245,31 @@ class TFTViT(L.LightningModule):
             on_step=False,
             on_epoch=True,
         )
-        self.log("test_f1", self.test_f1(preds, y.int()), on_step=False, on_epoch=True)
         return loss
 
     def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> torch.Tensor:  # noqa: D102
-        x_units, x_traits, _ = batch
+        x_units, x_traits, _, _, _ = batch
         return torch.sigmoid(self.forward(x_units, x_traits))
 
     def on_validation_epoch_end(self) -> None:  # noqa: D102
         self.val_accuracy.reset()
-        self.val_f1.reset()
 
     def on_test_epoch_end(self) -> None:  # noqa: D102
         self.test_accuracy.reset()
-        self.test_f1.reset()
 
     def configure_optimizers(self) -> dict:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
-        total_steps = self.trainer.estimated_stepping_batches
-
-        warmup_steps = int(self.warmup_ratio * total_steps)
-        plateau_steps = int(self.plateau_ratio * total_steps)
-
         def lr_lambda(step: int) -> float:  # noqa: ANN202
-            if step < warmup_steps:
-                return step / max(1, warmup_steps)
+            if step < self.warmup_steps:
+                return step / max(1, self.warmup_steps)
 
-            if step < warmup_steps + plateau_steps:
+            if step < self.warmup_steps + self.plateau_steps:
                 return 1.0
 
-            decay_steps = total_steps - warmup_steps - plateau_steps
-            if decay_steps <= 0:
-                return 1.0  # safety fallback
-
-            decay_progress = (step - warmup_steps - plateau_steps) / decay_steps
+            decay_progress = (
+                step - self.warmup_steps - self.plateau_steps
+            ) / self.decay_steps
 
             return max(0.0, 1.0 - decay_progress)
 

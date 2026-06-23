@@ -1,6 +1,12 @@
 import polars as pl
+import pyarrow.parquet as pq
+from tqdm import tqdm
 
 from src.utils.static_data import TRAITS, UNITS
+
+# Number of parquet row groups to read per chunk. Tune this to balance memory
+# usage vs. overhead (matches the CNN/ViT extractors).
+ROW_GROUPS_PER_CHUNK = 10
 
 # Precomputed constants and schema for faster execution
 TEAMS = ("player", "opponent")
@@ -202,23 +208,21 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
     )
 
 
-def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
+def _process_chunk(df: pl.DataFrame) -> pl.DataFrame | None:
     """
-    Extracts and processes features from raw game data and saves them as a Parquet file.
+    Process a single chunk of raw data into the wide one-hot feature frame.
+
+    ``round_instance`` is enumerated within each chunk (mirroring the CNN/ViT
+    extractors), so the resulting ``round_idx`` is unique within the chunk, which
+    is all the per-chunk player/opponent joins below require.
 
     Args:
-        raw_data_path (str): Path to the input Parquet file containing raw game data.
-        feature_path (str): Path where the processed feature Parquet file will be saved.
+        df (pl.DataFrame): A chunk of raw parquet data.
 
     Returns:
-        pl.DataFrame: A Polars DataFrame containing the extracted features, including:
-            - uuid (str): Unique identifier for the game/round.
-            - round_name (int): Identifier for the round.
-            - outcome (int): Binary target (1 if victory, 0 otherwise).
-            - *FEATURE_KEYS: Columns representing processed features for both players and opponents.
+        pl.DataFrame | None: Frame with columns ``round_idx, outcome, timestamp,
+            *FEATURE_KEYS``, or ``None`` if the chunk has no valid rows.
     """
-    df = pl.read_parquet(raw_data_path)
-
     df = df.with_columns(
         pl.arange(0, pl.count())
         .over(["match_uuid", "player_uuid", "round_name"])
@@ -236,6 +240,7 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
     # Filter out PVE rounds and missing input or target
     mask = (
         (~pl.col("round_type").eq("PVE"))
+        & (~pl.col("round_name").str.starts_with("1-"))
         & (pl.col("round_outcome").is_not_null())
         & (pl.all_horizontal(pl.col("board_data").struct.unnest().is_not_null()))
         & (
@@ -246,9 +251,13 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
     base_df = df.filter(mask).select(
         pl.col("match_uuid"),
         pl.col("round_idx"),
+        pl.col("timestamp"),
         (pl.col("round_outcome") == "victory").cast(pl.Int8).alias("outcome"),
         pl.col("board_data").struct.unnest(),
     )
+
+    if base_df.height == 0:
+        return None
 
     # Process features for each team in parallel
     player_features = process_team_features(
@@ -260,15 +269,58 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
 
     # Join all features together
     final_features = (
-        base_df.select("round_idx", "outcome")
+        base_df.select("round_idx", "outcome", "timestamp")
         .join(player_features, on="round_idx", how="inner")
         .join(opponent_features, on="round_idx", how="inner")
     )
 
-    # Select in correct order and fill any remaining nulls from left joins
-    final_features = final_features.select(
-        "round_idx", "outcome", *FEATURE_KEYS
+    # Select in the canonical FEATURE_KEYS order and fill nulls from left joins.
+    return final_features.select(
+        "round_idx", "outcome", "timestamp", *FEATURE_KEYS
     ).fill_null(0)
+
+
+def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
+    """
+    Extracts and processes features from raw game data and saves them as a Parquet file.
+
+    Reads the parquet file in chunks of row groups to keep memory usage bounded,
+    even for very large datasets: the heavy nested ``board_data`` and its
+    explode/pivot intermediates only ever exist for one chunk at a time. Only the
+    compact (Int8-heavy) wide feature frames are accumulated across chunks.
+
+    Args:
+        raw_data_path (str): Path to the input Parquet file containing raw game data.
+        feature_path (str): Path where the processed feature Parquet file will be saved.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing the extracted features, sorted
+            by ``timestamp`` ascending, including:
+            - round_idx (str): Unique identifier for the game/round.
+            - outcome (int): Binary target (1 if victory, 0 otherwise).
+            - timestamp (int): Per-round event time; the chronological split key.
+            - *FEATURE_KEYS: Columns representing processed features for both players and opponents.
+    """
+    pf = pq.ParquetFile(raw_data_path)
+    n_groups = pf.metadata.num_row_groups
+
+    group_batches = [
+        list(range(start, min(start + ROW_GROUPS_PER_CHUNK, n_groups)))
+        for start in range(0, n_groups, ROW_GROUPS_PER_CHUNK)
+    ]
+
+    chunk_frames: list[pl.DataFrame] = []
+    for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
+        df = pl.from_arrow(pf.read_row_groups(batch))
+        result = _process_chunk(df)
+        del df
+        if result is not None:
+            chunk_frames.append(result)
+
+    # Concatenate the per-chunk wide frames and sort chronologically (oldest
+    # first) so train_baseline can take a temporal train/test split that matches
+    # the CNN/ViT datamodules (test = newest rounds).
+    final_features = pl.concat(chunk_frames).sort("timestamp")
 
     final_features.write_parquet(feature_path)
 

@@ -6,8 +6,8 @@ from lightning.pytorch.callbacks import (
 )
 from lightning.pytorch.loggers import WandbLogger
 
-from src.cnn.data import TFTBoardDataModule
 from src.utils.static_data import ITEMS, TRAITS, UNITS
+from src.vit.data import TFTBoardDataModule
 from src.vit.model import TFTViT
 
 
@@ -28,8 +28,8 @@ def train_vit(
     """Trains a Vision Transformer model using the provided feature data.
 
     Args:
-        feature_path (str): The file path (e.g., path to an NPZ file) containing
-            the preprocessed board feature data.
+        feature_path (str): Directory containing the preprocessed board feature
+            .npy files (x_units, x_traits, x_patch, y).
         batch_size (int): The number of samples per batch to load for training.
         learning_rate (float): The learning rate used for training.
         num_workers (int): The number of subprocesses to use for data loading.
@@ -66,7 +66,7 @@ def train_vit(
     )
 
     callbacks = [
-        EarlyStopping(monitor="val_loss", mode="min", patience=50),
+        EarlyStopping(monitor="val_loss", mode="min", patience=5),
         LearningRateMonitor(logging_interval="step"),
         ModelCheckpoint(
             monitor="val_loss",
@@ -81,10 +81,11 @@ def train_vit(
 
     trainer = Trainer(
         accelerator="auto",
+        precision="16-mixed",
         logger=wandb_logger,
         max_epochs=max_epochs,
         callbacks=callbacks,
-        gradient_clip_val=1,
+        gradient_clip_val=5,
         **trainer_kwargs,
     )
 

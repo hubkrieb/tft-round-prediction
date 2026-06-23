@@ -2,15 +2,6 @@ import json
 
 import typer
 
-from src.baseline.train import train_baseline
-from src.baseline.transform import extract_features
-from src.cnn.hpo import run_optuna
-from src.cnn.train import train_cnn
-from src.cnn.transform import extract_tensors as extract_cnn_tensors
-from src.vit.hpo import run_optuna as run_optuna_vit
-from src.vit.train import train_vit
-from src.vit.transform import extract_tensors as extract_vit_tensors
-
 app = typer.Typer()
 
 DATA_KW = typer.Option(
@@ -61,6 +52,8 @@ def extract_baseline_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into features."""
+    from src.baseline.transform import extract_features
+
     extract_features(raw_data_path=raw_path, feature_path=feature_path)
 
 
@@ -71,6 +64,8 @@ def train_baseline_command(
     ),
 ) -> None:
     """Train round prediction XGBoost model."""
+    from src.baseline.train import train_baseline
+
     train_baseline(feature_path=feature_path)
 
 
@@ -80,17 +75,19 @@ def extract_cnn_feature_command(
         None, "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
+    from src.cnn.transform import extract_tensors as extract_cnn_tensors
+
     extract_cnn_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
 
 @app.command(name="train-cnn")
 def train_cnn_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         512, "--batch-size", "-b", help="Batch size to use for training"
@@ -112,6 +109,8 @@ def train_cnn_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction CNN model."""
+    from src.cnn.train import train_cnn
+
     train_cnn(
         feature_path=feature_path,
         batch_size=batch_size,
@@ -128,7 +127,7 @@ def train_cnn_command(
 @app.command(name="hpo-cnn")
 def hpo_cnn_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"
@@ -155,6 +154,8 @@ def hpo_cnn_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for CNN model."""
+    from src.cnn.hpo import run_optuna
+
     run_optuna(
         feature_path=feature_path,
         n_trials=n_trials,
@@ -173,29 +174,31 @@ def extract_vit_feature_command(
         None, "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
+    from src.vit.transform import extract_tensors as extract_vit_tensors
+
     extract_vit_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
 
 @app.command(name="train-vit")
 def train_vit_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
-        512, "--batch-size", "-b", help="Batch size to use for training"
+        1024, "--batch-size", "-b", help="Batch size to use for training"
     ),
     learning_rate: float = typer.Option(
-        1e-3, "--lr", help="Learning rate to use for training"
+        2.8e-3, "--lr", help="Learning rate to use for training"
     ),
     num_workers: int = typer.Option(
         4, "--num-workers", "-w", help="Number of workers to use for dataloader"
     ),
     max_epochs: int = typer.Option(
-        100, "--max-epochs", "-e", help="Maximum amount of training epochs"
+        50, "--max-epochs", "-e", help="Maximum amount of training epochs"
     ),
     seed: int = typer.Option(
         54, "--seed", "-s", help="Random seed for reproducibility"
@@ -208,6 +211,8 @@ def train_vit_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction ViT model."""
+    from src.vit.train import train_vit
+
     train_vit(
         feature_path=feature_path,
         batch_size=batch_size,
@@ -225,7 +230,7 @@ def train_vit_command(
 @app.command(name="hpo-vit")
 def hpo_vit_command(
     feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features .npz file"
+        None, "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"
@@ -252,6 +257,8 @@ def hpo_vit_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for ViT model."""
+    from src.vit.hpo import run_optuna as run_optuna_vit
+
     run_optuna_vit(
         feature_path=feature_path,
         n_trials=n_trials,

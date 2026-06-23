@@ -1,4 +1,5 @@
 import os
+import shutil
 import tempfile
 from unittest.mock import MagicMock, patch
 
@@ -119,7 +120,7 @@ def test_extract_tensors(mock_extract_traits_one_hot: MagicMock) -> None:
 
     temp_dir = tempfile.mkdtemp()
     raw_data_path = os.path.join(temp_dir, "dummy_raw.parquet")
-    feature_path = os.path.join(temp_dir, "dummy_features.npz")
+    feature_path = os.path.join(temp_dir, "dummy_features")
 
     player_board = [{"unit": "TFT16_Tristana", "item_ids": [], "loc": "A1", "tier": 1}]
     opponent_board = [{"unit": "TFT16_Lulu", "item_ids": [], "loc": "A1", "tier": 1}]
@@ -131,6 +132,7 @@ def test_extract_tensors(mock_extract_traits_one_hot: MagicMock) -> None:
             "round_name": ["1_1", "1_2"],
             "round_type": ["PvP", "PVE"],
             "round_outcome": ["victory", "defeat"],
+            "timestamp": [1770000000000, 1770000000001],
             "board_data": [
                 {"player_board": player_board, "opponent_board": opponent_board},
                 {"player_board": player_board, "opponent_board": opponent_board},
@@ -148,7 +150,10 @@ def test_extract_tensors(mock_extract_traits_one_hot: MagicMock) -> None:
         assert traits_feat.shape[0] == 1
         assert outcome.shape[0] == 1
 
-        assert os.path.exists(feature_path)
+        # Ensure the output directory and per-array files were created
+        assert os.path.isdir(feature_path)
+        for name in ("x_units.npy", "x_traits.npy", "timestamp.npy", "y.npy"):
+            assert os.path.exists(os.path.join(feature_path, name))
 
         # Outcome 1 corresponds to victory
         assert outcome[0] == 1
@@ -156,6 +161,6 @@ def test_extract_tensors(mock_extract_traits_one_hot: MagicMock) -> None:
     finally:
         if os.path.exists(raw_data_path):
             os.remove(raw_data_path)
-        if os.path.exists(feature_path):
-            os.remove(feature_path)
+        if os.path.isdir(feature_path):
+            shutil.rmtree(feature_path)
         os.rmdir(temp_dir)
