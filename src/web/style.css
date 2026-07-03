@@ -188,6 +188,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   height: var(--hexH);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
 }
 .hex::before {
   content: "";
@@ -238,17 +239,32 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .hex .items img {
   width: 15px; height: 15px; border-radius: 4px;
-  border: 1px solid #000; background: #000; cursor: pointer;
+  border: 1px solid #000; background: #000; cursor: grab;
+  touch-action: none; /* item drags must not scroll the page */
 }
-.hex .items img:hover { outline: 1px solid var(--loss); }
+.hex .items img:hover { outline: 1px solid var(--gold); }
 
-/* Hover star selector */
+/* Occupied hexes are drag sources: block touch scrolling from them (empty
+   hexes still pan the page normally). */
+.hex.occupied { touch-action: none; }
+
+/* Icon following the pointer during a drag. */
+.drag-ghost {
+  position: fixed; width: 46px; height: 46px; z-index: 100;
+  transform: translate(-50%, -65%);
+  border-radius: 10px; pointer-events: none; opacity: 0.85;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Star selector: shown on hover (desktop) or after tapping the unit (touch,
+   which has no hover — app.js toggles .stars-open). */
 .hex .star-select {
   position: absolute; top: -3px; left: 0; right: 0; z-index: 6;
   display: none; justify-content: center; gap: 1px; padding: 2px 0;
 }
-.hex.occupied:hover .star-select { display: flex; }
-.hex.occupied:hover .stars { display: none; }
+.hex.occupied:hover .star-select, .hex.occupied.stars-open .star-select { display: flex; }
+.hex.occupied:hover .stars, .hex.occupied.stars-open .stars { display: none; }
+.hex.occupied.stars-open { z-index: 20; }
 .hex .star-select .star {
   font-size: 15px; line-height: 1; cursor: pointer;
   color: rgba(255, 255, 255, 0.28);
@@ -346,6 +362,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   cursor: grab; border: 2px solid var(--cost-color, var(--border));
   background: #17171f;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
+  user-select: none; -webkit-user-select: none;
 }
 .pick img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .pick.selected { outline: 2px solid var(--gold-bright); outline-offset: 1px; }

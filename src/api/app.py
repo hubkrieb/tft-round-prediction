@@ -26,6 +26,21 @@ def create_app() -> FastAPI:
     """Build the FastAPI application."""
     app = FastAPI(title="TFT Round Prediction", version="0.1.0")
 
+    @app.middleware("http")
+    async def revalidate_app_files(request, call_next):  # noqa: ANN001, ANN202
+        """Make browsers revalidate the app shell on every load.
+
+        Without Cache-Control, browsers apply heuristic caching and can keep
+        serving a stale ``app.js``/``style.css`` after a deploy. ``no-cache``
+        still allows cheap 304s via the ETag that StaticFiles already sends.
+        Icons under /assets are immutable-ish and keep the default behaviour.
+        """
+        response = await call_next(request)
+        path = request.url.path
+        if path == "/" or path.endswith((".html", ".js", ".css", "catalog.json")):
+            response.headers["Cache-Control"] = "no-cache"
+        return response
+
     if not config.CATALOG_PATH.exists():
         # Fail loud with an actionable message rather than serving a broken UI.
         print(

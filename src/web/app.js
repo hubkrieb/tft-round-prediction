@@ -11,6 +11,12 @@ const MAX_ITEMS = 3;
 const MAX_STARS = 4;
 const COST_COLORS = { 1: "--c1", 2: "--c2", 3: "--c3", 4: "--c4", 5: "--c5", 6: "--c6" };
 
+// Pointer type of the most recent pointerdown ("mouse" | "touch" | "pen").
+// Click events don't carry it reliably across browsers, so track it here.
+let lastPointerType = "mouse";
+window.addEventListener("pointerdown", (e) => (lastPointerType = e.pointerType || "mouse"), true);
+const isTouchEvent = () => lastPointerType !== "mouse";
+
 const state = {
   boards: { player: {}, opponent: {} }, // key "r_c" -> {unit, tier, items:[]}
   model: "vit",
@@ -97,8 +103,10 @@ function renderBoards() {
       const cell = state.boards[side][key];
       hex.classList.toggle("occupied", !!cell);
       hex.innerHTML = "";
-      hex.draggable = !!cell;
-      if (!cell) return;
+      if (!cell) {
+        hex.classList.remove("stars-open");
+        return;
+      }
       const u = unitsByApi[cell.unit] || {};
       hex.style.setProperty("--cost-color", unitCostVar(u));
 
@@ -126,11 +134,15 @@ function renderBoards() {
         s.textContent = "★";
         s.title = `${t}-star`;
         s.addEventListener("mouseenter", () => paint(t));
-        s.addEventListener("click", (e) => {
+        // pointerup, not click: touch pipelines don't reliably synthesize
+        // clicks on custom elements. pointerdown is already excluded from the
+        // board's drag handler for the star selector.
+        s.addEventListener("pointerup", (e) => {
           e.stopPropagation();
           cell.tier = t;
           afterEdit();
         });
+        s.addEventListener("click", (e) => e.stopPropagation());
         starEls.push(s);
         starSelect.appendChild(s);
       }
@@ -142,11 +154,18 @@ function renderBoards() {
       cell.items.forEach((it, idx) => {
         const im = document.createElement("img");
         im.src = (itemsByApi[it] || {}).icon || "";
-        im.title = `${(itemsByApi[it] || {}).name || it} — right-click to remove`;
+        im.title = `${(itemsByApi[it] || {}).name || it} — drag to move, drop outside to remove`;
         im.draggable = false;
+        // Drag the item to another unit to move it, or off the boards to
+        // discard it. stopPropagation keeps the unit itself from dragging.
+        im.addEventListener("pointerdown", (e) => {
+          e.stopPropagation();
+          beginDrag(e, "board-item", { from: { side, key, idx } }, im.src);
+        });
         im.addEventListener("contextmenu", (e) => {
           e.preventDefault();
           e.stopPropagation(); // don't also remove the unit
+          if (isTouchEvent()) return; // touch long-press is not a remove
           cell.items.splice(idx, 1);
           afterEdit();
         });
@@ -165,49 +184,201 @@ function placeUnit(side, r, c, apiName) {
   afterEdit();
 }
 
+// First empty cell of a board in reading order (frontline first).
+function firstFreeCell(side) {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (!state.boards[side][cellKey(r, c)]) return { r, c };
+    }
+  }
+  return null;
+}
+
+// First placed unit (reading order) that still has a free item slot.
+function firstFreeItemSlot(side) {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = state.boards[side][cellKey(r, c)];
+      if (cell && cell.items.length < MAX_ITEMS) return cellKey(r, c);
+    }
+  }
+  return null;
+}
+
+function moveUnit(from, to) {
+  const src = state.boards[from.side][from.key];
+  if (!src || (from.side === to.side && from.key === to.key)) return;
+  const dst = state.boards[to.side][to.key];
+  state.boards[to.side][to.key] = src;
+  if (dst) state.boards[from.side][from.key] = dst; // swap
+  else delete state.boards[from.side][from.key];
+  afterEdit();
+}
+
+function equipItem(side, key, apiName) {
+  const cell = state.boards[side][key];
+  if (!cell) return toast("Items go on a placed champion.");
+  if (cell.items.length >= MAX_ITEMS) return toast("Unit already has 3 items.");
+  cell.items.push(apiName);
+  afterEdit();
+}
+
+function moveItem(from, to) {
+  const src = state.boards[from.side][from.key];
+  const dst = state.boards[to.side][to.key];
+  if (!src || !dst || src === dst) return;
+  if (dst.items.length >= MAX_ITEMS) return toast("Unit already has 3 items.");
+  dst.items.push(src.items.splice(from.idx, 1)[0]);
+  afterEdit();
+}
+
+/* ------------------------------------------------------------------ *
+ * Pointer-events drag engine (works for both mouse and touch).
+ * Picker entries drag with a mouse only (touch uses tap-to-place so the
+ * grids stay scrollable); board units and their items drag with any
+ * pointer, and dropping them outside the two boards discards them.
+ * ------------------------------------------------------------------ */
+let dragCtx = null;
+
+// `onTap` runs when the pointer goes down and up without moving. Taps are
+// handled here at the pointer level rather than with click listeners because
+// touch pipelines don't reliably synthesize click events on custom elements.
+function beginDrag(e, kind, payload, iconSrc, onTap) {
+  if (dragCtx || (e.pointerType === "mouse" && e.button !== 0)) return;
+  dragCtx = { pointerId: e.pointerId, kind, payload, iconSrc, onTap, sx: e.clientX, sy: e.clientY, started: false, ghost: null };
+  window.addEventListener("pointermove", onDragMove);
+  window.addEventListener("pointerup", onDragEnd);
+  window.addEventListener("pointercancel", onDragCancel);
+}
+
+// Tap detection for elements that are not drag sources (picker entries on
+// touch, empty hexes): pointerdown..pointerup with no movement in between.
+// A scroll or gesture takeover fires pointercancel and voids the tap.
+function watchTap(e, cb) {
+  const { pointerId, clientX: sx, clientY: sy } = e;
+  const up = (ev) => {
+    if (ev.pointerId !== pointerId) return;
+    cleanup();
+    if (Math.hypot(ev.clientX - sx, ev.clientY - sy) < 10) cb(ev);
+  };
+  const cancel = (ev) => ev.pointerId === pointerId && cleanup();
+  const cleanup = () => {
+    window.removeEventListener("pointerup", up);
+    window.removeEventListener("pointercancel", cancel);
+  };
+  window.addEventListener("pointerup", up);
+  window.addEventListener("pointercancel", cancel);
+}
+
+function onDragMove(e) {
+  if (!dragCtx || e.pointerId !== dragCtx.pointerId) return;
+  if (!dragCtx.started) {
+    if (Math.hypot(e.clientX - dragCtx.sx, e.clientY - dragCtx.sy) < 6) return;
+    dragCtx.started = true;
+    dragCtx.ghost = document.createElement("img");
+    dragCtx.ghost.className = "drag-ghost";
+    dragCtx.ghost.src = dragCtx.iconSrc || "";
+    document.body.appendChild(dragCtx.ghost);
+  }
+  dragCtx.ghost.style.left = `${e.clientX}px`;
+  dragCtx.ghost.style.top = `${e.clientY}px`;
+  document.querySelectorAll(".hex.drop-target").forEach((h) => h.classList.remove("drop-target"));
+  const hex = document.elementFromPoint(e.clientX, e.clientY)?.closest(".hex");
+  if (hex) hex.classList.add("drop-target");
+}
+
+function onDragCancel(e) {
+  if (!dragCtx || e.pointerId !== dragCtx.pointerId) return;
+  teardownDrag();
+}
+
+function onDragEnd(e) {
+  if (!dragCtx || e.pointerId !== dragCtx.pointerId) return;
+  const { kind, payload, started, onTap } = dragCtx;
+  teardownDrag();
+  if (!started) {
+    onTap?.(e); // the pointer never moved: this was a tap/click on the source
+    return;
+  }
+
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const hex = under?.closest(".hex");
+  const onBoard = !!under?.closest(".hexboard");
+  const at = hex && { side: hex.closest(".hexboard").dataset.side, key: cellKey(hex.dataset.r, hex.dataset.c) };
+
+  if (kind === "pick-unit" && hex) {
+    placeUnit(at.side, +hex.dataset.r, +hex.dataset.c, payload.apiName);
+  } else if (kind === "pick-item" && hex) {
+    equipItem(at.side, at.key, payload.apiName);
+  } else if (kind === "board-unit") {
+    if (hex) moveUnit(payload.from, at);
+    else if (!onBoard) {
+      delete state.boards[payload.from.side][payload.from.key];
+      afterEdit();
+    }
+  } else if (kind === "board-item") {
+    if (hex) moveItem(payload.from, at);
+    else if (!onBoard) {
+      const cell = state.boards[payload.from.side][payload.from.key];
+      if (cell) {
+        cell.items.splice(payload.from.idx, 1);
+        afterEdit();
+      }
+    }
+  }
+}
+
+function teardownDrag() {
+  window.removeEventListener("pointermove", onDragMove);
+  window.removeEventListener("pointerup", onDragEnd);
+  window.removeEventListener("pointercancel", onDragCancel);
+  dragCtx?.ghost?.remove();
+  document.querySelectorAll(".hex.drop-target").forEach((h) => h.classList.remove("drop-target"));
+  dragCtx = null;
+}
+
+// A tap on a board hex (touch/pen only — no hover): toggle the star selector
+// on a placed unit; a tap on an empty hex closes any open selector.
+function boardTap(ev, hex) {
+  if (ev.pointerType === "mouse") return;
+  const open = hex.classList.contains("stars-open");
+  document.querySelectorAll(".hex.stars-open").forEach((h) => h.classList.remove("stars-open"));
+  if (hex.classList.contains("occupied")) hex.classList.toggle("stars-open", !open);
+}
+
 function wireEvents() {
-  // Hex clicks: place selected unit, or cycle star on occupied.
+  // Kill the native HTML5 drag (image ghosting): all dragging is pointer-based.
+  document.addEventListener("dragstart", (e) => e.preventDefault());
+
   for (const side of ["player", "opponent"]) {
     const board = $(`#board-${side}`);
 
-    // Right-click an occupied hex to remove the unit. (Right-clicking an item
-    // icon removes just that item; its handler stops propagation.) Star level is
-    // set via the hover star selector; placement is drag-and-drop only.
+    // Right-click an occupied hex removes the unit (desktop shortcut; on touch
+    // a long-press fires contextmenu too, but there it starts a drag instead).
     board.addEventListener("contextmenu", (e) => {
       const hex = e.target.closest(".hex");
       if (!hex) return;
       e.preventDefault();
+      if (isTouchEvent()) return; // touch long-press is not a remove
       delete state.boards[side][cellKey(hex.dataset.r, hex.dataset.c)];
       afterEdit();
     });
 
-    // Drag & drop targets
-    board.addEventListener("dragover", (e) => {
+    // All board interaction starts at pointerdown: occupied hexes become drag
+    // sources (with the no-movement case handled as a tap), empty hexes only
+    // watch for a tap. Item icons and the star selector have their own
+    // handlers and are excluded here.
+    board.addEventListener("pointerdown", (e) => {
       const hex = e.target.closest(".hex");
-      if (!hex) return;
-      e.preventDefault();
-      hex.classList.add("drop-target");
-    });
-    board.addEventListener("dragleave", (e) => {
-      const hex = e.target.closest(".hex");
-      if (hex) hex.classList.remove("drop-target");
-    });
-    board.addEventListener("drop", (e) => {
-      const hex = e.target.closest(".hex");
-      if (!hex) return;
-      e.preventDefault();
-      hex.classList.remove("drop-target");
-      handleDrop(side, +hex.dataset.r, +hex.dataset.c, e.dataTransfer);
-    });
-
-    // Dragging a placed unit to move it.
-    board.addEventListener("dragstart", (e) => {
-      const hex = e.target.closest(".hex");
-      if (!hex || !hex.classList.contains("occupied")) return;
-      e.dataTransfer.setData(
-        "application/json",
-        JSON.stringify({ kind: "move", from: { side, key: cellKey(hex.dataset.r, hex.dataset.c) } })
-      );
+      if (!hex || e.target.closest(".star-select")) return;
+      const key = cellKey(hex.dataset.r, hex.dataset.c);
+      const cell = state.boards[side][key];
+      const tap = (ev) => boardTap(ev, hex);
+      if (cell && !e.target.closest(".items")) {
+        beginDrag(e, "board-unit", { from: { side, key } }, (unitsByApi[cell.unit] || {}).icon, tap);
+      } else if (!cell) {
+        watchTap(e, tap);
+      }
     });
   }
 
@@ -265,33 +436,6 @@ function wireEvents() {
   });
 }
 
-function handleDrop(side, r, c, dt) {
-  let payload;
-  try {
-    payload = JSON.parse(dt.getData("application/json"));
-  } catch {
-    return;
-  }
-  const key = cellKey(r, c);
-  if (payload.kind === "unit") {
-    placeUnit(side, r, c, payload.apiName);
-  } else if (payload.kind === "move") {
-    const src = state.boards[payload.from.side][payload.from.key];
-    if (!src) return;
-    const dst = state.boards[side][key];
-    state.boards[side][key] = src;
-    if (dst) state.boards[payload.from.side][payload.from.key] = dst;
-    else delete state.boards[payload.from.side][payload.from.key];
-    afterEdit();
-  } else if (payload.kind === "item") {
-    const cell = state.boards[side][key];
-    if (!cell) return toast("Drop items onto a champion.");
-    if (cell.items.length >= MAX_ITEMS) return toast("Unit already has 3 items.");
-    cell.items.push(payload.apiName);
-    afterEdit();
-  }
-}
-
 /* ------------------------------------------------------------------ *
  * Pickers
  * ------------------------------------------------------------------ */
@@ -329,13 +473,32 @@ function makeUnitPick(u) {
   el.style.setProperty("--cost-color", unitCostVar(u));
   const traits = (u.traits || []).join(", ");
   el.title = u.special ? u.name : `${u.name} · ${u.cost}★${traits ? ` · ${traits}` : ""}`;
-  el.draggable = true;
   const costBadge = u.special ? "" : `<span class="pick-cost">${u.cost}</span>`;
   el.innerHTML = `<img src="${u.icon}" alt="${u.name}" draggable="false" />${costBadge}`;
-  el.addEventListener("dragstart", (e) =>
-    e.dataTransfer.setData("application/json", JSON.stringify({ kind: "unit", apiName: u.apiName }))
-  );
+  wirePick(el, "unit", u.apiName, u.icon);
   return el;
+}
+
+// Picker entries: drag with a mouse; on touch, tapping a champion drops it on
+// the first free cell of the player board, and tapping an item equips the
+// first unit with a free item slot (drag afterwards to reposition/move). Taps
+// are detected at the pointer level — no click listener — so they work on
+// every touch pipeline.
+function wirePick(el, kind, apiName, iconSrc) {
+  el.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse") return beginDrag(e, `pick-${kind}`, { apiName }, iconSrc);
+    watchTap(e, () => {
+      if (kind === "unit") {
+        const free = firstFreeCell("player");
+        if (!free) return toast("Your board is full.");
+        placeUnit("player", free.r, free.c, apiName);
+      } else {
+        const key = firstFreeItemSlot("player");
+        if (!key) return toast("No unit with a free item slot.");
+        equipItem("player", key, apiName);
+      }
+    });
+  });
 }
 
 function buildItemFilter() {
@@ -387,11 +550,8 @@ function renderItemGrid() {
       const el = document.createElement("div");
       el.className = "pick item";
       el.title = it.name;
-      el.draggable = true;
       el.innerHTML = `<img src="${it.icon}" alt="${it.name}" draggable="false" />`;
-      el.addEventListener("dragstart", (e) =>
-        e.dataTransfer.setData("application/json", JSON.stringify({ kind: "item", apiName: it.apiName }))
-      );
+      wirePick(el, "item", it.apiName, it.icon);
       grid.appendChild(el);
     });
 }
