@@ -138,7 +138,9 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   padding: 7px 10px; border-radius: 10px; background: #17171f;
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
-.trait-row img { width: 20px; height: 20px; filter: invert(1) brightness(1.4); opacity: 0.92; }
+/* Community Dragon trait icons are white-on-transparent: keep them light on the
+   dark background (inverting them made them black and thus invisible). */
+.trait-row img { width: 20px; height: 20px; filter: brightness(1.15) drop-shadow(0 1px 1px rgba(0,0,0,.6)); opacity: 0.95; }
 .trait-name { font-size: 13px; flex: 1; }
 .trait-count {
   font-family: var(--mono);
@@ -146,13 +148,21 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   background: var(--gold); border-radius: 6px; padding: 1px 7px;
 }
 .trait-empty { color: var(--text-faint); font-family: var(--mono); font-size: 11px; }
-.trait-empty::before { content: "∅ "; }
 .tier-bronze { border-left: 3px solid #b07a4a; }
 .tier-silver { border-left: 3px solid #c3ccd6; }
 .tier-gold { border-left: 3px solid var(--c5); }
 .tier-gold .trait-count { background: var(--c5); }
 .tier-prism { border-left: 3px solid #7ce3d8; }
 .tier-prism .trait-count { background: #7ce3d8; }
+/* Unique (single-breakpoint) traits: gold, listed first. */
+.tier-unique { border-left: 3px solid var(--gold); }
+.tier-unique .trait-name { color: var(--gold); font-weight: 700; }
+.tier-unique .trait-count { background: var(--gold); }
+/* Traits on the board but below their first breakpoint: pale / grayed out. */
+.tier-none { border-left: 3px solid transparent; opacity: 0.85; }
+.tier-none .trait-name { color: var(--text-dim); }
+.tier-none img { opacity: 0.35; }
+.tier-none .trait-count { background: #2b2b38; color: var(--text-dim); }
 
 /* ---------- Boards ---------- */
 .board-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -249,12 +259,12 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 .hex .star-select .star:hover { transform: scale(1.3); }
 
 .vs-divider {
-  display: flex; align-items: center; width: 100%; max-width: 430px; margin: 2px 0;
+  display: flex; align-items: center; gap: 10px; width: 100%; max-width: 430px; margin: 2px 0;
 }
 .vs-divider::before { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18)); }
 .vs-divider::after { content: ""; flex: 1; height: 1px; background: linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.18)); }
 .vs-divider span {
-  padding: 0 14px; color: var(--gold); font-family: var(--mono);
+  padding-left: 14px; color: var(--gold); font-family: var(--mono);
   font-weight: 700; font-size: 12px; letter-spacing: 0.2em;
 }
 
@@ -279,7 +289,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .result-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
 .verdict { font-size: 24px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
-.verdict.win { color: var(--win); }
+/* Victory uses the same blue as the player side / win bar for consistency. */
+.verdict.win { color: var(--player); }
 .verdict.loss { color: var(--loss); }
 .result-model { font-family: var(--mono); font-size: 11px; color: #6f6f82; text-transform: uppercase; letter-spacing: 0.12em; }
 .winbar {
@@ -288,7 +299,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .winbar-fill {
   position: absolute; left: 0; top: 0; bottom: 0; width: 50%;
-  background: linear-gradient(90deg, #1f6f45, var(--win));
+  background: linear-gradient(90deg, #2b5f9e, var(--player));
   transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .winbar-label {
@@ -302,11 +313,11 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 .picker-tabs { display: flex; border-bottom: 1px solid var(--border); }
 .tab {
   flex: 1; background: transparent; border: none; color: #6f6f82;
-  padding: 14px; font-size: 13px; cursor: pointer; font-weight: 700;
-  font-family: var(--sans); letter-spacing: 0.04em;
+  padding: 14px; font-size: 11px; cursor: pointer; font-weight: 700;
+  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.24em;
   border-bottom: 2px solid transparent;
 }
-.tab.active { color: #f2f2f8; border-bottom-color: var(--gold); }
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 .tab-body { padding: 16px; }
 .picker-toolbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
 .search {

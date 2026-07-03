@@ -14,8 +14,10 @@ class PlacedUnit(BaseModel):
         unit: Champion apiName, e.g. ``"TFT16_Tristana"``.
         tier: Star level (1-3); also the value the models embed as the unit tier.
         items: Up to three item apiNames held by the unit.
-        row: Board row index, 0-3 (top-to-bottom of that side).
-        col: Board column index, 0-6 (left-to-right).
+        row: Board row index in the unit's OWN board frame, 0-3, where 0 is
+            that side's frontline (raw-data row ``A``) and 3 its backline.
+        col: Board column index in the unit's own frame, 0-6 (that side's
+            left-to-right; the two frames are rotated 180° from each other).
     """
 
     unit: str

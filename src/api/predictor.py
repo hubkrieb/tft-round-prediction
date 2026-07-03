@@ -116,15 +116,23 @@ _DEFAULT_PATHS = {
 }
 
 
+# Which kinds have finished loading at least once — lets the UI tell the user
+# that their first prediction includes the (slow) model load.
+_LOADED: set[str] = set()
+
+
 @cache
 def _load(kind: str, path: str, device: str) -> Predictor:
     if kind == "vit":
-        return VitPredictor(path, device=device)
-    if kind == "cnn":
-        return CnnPredictor(path, device=device)
-    if kind == "xgboost":
-        return XgbPredictor(path)
-    raise ValueError(f"Unknown model kind {kind!r}; expected one of {_KINDS}.")
+        predictor: Predictor = VitPredictor(path, device=device)
+    elif kind == "cnn":
+        predictor = CnnPredictor(path, device=device)
+    elif kind == "xgboost":
+        predictor = XgbPredictor(path)
+    else:
+        raise ValueError(f"Unknown model kind {kind!r}; expected one of {_KINDS}.")
+    _LOADED.add(kind)
+    return predictor
 
 
 def get_predictor(kind: str, path: str | None = None, device: str = "cpu") -> Predictor:
@@ -144,3 +152,8 @@ def get_predictor(kind: str, path: str | None = None, device: str = "cpu") -> Pr
 def available_models() -> dict[str, bool]:
     """Report which default models are present on disk (for the UI to grey out)."""
     return {kind: config.resolve(_DEFAULT_PATHS[kind]).exists() for kind in _KINDS}
+
+
+def loaded_models() -> list[str]:
+    """Report which model kinds are already loaded in memory."""
+    return sorted(_LOADED)

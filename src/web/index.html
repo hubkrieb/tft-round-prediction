@@ -14,7 +14,6 @@
   <header class="topbar">
     <div class="brand">
       <h1>TFT Round Predictor</h1>
-      <p class="subtitle">Team builder &middot; combat odds &middot; Set&nbsp;16</p>
     </div>
     <div class="topbar-actions">
       <button id="clear-all" class="btn btn-ghost" title="Remove every unit from both boards">clear all</button>
@@ -24,7 +23,7 @@
   <main class="layout">
     <!-- Left: active traits -->
     <aside class="panel traits-panel">
-      <h2>░▒ Traits</h2>
+      <h2>Traits</h2>
       <div class="trait-cols">
         <div>
           <h3 class="side-label side-opponent">Opponent</h3>
@@ -47,7 +46,10 @@
         <div id="board-opponent" class="hexboard" data-side="opponent"></div>
       </div>
 
-      <div class="vs-divider"><span>⟨ VS ⟩</span></div>
+      <div class="vs-divider">
+        <span>VS</span>
+        <button id="swap-boards" class="btn btn-ghost btn-sm" title="Swap the two boards">⇅ swap</button>
+      </div>
 
       <div class="board-block">
         <div class="board-head">

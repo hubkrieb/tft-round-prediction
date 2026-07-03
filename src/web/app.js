@@ -15,6 +15,7 @@ const state = {
   boards: { player: {}, opponent: {} }, // key "r_c" -> {unit, tier, items:[]}
   model: "vit",
   autoPredict: false,
+  loadedModels: new Set(), // backends already loaded server-side
 };
 
 let catalog = null;
@@ -25,6 +26,8 @@ let traitsByName = {};
 const $ = (sel) => document.querySelector(sel);
 const cellKey = (r, c) => `${r}_${c}`;
 const costVar = (cost) => `var(${COST_COLORS[Math.min(cost || 1, 6)]})`;
+// Special units (dummy, Atakhan, …) have no meaningful cost: neutral colour.
+const unitCostVar = (u) => (u.special ? "var(--c1)" : costVar(u.cost));
 
 /* ------------------------------------------------------------------ *
  * Boot
@@ -97,8 +100,7 @@ function renderBoards() {
       hex.draggable = !!cell;
       if (!cell) return;
       const u = unitsByApi[cell.unit] || {};
-      const cost = u.cost || 1;
-      hex.style.setProperty("--cost-color", costVar(cost));
+      hex.style.setProperty("--cost-color", unitCostVar(u));
 
       const portrait = document.createElement("img");
       portrait.className = "unit-portrait";
@@ -230,6 +232,24 @@ function wireEvents() {
     state.boards = { player: {}, opponent: {} };
     afterEdit();
   });
+  $("#swap-boards").addEventListener("click", () => {
+    // Swapping perspectives rotates the matchup 180°: each unit keeps its
+    // battlefield position (frontline stays next to the divider, left becomes
+    // right), so the cells must be point-mirrored, not copied as-is.
+    const mirror = (board) => {
+      const out = {};
+      for (const [key, cell] of Object.entries(board)) {
+        const [r, c] = key.split("_").map(Number);
+        out[cellKey(ROWS - 1 - r, COLS - 1 - c)] = cell;
+      }
+      return out;
+    };
+    state.boards = {
+      player: mirror(state.boards.opponent),
+      opponent: mirror(state.boards.player),
+    };
+    afterEdit();
+  });
   document.querySelectorAll("[data-clear]").forEach((b) =>
     b.addEventListener("click", () => {
       state.boards[b.dataset.clear] = {};
@@ -298,7 +318,7 @@ function renderUnitGrid() {
   grid.innerHTML = "";
   catalog.units
     .filter((u) => u.hasIcon)
-    .filter((u) => (costSel === "all" ? true : String(u.cost) === costSel))
+    .filter((u) => (costSel === "all" ? true : !u.special && String(u.cost) === costSel))
     .filter((u) => (u.name || u.apiName).toLowerCase().includes(q))
     .forEach((u) => grid.appendChild(makeUnitPick(u)));
 }
@@ -306,10 +326,12 @@ function renderUnitGrid() {
 function makeUnitPick(u) {
   const el = document.createElement("div");
   el.className = "pick";
-  el.style.setProperty("--cost-color", costVar(u.cost));
-  el.title = `${u.name} · ${u.cost}★ · ${(u.traits || []).join(", ")}`;
+  el.style.setProperty("--cost-color", unitCostVar(u));
+  const traits = (u.traits || []).join(", ");
+  el.title = u.special ? u.name : `${u.name} · ${u.cost}★${traits ? ` · ${traits}` : ""}`;
   el.draggable = true;
-  el.innerHTML = `<img src="${u.icon}" alt="${u.name}" draggable="false" /><span class="pick-cost">${u.cost}</span>`;
+  const costBadge = u.special ? "" : `<span class="pick-cost">${u.cost}</span>`;
+  el.innerHTML = `<img src="${u.icon}" alt="${u.name}" draggable="false" />${costBadge}`;
   el.addEventListener("dragstart", (e) =>
     e.dataTransfer.setData("application/json", JSON.stringify({ kind: "unit", apiName: u.apiName }))
   );
@@ -320,9 +342,11 @@ function buildItemFilter() {
   const wrap = $("#item-filter");
   const cats = [
     ["all", "All"],
+    ["component", "Components"],
     ["normal", "Items"],
     ["emblem", "Emblems"],
     ["artifact", "Artifacts"],
+    ["bilgewater", "Bilgewater"],
     ["radiant", "Radiant"],
   ];
   cats.forEach(([key, label], i) => {
@@ -339,10 +363,14 @@ function buildItemFilter() {
   });
 }
 
+// The catalog carries the category (classified from Community Dragon tags);
+// the regexes are only a fallback for a stale catalog.json.
 function itemCategory(it) {
+  if (it.category) return it.category;
   if (it.isEmblem) return "emblem";
-  if (/Artifact/i.test(it.apiName)) return "artifact";
-  if (/Radiant/i.test(it.apiName)) return "radiant";
+  if (/Artifact|Ornn|Shimmerscale|TheDarkin/i.test(it.apiName)) return "artifact";
+  if (/Radiant$/i.test(it.apiName)) return "radiant";
+  if (/Bilgewater_/i.test(it.apiName)) return "bilgewater";
   return "normal";
 }
 
@@ -386,21 +414,39 @@ function computeTraits(side) {
       if (trait) counts[trait] = (counts[trait] || 0) + 1;
     }
   }
-  const active = [];
+  const rows = [];
   for (const [name, count] of Object.entries(counts)) {
     const bps = traitsByName[name]?.breakpoints || [];
-    const reached = bps.filter((b) => count >= b);
-    if (reached.length > 0) {
-      active.push({ name, count, tierIndex: reached.length, maxTiers: bps.length });
-    }
+    const reached = bps.filter((b) => count >= b).length;
+    // Next breakpoint to aim for; sticks to the last one once maxed out.
+    const next = bps.find((b) => count < b) ?? bps[bps.length - 1] ?? count;
+    rows.push({
+      name,
+      count,
+      next,
+      tierIndex: reached,
+      maxTiers: bps.length,
+      active: reached > 0,
+      unique: !!traitsByName[name]?.unique || bps.length === 1,
+    });
   }
-  active.sort((a, b) => b.tierIndex - a.tierIndex || b.count - a.count);
-  return active;
+  // Active first (unique traits on top, then by tier/count); inactive after.
+  rows.sort(
+    (a, b) =>
+      b.active - a.active ||
+      (b.active && b.unique) - (a.active && a.unique) ||
+      b.tierIndex - a.tierIndex ||
+      b.count - a.count ||
+      a.name.localeCompare(b.name)
+  );
+  return rows;
 }
 
 function tierClass(t) {
-  const frac = t.tierIndex / t.maxTiers;
+  if (!t.active) return "tier-none";
+  if (t.unique) return "tier-unique"; // unique traits render gold, not prismatic
   if (t.tierIndex >= t.maxTiers) return "tier-prism";
+  const frac = t.tierIndex / t.maxTiers;
   if (frac >= 0.66) return "tier-gold";
   if (frac >= 0.33) return "tier-silver";
   return "tier-bronze";
@@ -409,19 +455,19 @@ function tierClass(t) {
 function renderTraits() {
   for (const side of ["player", "opponent"]) {
     const ul = $(`#traits-${side}`);
-    const active = computeTraits(side);
+    const rows = computeTraits(side);
     ul.innerHTML = "";
-    if (active.length === 0) {
-      ul.innerHTML = `<li class="trait-empty">No active traits</li>`;
+    if (rows.length === 0) {
+      ul.innerHTML = `<li class="trait-empty">No traits yet</li>`;
       continue;
     }
-    active.forEach((t) => {
+    rows.forEach((t) => {
       const li = document.createElement("li");
       li.className = "trait-row " + tierClass(t);
       const icon = traitsByName[t.name]?.icon;
       li.innerHTML = `${icon ? `<img src="${icon}" alt="" />` : ""}
         <span class="trait-name">${t.name}</span>
-        <span class="trait-count">${t.count}</span>`;
+        <span class="trait-count">${t.count}/${t.next}</span>`;
       ul.appendChild(li);
     });
   }
@@ -436,6 +482,7 @@ async function buildModelSelect() {
   try {
     const info = await fetch("api/models").then((r) => r.json());
     avail = info.available;
+    state.loadedModels = new Set(info.loaded || []);
   } catch {}
   const models = [
     ["vit", "ViT"],
@@ -461,10 +508,22 @@ async function buildModelSelect() {
   });
 }
 
+// The API expects each board in its OWN frame (row 0 = that side's frontline,
+// matching the raw-data "A1".."D7" locs). The player board is displayed in its
+// own frame already (top row = frontline, next to the divider), but the
+// opponent board is displayed from the player's point of view — rotated 180° —
+// so its screen coordinates must be point-mirrored back into its frame.
 function serializeBoard(side) {
+  const flip = side === "opponent";
   return Object.entries(state.boards[side]).map(([key, cell]) => {
     const [r, c] = key.split("_").map(Number);
-    return { unit: cell.unit, tier: cell.tier, items: cell.items, row: r, col: c };
+    return {
+      unit: cell.unit,
+      tier: cell.tier,
+      items: cell.items,
+      row: flip ? ROWS - 1 - r : r,
+      col: flip ? COLS - 1 - c : c,
+    };
   });
 }
 
@@ -475,18 +534,28 @@ async function predict() {
     return toast("Place some units first.");
   }
   const btn = $("#predict-btn");
+  const model = state.model;
+  const firstLoad = !state.loadedModels.has(model);
   btn.disabled = true;
-  btn.textContent = "Predicting…";
+  if (firstLoad) {
+    // The server loads model weights lazily: the first prediction with a
+    // backend also pays the load cost, so tell the user what is going on.
+    btn.textContent = "Loading model…";
+    toast(`Loading the ${model.toUpperCase()} model — the first prediction can take a moment.`);
+  } else {
+    btn.textContent = "Predicting…";
+  }
   try {
     const res = await fetch("api/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: state.model, player, opponent }),
+      body: JSON.stringify({ model, player, opponent }),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.detail || `HTTP ${res.status}`);
     }
+    state.loadedModels.add(model);
     showResult(await res.json());
   } catch (e) {
     toast("Prediction failed: " + e.message);

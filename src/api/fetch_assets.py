@@ -27,6 +27,53 @@ CDRAGON_GAME = "https://raw.communitydragon.org/latest/game/"
 UA = {"User-Agent": "Mozilla/5.0 (tft-round-prediction asset fetcher)"}
 SET_NUMBER = "16"
 
+# Community Dragon item tags. Most are hashed; these were identified by checking
+# which items carry them (every Ornn/Darkin/Shimmerscale artifact has the
+# artifact tag, every TFT5_*Radiant item has the radiant one).
+TAG_COMPONENT = "component"
+TAG_ARTIFACT = "{44ace175}"
+TAG_RADIANT = "{6ef5c598}"
+
+# In the UI catalog: placeholder "items" the game uses internally.
+HIDDEN_ITEMS = {"TFT_Item_Blank", "TFT_Item_EmptyBag"}
+# Non-placeable board entities the picker should not offer at all.
+HIDDEN_UNITS = {"TFT_ElderDragon", "TFT9_SLIME_Crab", "TFT16_MalzaharVoidling"}
+# Placeable but cost-less special units: listed after the regular roster.
+SPECIAL_UNITS = {
+    "TFT_BlueGolem",
+    "TFT_TrainingDummy",
+    "TFT16_Atakhan",
+    "TFT16_FreljordProp",
+    "TFT16_AnnieTibbers",
+    "TFT16_AzirUltSoldier",
+}
+
+# Display order of the item categories in the picker's "All" pane: normal
+# (full) items first, then components, emblems, artifacts, bilgewater, radiant.
+ITEM_CATEGORY_ORDER = (
+    "normal",
+    "component",
+    "emblem",
+    "artifact",
+    "bilgewater",
+    "radiant",
+)
+
+
+def _item_category(api_name: str, tags: list[str]) -> str:
+    """Classify an item for the UI picker (component/normal/emblem/...)."""
+    if api_name in EMBLEMS:
+        return "emblem"
+    if TAG_COMPONENT in tags:
+        return "component"
+    if api_name.startswith("TFT16_Item_Bilgewater_"):
+        return "bilgewater"
+    if TAG_RADIANT in tags or api_name.endswith("Radiant"):
+        return "radiant"
+    if TAG_ARTIFACT in tags or "_Artifact_" in api_name:
+        return "artifact"
+    return "normal"
+
 
 def _get(url: str, timeout: int = 60) -> bytes:
     req = urllib.request.Request(url, headers=UA)
@@ -73,6 +120,8 @@ def fetch_assets(max_workers: int = 16) -> None:
     jobs: list[tuple[str, Path]] = []  # (url, dest)
     unit_catalog: list[dict] = []
     for api_name in unit_vocab:
+        if api_name in HIDDEN_UNITS:
+            continue
         champ = champions.get(api_name)
         info = UNITS.get(api_name, {})
         icon_rel = f"assets/units/{api_name}.png"
@@ -89,11 +138,14 @@ def fetch_assets(max_workers: int = 16) -> None:
                 "traits": info.get("traits", (champ or {}).get("traits", [])),
                 "icon": icon_rel,
                 "hasIcon": bool(champ),
+                "special": api_name in SPECIAL_UNITS,
             }
         )
 
     item_catalog: list[dict] = []
     for api_name in item_list:
+        if api_name in HIDDEN_ITEMS:
+            continue
         it = items.get(api_name)
         dest = items_dir / f"{api_name}.png"
         if it and it.get("icon"):
@@ -103,6 +155,7 @@ def fetch_assets(max_workers: int = 16) -> None:
                 "apiName": api_name,
                 "name": (it or {}).get("name") or api_name,
                 "icon": f"assets/items/{api_name}.png",
+                "category": _item_category(api_name, (it or {}).get("tags") or []),
                 "isEmblem": api_name in EMBLEMS,
                 "emblemTrait": EMBLEMS.get(api_name),
                 "hasIcon": bool(it and it.get("icon")),
@@ -120,6 +173,8 @@ def fetch_assets(max_workers: int = 16) -> None:
             {
                 "name": name,
                 "breakpoints": sorted(bps),
+                # Single-breakpoint traits are the "unique" ones (1-of / duo traits).
+                "unique": len(bps) == 1,
                 "icon": f"assets/traits/{safe}.png",
                 "hasIcon": bool(meta and meta.get("icon")),
             }
@@ -135,8 +190,16 @@ def fetch_assets(max_workers: int = 16) -> None:
 
     catalog = {
         "set": SET_NUMBER,
-        "units": sorted(unit_catalog, key=lambda u: (u["cost"] or 99, u["name"])),
-        "items": item_catalog,
+        # Regular roster by cost, special (cost-less) units at the end.
+        "units": sorted(
+            unit_catalog, key=lambda u: (u["special"], u["cost"] or 99, u["name"])
+        ),
+        # Grouped by category so the picker's "All" pane reads component ->
+        # normal -> emblem -> artifact -> bilgewater -> radiant.
+        "items": sorted(
+            item_catalog,
+            key=lambda i: (ITEM_CATEGORY_ORDER.index(i["category"]), i["name"]),
+        ),
         "traits": trait_catalog,
     }
     config.CATALOG_PATH.write_text(json.dumps(catalog, indent=2))

@@ -16,7 +16,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
 from src.api import config
-from src.api.predictor import available_models, get_predictor
+from src.api.predictor import available_models, get_predictor, loaded_models
 from src.api.schema import PredictRequest, PredictResponse
 
 DEVICE = os.environ.get("TRP_DEVICE", "cpu")
@@ -35,8 +35,12 @@ def create_app() -> FastAPI:
 
     @app.get("/api/models")
     def models() -> dict:
-        """Report available model backends and the active compute device."""
-        return {"available": available_models(), "device": DEVICE}
+        """Report available/loaded model backends and the active compute device."""
+        return {
+            "available": available_models(),
+            "loaded": loaded_models(),
+            "device": DEVICE,
+        }
 
     @app.post("/api/predict", response_model=PredictResponse)
     def predict(req: PredictRequest) -> PredictResponse:
