@@ -13,9 +13,9 @@ from lightning.pytorch.loggers import WandbLogger
 from optuna.integration import PyTorchLightningPruningCallback
 
 import wandb
-from src.cnn.data import TFTBoardDataModule
-from src.cnn.model import TFTCNN
-from src.utils.static_data import ITEMS, TRAITS, UNITS
+from src.training.cnn.data import TFTBoardDataModule
+from src.training.cnn.model import TFTCNN
+from src.training.utils.static_data import ITEMS, TRAITS, UNITS
 
 
 def objective(

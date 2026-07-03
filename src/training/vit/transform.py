@@ -5,10 +5,10 @@ import polars as pl
 import pyarrow.parquet as pq
 from tqdm import tqdm
 
-from src.baseline.transform import UNIT_INFO_DF
-from src.cnn.transform import assemble_tensors_numba, build_units_arrays
-from src.utils.static_data import EMBLEMS, PATCHES, TRAITS
-from src.utils.vocab import load_vocab
+from src.training.baseline.transform import UNIT_INFO_DF
+from src.training.cnn.transform import assemble_tensors_numba, build_units_arrays
+from src.training.utils.static_data import EMBLEMS, PATCHES, TRAITS
+from src.training.utils.vocab import load_vocab
 
 UNIT_VOCAB = load_vocab("data/set16/static/vocabulary/unit_vocab.json")
 ITEM_VOCAB = load_vocab("data/set16/static/vocabulary/item_vocab.json")

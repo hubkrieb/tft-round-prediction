@@ -21,7 +21,7 @@ class TFTBoardDataset(Dataset):
 
     Args:
         data_path (str): Directory containing the per-array .npy files
-            (x_units.npy, x_traits.npy, y.npy).
+            (x_units.npy, x_traits.npy, x_patch.npy, y.npy).
 
     The memmaps are opened lazily on first access rather than in ``__init__``.
     This matters on Windows, where ``DataLoader(num_workers>0)`` spawns workers
@@ -32,19 +32,24 @@ class TFTBoardDataset(Dataset):
     shares the OS page cache and nothing is loaded eagerly.
     """
 
-    def __init__(self, data_path: str, transform_prob: float = 0.5):
+    def __init__(
+        self, data_path: str, transform_prob: float = 0.5, lambda_: float = 0.1
+    ):
         self.data_dir = Path(data_path)
         self.transform_prob = transform_prob
+        self.lambda_ = lambda_
 
-        # Read only y (small, one value per sample) to derive length, then drop
-        # it so it is not part of the pickled state.
-        y = np.load(self.data_dir / "y.npy", mmap_mode="r")
-        self._len = y.shape[0]
-        del y
+        # Read only x_patch (small, one int per sample) to derive length and the
+        # latest patch id, then drop it so it is not part of the pickled state.
+        x_patch = np.load(self.data_dir / "x_patch.npy", mmap_mode="r")
+        self._len = x_patch.shape[0]
+        self.latest_patch_id = int(x_patch.max())
+        del x_patch
 
         # Opened lazily per process in _ensure_open(); never pickled.
         self._X_units: np.memmap | None = None
         self._X_traits: np.memmap | None = None
+        self._X_patch: np.memmap | None = None
         self._y: np.memmap | None = None
 
     def _ensure_open(self) -> None:
@@ -52,6 +57,7 @@ class TFTBoardDataset(Dataset):
         if self._X_units is None:
             self._X_units = np.load(self.data_dir / "x_units.npy", mmap_mode="r")
             self._X_traits = np.load(self.data_dir / "x_traits.npy", mmap_mode="r")
+            self._X_patch = np.load(self.data_dir / "x_patch.npy", mmap_mode="r")
             self._y = np.load(self.data_dir / "y.npy", mmap_mode="r")
 
     def __getstate__(self) -> dict:
@@ -59,6 +65,7 @@ class TFTBoardDataset(Dataset):
         state = self.__dict__.copy()
         state["_X_units"] = None
         state["_X_traits"] = None
+        state["_X_patch"] = None
         state["_y"] = None
         return state
 
@@ -70,10 +77,11 @@ class TFTBoardDataset(Dataset):
 
         PyTorch's map-style fetcher calls ``__getitems__`` with the full list of
         indices for the batch when it is defined (``Subset`` forwards it too), so
-        all per-sample Python overhead — one memmap read, ``np.array`` copy and
-        tensor build per item, then a stacking collate — collapses into a single
-        fancy-index gather and one augmentation pass over the batch. Returned
-        tensors are already stacked, so the DataLoader uses ``_identity_collate``.
+        all per-sample Python overhead — one memmap read, ``np.array`` copy,
+        scalar ``exp`` and tensor build per item, then a stacking collate —
+        collapses into a single fancy-index gather, one ``exp`` and one
+        augmentation pass over the batch. Returned tensors are already stacked,
+        so the DataLoader uses ``_identity_collate``.
         """
         self._ensure_open()
         idx = np.asarray(indices)
@@ -82,12 +90,17 @@ class TFTBoardDataset(Dataset):
         # contiguous copy out of the (read-only) memmap.
         x_units = torch.from_numpy(self._X_units[idx].astype(np.int32, copy=False))
         x_traits = torch.from_numpy(self._X_traits[idx].astype(np.int8))
+        patch_ids = self._X_patch[idx].astype(np.int64, copy=False)
         y = torch.from_numpy(self._y[idx].astype(np.float32))
+
+        x_patch = torch.from_numpy(patch_ids.astype(np.int8))
+        age = self.latest_patch_id - patch_ids
+        w = torch.from_numpy(np.exp(-self.lambda_ * age).astype(np.float32))
 
         if self.transform_prob > 0:
             self._augment(x_units, x_traits, y)
 
-        return x_units, x_traits, y
+        return x_units, x_traits, x_patch, w, y
 
     def _augment(
         self, x_units: torch.Tensor, x_traits: torch.Tensor, y: torch.Tensor
@@ -114,8 +127,8 @@ class TFTBoardDataset(Dataset):
 
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, ...]:
         # Single source of truth: reuse the batched path for one element.
-        x_units, x_traits, y = self.__getitems__([idx])
-        return x_units[0], x_traits[0], y[0]
+        x_units, x_traits, x_patch, w, y = self.__getitems__([idx])
+        return x_units[0], x_traits[0], x_patch[0], w[0], y[0]
 
 
 class TFTBoardDataModule(L.LightningDataModule):
@@ -152,7 +165,7 @@ class TFTBoardDataModule(L.LightningDataModule):
         """Create chronological train/val/test splits.
 
         Extraction saves the feature arrays already sorted by ``timestamp``
-        ascending (:func:`src.cnn.transform.sort_features_by_timestamp` runs as
+        ascending (:func:`src.training.vit.transform.sort_features_by_timestamp` runs as
         the last step of extraction), so the chronological split is just a
         contiguous slice: the oldest ``train_split`` go to train, the next
         ``val_split`` to val, and the most recent remainder to test. This is a
@@ -170,14 +183,14 @@ class TFTBoardDataModule(L.LightningDataModule):
             raise FileNotFoundError(
                 f"{ts_path} not found; the chronological split needs per-row "
                 "timestamps. Re-extract features with "
-                "src.cnn.transform.extract_tensors."
+                "src.training.vit.transform.extract_tensors."
             )
         timestamps = np.load(ts_path)
         if timestamps.size > 1 and not bool(np.all(timestamps[:-1] <= timestamps[1:])):
             raise ValueError(
                 f"{ts_path} is not monotonically non-decreasing; the saved feature "
                 "arrays must be globally timestamp-sorted for the chronological split. "
-                "Run src.cnn.transform.sort_features_by_timestamp(feature_path)."
+                "Run src.training.vit.transform.sort_features_by_timestamp(feature_path)."
             )
 
         n = len(train_dataset)

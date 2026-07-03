@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import polars as pl
 
-from src.cnn.transform import (
+from src.training.cnn.transform import (
     C_IDX,
     CHANNELS,
     COLS,
@@ -111,7 +111,7 @@ def test_assemble_tensors_numba() -> None:
     assert tensors[0, 0, 3, 6] == 2
 
 
-@patch("src.cnn.transform.extract_traits_one_hot")
+@patch("src.training.cnn.transform.extract_traits_one_hot")
 def test_extract_tensors(mock_extract_traits_one_hot: MagicMock) -> None:
     """Test the full extraction pipeline over structured game data."""
     mock_extract_traits_one_hot.return_value = pl.DataFrame(

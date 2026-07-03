@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from src.cnn.data import TFTBoardDataset, _identity_collate
+from src.training.cnn.data import TFTBoardDataset, _identity_collate
 
 
 def _make_dataset(

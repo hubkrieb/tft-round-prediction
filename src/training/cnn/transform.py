@@ -7,8 +7,8 @@ import pyarrow.parquet as pq
 from numba import njit, prange
 from tqdm import tqdm
 
-from src.baseline.transform import UNIT_INFO_DF, extract_traits_one_hot
-from src.utils.vocab import load_vocab
+from src.training.baseline.transform import UNIT_INFO_DF, extract_traits_one_hot
+from src.training.utils.vocab import load_vocab
 
 UNIT_VOCAB = load_vocab("data/set16/static/vocabulary/unit_vocab.json")
 ITEM_VOCAB = load_vocab("data/set16/static/vocabulary/item_vocab.json")

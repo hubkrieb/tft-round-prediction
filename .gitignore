@@ -25,3 +25,10 @@ wandb/
 
 # Optuna DB
 *.db
+
+# Saved models
+models/
+
+# Downloaded frontend assets (regenerate with `trp fetch-assets`)
+src/web/assets/
+src/web/catalog.json

@@ -1,9 +1,14 @@
+import json
+from pathlib import Path
+
 import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report
 from xgboost import XGBClassifier
 
 
-def train_baseline(feature_path: str, test_size: float = 0.2) -> None:
+def train_baseline(
+    feature_path: str, test_size: float = 0.2, model_path: str | None = None
+) -> None:
     """
     Trains a baseline XGBoost model.
 
@@ -15,6 +20,10 @@ def train_baseline(feature_path: str, test_size: float = 0.2) -> None:
     Args:
         feature_path (str): Path to the input features.
         test_size (float): Fraction of the most recent rounds held out for test.
+        model_path (str | None): If given, the fitted model is saved to this path
+            (XGBoost JSON format) alongside a ``<stem>_features.json`` file holding
+            the exact ordered feature-column list. Both are needed to score new
+            boards at inference time. Defaults to ``models/baseline/xgboost.json``.
 
     """
     data = pd.read_parquet(feature_path)
@@ -57,3 +66,16 @@ def train_baseline(feature_path: str, test_size: float = 0.2) -> None:
     print("Feature importances (descending):")
     for name, score in feat_imp.items():
         print(f"{name}: {score:.6f}")
+
+    # Persist the fitted model plus its exact feature ordering so the inference
+    # API can rebuild the same wide feature vector for a user-supplied board.
+    if model_path is None:
+        model_path = "models/baseline/xgboost.json"
+    out = Path(model_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    model.save_model(str(out))
+    features_path = out.with_name(f"{out.stem}_features.json")
+    with open(features_path, "w") as f:
+        json.dump(list(feature_names), f)
+    print(f"\nSaved model -> {out}")
+    print(f"Saved feature order -> {features_path}")
