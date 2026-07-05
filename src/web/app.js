@@ -399,6 +399,7 @@ function wireEvents() {
     state.autoPredict = e.target.checked;
     if (state.autoPredict) predict();
   });
+  $("#random-board").addEventListener("click", loadRandomBoard);
   $("#clear-all").addEventListener("click", () => {
     state.boards = { player: {}, opponent: {} };
     afterEdit();
@@ -666,6 +667,52 @@ async function buildModelSelect() {
     });
     wrap.appendChild(btn);
   });
+}
+
+/* ------------------------------------------------------------------ *
+ * Pre-saved real boards (sample_boards.json, extracted from actual
+ * games with `trp extract-sample-boards`) — lets the models be tested
+ * on realistic positions in one click.
+ * ------------------------------------------------------------------ */
+let sampleBoards = null; // lazy-fetched on first use
+let lastSampleIdx = -1;
+
+// Inverse of serializeBoard: sample units are stored in each side's own frame
+// (row 0 = frontline), so the opponent side is point-mirrored back into
+// screen coordinates.
+function deserializeBoard(side, units) {
+  const flip = side === "opponent";
+  const out = {};
+  for (const u of units) {
+    const r = flip ? ROWS - 1 - u.row : u.row;
+    const c = flip ? COLS - 1 - u.col : u.col;
+    out[cellKey(r, c)] = { unit: u.unit, tier: u.tier, items: [...(u.items || [])] };
+  }
+  return out;
+}
+
+async function loadRandomBoard() {
+  if (!sampleBoards) {
+    try {
+      sampleBoards = (await fetch("data/sample_boards.json").then((r) => r.json())).boards;
+    } catch {
+      return toast("No sample boards found — run `trp extract-sample-boards`.");
+    }
+  }
+  if (!sampleBoards || sampleBoards.length === 0) {
+    return toast("No sample boards found — run `trp extract-sample-boards`.");
+  }
+  let idx = Math.floor(Math.random() * sampleBoards.length);
+  if (sampleBoards.length > 1 && idx === lastSampleIdx) {
+    idx = (idx + 1) % sampleBoards.length; // don't serve the same board twice in a row
+  }
+  lastSampleIdx = idx;
+  const b = sampleBoards[idx];
+  state.boards = {
+    player: deserializeBoard("player", b.player),
+    opponent: deserializeBoard("opponent", b.opponent),
+  };
+  afterEdit();
 }
 
 // The API expects each board in its OWN frame (row 0 = that side's frontline,

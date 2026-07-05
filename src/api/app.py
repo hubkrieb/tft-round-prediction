@@ -37,7 +37,9 @@ def create_app() -> FastAPI:
         """
         response = await call_next(request)
         path = request.url.path
-        if path == "/" or path.endswith((".html", ".js", ".css", "catalog.json")):
+        if path == "/" or path.endswith(
+            (".html", ".js", ".css", "catalog.json", "sample_boards.json")
+        ):
             response.headers["Cache-Control"] = "no-cache"
         return response
 

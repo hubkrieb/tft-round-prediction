@@ -16,7 +16,7 @@ src/
 ├── api/          # Inference backend (FastAPI): featurize a board and predict.
 │   ├── config.py, schema.py, featurize.py, predictor.py, app.py, fetch_assets.py
 ├── web/          # Frontend: the board-builder single-page app + downloaded icons.
-│   └── index.html, style.css, app.js, assets/, catalog.json
+│   └── index.html, style.css, app.js, assets/, catalog.json, data/
 └── cli.py        # `trp` command-line entrypoint for every stage.
 ```
 
@@ -42,7 +42,7 @@ This project uses uv for dependency management.
 
 ## Training
 
-All code under `src/training`. Each model follows the same two-step pattern —
+All code under `src/training`. Each model follows the same two-step pattern:
 extract features from the raw parquet into a feature directory, then train and
 evaluate on a chronological (oldest → train, newest → test) split.
 
@@ -101,20 +101,20 @@ Comparison of the different models evaluated on the test set.
 ## App
 
 An interactive board builder (`src/web`) backed by a FastAPI inference service
-(`src/api`). You build a matchup — units, items and star levels for both sides —
+(`src/api`). You build a matchup (units, items and star levels for both sides)
 and get the predicted win probability from any trained model. Board encoding
 reuses the exact training feature transforms, so a board built in the UI is
 featurized identically to the data the models were trained on.
 
 ### 1. Save a model
 
-- **XGBoost** — `train-baseline` saves the fitted model and its feature order:
+- **XGBoost** `train-baseline` saves the fitted model and its feature order:
 
   ```bash
   trp train-baseline -f data/set16/feature/baseline/set16.parquet -m models/baseline/xgboost.json
   ```
 
-- **CNN / ViT** — use any Lightning `.ckpt` produced by `train-cnn` / `train-vit`
+- **CNN / ViT** use any Lightning `.ckpt` produced by `train-cnn` / `train-vit`
   (the serving defaults point at the best ViT checkpoint).
 
 ### 2. Download the set 16 assets
@@ -126,7 +126,17 @@ The UI needs champion / item / trait icons. Fetch them from Community Dragon
 trp fetch-assets
 ```
 
-### 3. Serve the UI + API
+### 3. Extract sample boards (optional)
+
+The **🎲 random board** button loads a pre-saved board from real games so the
+models can be tested on realistic positions. A sample set is committed at
+`src/web/data/sample_boards.json`; regenerate it from the raw data with:
+
+```bash
+trp extract-sample-boards --raw-path data/set16/raw/merged_data.parquet
+```
+
+### 4. Serve the UI + API
 
 ```bash
 trp serve            # http://127.0.0.1:8000
@@ -134,13 +144,14 @@ trp serve            # http://127.0.0.1:8000
 
 Open the page, drag champions onto the hex grids for both sides, drop items onto
 units, hover a placed unit to set its star level, pick a model, and hit
-**Predict outcome**. Set the compute device with `TRP_DEVICE=cuda` (defaults to
+**Predict outcome** or hit **🎲 random board** to load a real board instead of
+building one. Set the compute device with `TRP_DEVICE=cuda` (defaults to
 `cpu`).
 
 ### API
 
-- `GET  /api/models` — which model backends are available on disk.
-- `POST /api/predict` — body: `{"model": "vit|cnn|xgboost", "player": [...], "opponent": [...]}`
+- `GET  /api/models` which model backends are available on disk.
+- `POST /api/predict` body: `{"model": "vit|cnn|xgboost", "player": [...], "opponent": [...]}`
   where each unit is `{"unit": "TFT16_Tristana", "tier": 2, "items": [...], "row": 0, "col": 0}`.
   Returns `{"model", "win_probability", "prediction"}`.
 

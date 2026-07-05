@@ -289,6 +289,30 @@ def fetch_assets_command(
     fetch_assets(max_workers=max_workers)
 
 
+@app.command(name="extract-sample-boards")
+def extract_sample_boards_command(
+    raw_path: str = typer.Option(
+        "data/set16/raw/merged_data.parquet",
+        "--raw-path",
+        "-r",
+        help="Path to the raw data parquet file",
+    ),
+    per_stage: int = typer.Option(
+        4, "--per-stage", help="Boards to keep per game stage"
+    ),
+    min_units: int = typer.Option(
+        6, "--min-units", help="Minimum units per side for a board to qualify"
+    ),
+) -> None:
+    """Sample real PVP boards into src/web/sample_boards.json for the UI."""
+    from src.api.sample_boards import extract_sample_boards
+
+    n = extract_sample_boards(
+        raw_path=raw_path, per_stage=per_stage, min_units=min_units
+    )
+    typer.echo(f"Wrote {n} sample boards to src/web/data/sample_boards.json")
+
+
 @app.command(name="serve")
 def serve_command(
     host: str = typer.Option("127.0.0.1", "--host", help="Host to bind"),
