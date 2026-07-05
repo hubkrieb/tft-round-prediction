@@ -298,10 +298,10 @@ def extract_sample_boards_command(
         help="Path to the raw data parquet file",
     ),
     per_stage: int = typer.Option(
-        4, "--per-stage", help="Boards to keep per game stage"
+        10, "--per-stage", help="Boards to keep per game stage"
     ),
     min_units: int = typer.Option(
-        6, "--min-units", help="Minimum units per side for a board to qualify"
+        3, "--min-units", help="Minimum units per side for a board to qualify"
     ),
 ) -> None:
     """Sample real PVP boards into src/web/sample_boards.json for the UI."""

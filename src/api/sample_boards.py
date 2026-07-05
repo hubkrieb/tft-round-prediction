@@ -17,7 +17,7 @@ import polars as pl
 
 from src.api.config import CATALOG_PATH, MAX_ITEMS, WEB_DIR, resolve
 
-DEFAULT_RAW_PATH = "data/set16/raw/merged_data.parquet"
+DEFAULT_RAW_PATH = "data/set16/raw/set16.parquet"
 SAMPLE_BOARDS_PATH = WEB_DIR / "data" / "sample_boards.json"
 
 _LOC_RE = re.compile(r"^[A-D][1-7]$")
@@ -59,8 +59,8 @@ def _convert_side(
 def extract_sample_boards(
     raw_path: str = DEFAULT_RAW_PATH,
     out_path: str | None = None,
-    per_stage: int = 4,
-    min_units: int = 6,
+    per_stage: int = 10,
+    min_units: int = 3,
     seed: int = 16,
 ) -> int:
     """Sample real PVP boards from the raw data and write the UI JSON.
