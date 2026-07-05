@@ -106,6 +106,8 @@ and get the predicted win probability from any trained model. Board encoding
 reuses the exact training feature transforms, so a board built in the UI is
 featurized identically to the data the models were trained on.
 
+![Board builder with a full matchup and the ViT-predicted win probability](assets/app_screen.png)
+
 ### 1. Save a model
 
 - **XGBoost** `train-baseline` saves the fitted model and its feature order:
