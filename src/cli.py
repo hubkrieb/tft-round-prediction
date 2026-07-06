@@ -52,7 +52,7 @@ def extract_baseline_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into features."""
-    from src.baseline.transform import extract_features
+    from src.training.baseline.transform import extract_features
 
     extract_features(raw_data_path=raw_path, feature_path=feature_path)
 
@@ -62,11 +62,17 @@ def train_baseline_command(
     feature_path: str | None = typer.Option(
         None, "--feature-path", "-f", help="Path to features parquet file"
     ),
+    model_path: str | None = typer.Option(
+        None,
+        "--model-path",
+        "-m",
+        help="Where to save the fitted model (defaults to models/baseline/xgboost.json)",
+    ),
 ) -> None:
     """Train round prediction XGBoost model."""
-    from src.baseline.train import train_baseline
+    from src.training.baseline.train import train_baseline
 
-    train_baseline(feature_path=feature_path)
+    train_baseline(feature_path=feature_path, model_path=model_path)
 
 
 @app.command(name="extract-cnn-features")
@@ -79,7 +85,7 @@ def extract_cnn_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
-    from src.cnn.transform import extract_tensors as extract_cnn_tensors
+    from src.training.cnn.transform import extract_tensors as extract_cnn_tensors
 
     extract_cnn_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
@@ -109,7 +115,7 @@ def train_cnn_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction CNN model."""
-    from src.cnn.train import train_cnn
+    from src.training.cnn.train import train_cnn
 
     train_cnn(
         feature_path=feature_path,
@@ -154,7 +160,7 @@ def hpo_cnn_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for CNN model."""
-    from src.cnn.hpo import run_optuna
+    from src.training.cnn.hpo import run_optuna
 
     run_optuna(
         feature_path=feature_path,
@@ -178,7 +184,7 @@ def extract_vit_feature_command(
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
-    from src.vit.transform import extract_tensors as extract_vit_tensors
+    from src.training.vit.transform import extract_tensors as extract_vit_tensors
 
     extract_vit_tensors(raw_data_path=raw_path, feature_path=feature_path)
 
@@ -211,7 +217,7 @@ def train_vit_command(
     trainer_kw: list[str] | None = TRAINER_KW,
 ) -> None:
     """Train round prediction ViT model."""
-    from src.vit.train import train_vit
+    from src.training.vit.train import train_vit
 
     train_vit(
         feature_path=feature_path,
@@ -257,7 +263,7 @@ def hpo_vit_command(
     ),
 ) -> None:
     """Run hyperparameter optimization for ViT model."""
-    from src.vit.hpo import run_optuna as run_optuna_vit
+    from src.training.vit.hpo import run_optuna as run_optuna_vit
 
     run_optuna_vit(
         feature_path=feature_path,
@@ -269,6 +275,56 @@ def hpo_vit_command(
         study_dir=study_dir,
         wandb_project=wandb_project,
     )
+
+
+@app.command(name="fetch-assets")
+def fetch_assets_command(
+    max_workers: int = typer.Option(
+        16, "--workers", "-w", help="Number of parallel download workers"
+    ),
+) -> None:
+    """Download set 16 champion/item/trait icons and build the UI catalog."""
+    from src.api.fetch_assets import fetch_assets
+
+    fetch_assets(max_workers=max_workers)
+
+
+@app.command(name="extract-sample-boards")
+def extract_sample_boards_command(
+    raw_path: str = typer.Option(
+        "data/set16/raw/merged_data.parquet",
+        "--raw-path",
+        "-r",
+        help="Path to the raw data parquet file",
+    ),
+    per_stage: int = typer.Option(
+        10, "--per-stage", help="Boards to keep per game stage"
+    ),
+    min_units: int = typer.Option(
+        3, "--min-units", help="Minimum units per side for a board to qualify"
+    ),
+) -> None:
+    """Sample real PVP boards into src/web/sample_boards.json for the UI."""
+    from src.api.sample_boards import extract_sample_boards
+
+    n = extract_sample_boards(
+        raw_path=raw_path, per_stage=per_stage, min_units=min_units
+    )
+    typer.echo(f"Wrote {n} sample boards to src/web/data/sample_boards.json")
+
+
+@app.command(name="serve")
+def serve_command(
+    host: str = typer.Option("127.0.0.1", "--host", help="Host to bind"),
+    port: int = typer.Option(8000, "--port", "-p", help="Port to bind"),
+    reload: bool = typer.Option(
+        False, "--reload", help="Enable auto-reload (development)"
+    ),
+) -> None:
+    """Serve the board-builder UI and prediction API."""
+    from src.api.app import serve
+
+    serve(host=host, port=port, reload=reload)
 
 
 if __name__ == "__main__":

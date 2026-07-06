@@ -2,9 +2,9 @@ from lightning import Trainer, seed_everything
 from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
 from lightning.pytorch.loggers import WandbLogger
 
-from src.cnn.data import TFTBoardDataModule
-from src.cnn.model import TFTCNN
-from src.utils.static_data import ITEMS, TRAITS, UNITS
+from src.training.cnn.data import TFTBoardDataModule
+from src.training.cnn.model import TFTCNN
+from src.training.utils.static_data import ITEMS, TRAITS, UNITS
 
 
 def train_cnn(

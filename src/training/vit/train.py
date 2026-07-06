@@ -6,9 +6,9 @@ from lightning.pytorch.callbacks import (
 )
 from lightning.pytorch.loggers import WandbLogger
 
-from src.utils.static_data import ITEMS, TRAITS, UNITS
-from src.vit.data import TFTBoardDataModule
-from src.vit.model import TFTViT
+from src.training.utils.static_data import ITEMS, TRAITS, UNITS
+from src.training.vit.data import TFTBoardDataModule
+from src.training.vit.model import TFTViT
 
 
 def train_vit(

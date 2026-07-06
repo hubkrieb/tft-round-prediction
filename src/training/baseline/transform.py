@@ -2,7 +2,7 @@ import polars as pl
 import pyarrow.parquet as pq
 from tqdm import tqdm
 
-from src.utils.static_data import TRAITS, UNITS
+from src.training.utils.static_data import TRAITS, UNITS
 
 # Number of parquet row groups to read per chunk. Tune this to balance memory
 # usage vs. overhead (matches the CNN/ViT extractors).

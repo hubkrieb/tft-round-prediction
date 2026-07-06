@@ -4,7 +4,7 @@ import torch.nn as nn
 from timm.models.vision_transformer import Block
 from torchmetrics import Accuracy
 
-from src.vit.positional_encoding import get_2d_sincos_pos_embed
+from src.training.vit.positional_encoding import get_2d_sincos_pos_embed
 
 
 class PatchEmbedding(nn.Module):

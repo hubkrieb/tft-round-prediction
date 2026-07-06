@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TFT Round Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23c8aa6e'/></svg>" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>TFT Round Predictor</h1>
+    </div>
+    <div class="topbar-actions">
+      <button id="random-board" class="btn btn-ghost" title="Load a random real board from actual games">🎲 random board</button>
+      <button id="clear-all" class="btn btn-ghost" title="Remove every unit from both boards">clear all</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Left: active traits -->
+    <aside class="panel traits-panel">
+      <h2>Traits</h2>
+      <div class="trait-cols">
+        <div>
+          <h3 class="side-label side-opponent">Opponent</h3>
+          <ul id="traits-opponent" class="trait-list"></ul>
+        </div>
+        <div>
+          <h3 class="side-label side-player">Player</h3>
+          <ul id="traits-player" class="trait-list"></ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: boards + prediction -->
+    <section class="board-area">
+      <div class="board-block">
+        <div class="board-head">
+          <span class="side-label side-opponent">Opponent board</span>
+          <button class="btn btn-ghost btn-sm" data-clear="opponent">clear</button>
+        </div>
+        <div id="board-opponent" class="hexboard" data-side="opponent"></div>
+      </div>
+
+      <div class="vs-divider">
+        <span>VS</span>
+        <button id="swap-boards" class="btn btn-ghost btn-sm" title="Swap the two boards">⇅ swap</button>
+      </div>
+
+      <div class="board-block">
+        <div class="board-head">
+          <span class="side-label side-player">Your board</span>
+          <button class="btn btn-ghost btn-sm" data-clear="player">clear</button>
+        </div>
+        <div id="board-player" class="hexboard" data-side="player"></div>
+      </div>
+
+      <div class="predict-bar">
+        <div class="model-select" id="model-select" role="radiogroup" aria-label="Model"></div>
+        <button id="predict-btn" class="btn btn-primary">Predict outcome</button>
+        <label class="auto-toggle"><input type="checkbox" id="auto-predict" /> auto</label>
+      </div>
+
+      <div id="result" class="result hidden">
+        <div class="result-head">
+          <span id="result-verdict" class="verdict"></span>
+          <span id="result-model" class="result-model"></span>
+        </div>
+        <div class="winbar">
+          <div id="winbar-fill" class="winbar-fill"></div>
+          <span id="winbar-label" class="winbar-label"></span>
+        </div>
+        <div class="winbar-legend">
+          <span class="side-player">your win chance</span>
+          <span class="side-opponent">opponent</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: pickers -->
+    <aside class="panel picker-panel">
+      <div class="picker-tabs">
+        <button class="tab active" data-tab="units">Units</button>
+        <button class="tab" data-tab="items">Items</button>
+      </div>
+
+      <div id="tab-units" class="tab-body">
+        <div class="picker-toolbar">
+          <input id="unit-search" class="search" type="text" placeholder="Search champions…" />
+          <div id="cost-filter" class="cost-filter"></div>
+        </div>
+        <div id="unit-grid" class="unit-grid"></div>
+      </div>
+
+      <div id="tab-items" class="tab-body hidden">
+        <div class="picker-toolbar">
+          <input id="item-search" class="search" type="text" placeholder="Search items…" />
+          <div id="item-filter" class="cost-filter"></div>
+        </div>
+        <div id="item-grid" class="item-grid"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>
