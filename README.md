@@ -2,6 +2,8 @@
 
 A machine learning project designed to predict the outcomes of combat rounds in Teamfight Tactics (TFT). This repository contains the full pipeline for raw data processing, feature engineering, and model training. It evaluates multiple machine learning architectures, ranging from a baseline tree-based model (XGBoost) to deep learning models (Convolutional Neural Networks and Vision Transformers). The models process comprehensive game states, including unit placements, item distributions, and active traits.
 
+![Board builder with a full matchup and the ViT-predicted win probability](assets/app_screen.png)
+
 ## Project structure
 
 The code is split into three clearly separated concerns:
@@ -105,8 +107,6 @@ An interactive board builder (`src/web`) backed by a FastAPI inference service
 and get the predicted win probability from any trained model. Board encoding
 reuses the exact training feature transforms, so a board built in the UI is
 featurized identically to the data the models were trained on.
-
-![Board builder with a full matchup and the ViT-predicted win probability](assets/app_screen.png)
 
 ### 1. Save a model
 
