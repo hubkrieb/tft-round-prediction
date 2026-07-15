@@ -39,6 +39,21 @@ trp = "src.cli:app"
 py-modules = ["src"]
 
 [dependency-groups]
+# Minimal runtime for the inference API (Docker/Lambda image). Installed alone
+# with `uv sync --only-group serve` — do NOT combine with the main deps, which
+# pull the full-fat `xgboost` that clashes with `xgboost-cpu`.
+serve = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "onnxruntime>=1.27.0",
+    "pandas>=2.3.3",
+    "polars>=1.35.2",
+    "pyarrow>=22.0.0",
+    "numba>=0.62.1",
+    "tqdm>=4.60.0",
+    "xgboost-cpu>=3.0",
+    "scikit-learn>=1.7.2",
+]
 dev = [
     "boto3>=1.43.48",
     "matplotlib>=3.11.0",
