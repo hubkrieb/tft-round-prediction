@@ -1,9 +1,15 @@
 from lightning import Trainer, seed_everything
-from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
+from lightning.pytorch.callbacks import (
+    EarlyStopping,
+    LearningRateMonitor,
+    ModelCheckpoint,
+)
 from lightning.pytorch.loggers import WandbLogger
 
+from src.api import config
 from src.training.cnn.data import TFTBoardDataModule
 from src.training.cnn.model import TFTCNN
+from src.training.utils.export import export_model
 from src.training.utils.static_data import ITEMS, TRAITS, UNITS
 
 
@@ -15,6 +21,7 @@ def train_cnn(
     pin_memory: bool = True,
     max_epochs: int = 100,
     seed: int = 54,
+    model_path: str | None = None,
     *,
     data_kwargs: dict | None = None,
     model_kwargs: dict | None = None,
@@ -33,6 +40,9 @@ def train_cnn(
             device/CUDA pinned memory before returning them.
         max_epochs (int): Maximum amount of training epochs.
         seed (int): Random seed for reproducibility.
+        model_path (str | None): Where to save the ONNX export of the best model
+            (a ``.ckpt`` copy is saved alongside with the same stem). Defaults
+            to the model the app serves, ``models/cnn/cnn.onnx``.
         data_kwargs (dict | None): Additional keyword arguments for the data module.
         model_kwargs (dict | None): Additional keyword arguments for the model.
         trainer_kwargs (dict | None): Additional keyword arguments for the trainer.
@@ -62,6 +72,13 @@ def train_cnn(
     callbacks = [
         EarlyStopping(monitor="val_loss", mode="min", patience=10),
         LearningRateMonitor(logging_interval="step"),
+        ModelCheckpoint(
+            monitor="val_loss",
+            mode="min",
+            save_top_k=1,
+            save_last=True,
+            filename="best-{epoch}-{val_loss:.4f}",
+        ),
     ]
 
     wandb_logger = WandbLogger(project="my-project")
@@ -77,3 +94,11 @@ def train_cnn(
     trainer.fit(model, datamodule=datamodule)
 
     trainer.test(model, ckpt_path="best", datamodule=datamodule)
+
+    if trainer.is_global_zero:
+        export_model(
+            model_cls=TFTCNN,
+            ckpt_path=trainer.checkpoint_callback.best_model_path,
+            model_path=config.resolve(model_path or config.DEFAULT_CNN_ONNX),
+            sample_batch=next(iter(datamodule.test_dataloader())),
+        )

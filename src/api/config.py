@@ -13,10 +13,8 @@ STAR_LEVELS = (1, 2, 3)
 # relative to it so the API works regardless of the process CWD.
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-# Default trained models, kept together under models/. The ViT checkpoint is the
-# one reported in the README (test accuracy 80.4%). Override any via the API / CLI.
-DEFAULT_VIT_CKPT = "models/vit/vit.ckpt"
-DEFAULT_CNN_CKPT = "models/cnn/cnn.ckpt"
+DEFAULT_VIT_ONNX = "models/vit/vit.onnx"
+DEFAULT_CNN_ONNX = "models/cnn/cnn.onnx"
 DEFAULT_XGB_MODEL = "models/baseline/xgboost.json"
 
 # Frontend lives in the sibling ``src/web`` package. The API serves it as static

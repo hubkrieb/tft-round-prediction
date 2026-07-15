@@ -110,6 +110,13 @@ def train_cnn_command(
     seed: int = typer.Option(
         54, "--seed", "-s", help="Random seed for reproducibility"
     ),
+    model_path: str | None = typer.Option(
+        None,
+        "--model-path",
+        "-m",
+        help="Where to save the ONNX export of the best model, with a .ckpt "
+        "copy alongside (defaults to models/cnn/cnn.onnx, the model the app serves)",
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -124,6 +131,7 @@ def train_cnn_command(
         num_workers=num_workers,
         max_epochs=max_epochs,
         seed=seed,
+        model_path=model_path,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),
@@ -212,6 +220,13 @@ def train_vit_command(
     ckpt_path: str | None = typer.Option(
         None, "--ckpt-path", "-c", help="Path to checkpoint to resume from"
     ),
+    model_path: str | None = typer.Option(
+        None,
+        "--model-path",
+        "-m",
+        help="Where to save the ONNX export of the best model, with a .ckpt "
+        "copy alongside (defaults to models/vit/vit.onnx, the model the app serves)",
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -227,6 +242,7 @@ def train_vit_command(
         max_epochs=max_epochs,
         seed=seed,
         ckpt_path=ckpt_path,
+        model_path=model_path,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),

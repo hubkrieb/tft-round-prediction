@@ -116,8 +116,10 @@ featurized identically to the data the models were trained on.
   trp train-baseline -f data/set16/feature/baseline/set16.parquet -m models/baseline/xgboost.json
   ```
 
-- **CNN / ViT** use any Lightning `.ckpt` produced by `train-cnn` / `train-vit`
-  (the serving defaults point at the best ViT checkpoint).
+- **CNN / ViT** `train-cnn` / `train-vit` automatically export the best model to
+  ONNX at the serving defaults (`models/cnn/cnn.onnx`, `models/vit/vit.onnx`),
+  with a Lightning `.ckpt` copy alongside for resuming / re-export. Use
+  `--model-path` to save elsewhere.
 
 ### 2. Download the set 16 assets
 
@@ -147,8 +149,11 @@ trp serve            # http://127.0.0.1:8000
 Open the page, drag champions onto the hex grids for both sides, drop items onto
 units, hover a placed unit to set its star level, pick a model, and hit
 **Predict outcome** or hit **🎲 random board** to load a real board instead of
-building one. Set the compute device with `TRP_DEVICE=cuda` (defaults to
-`cpu`).
+building one.
+
+Inference runs on ONNX Runtime — serving needs neither torch nor a GPU. It
+defaults to CPU; setting `TRP_DEVICE=cuda` requests the CUDA execution provider
+instead (requires the `onnxruntime-gpu` package).
 
 ### API
 

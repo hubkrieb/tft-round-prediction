@@ -6,6 +6,8 @@ from lightning.pytorch.callbacks import (
 )
 from lightning.pytorch.loggers import WandbLogger
 
+from src.api import config
+from src.training.utils.export import export_model
 from src.training.utils.static_data import ITEMS, TRAITS, UNITS
 from src.training.vit.data import TFTBoardDataModule
 from src.training.vit.model import TFTViT
@@ -20,6 +22,7 @@ def train_vit(
     max_epochs: int = 100,
     seed: int = 54,
     ckpt_path: str | None = None,
+    model_path: str | None = None,
     *,
     data_kwargs: dict | None = None,
     model_kwargs: dict | None = None,
@@ -39,6 +42,9 @@ def train_vit(
         max_epochs (int): Maximum amount of training epochs.
         seed (int): Random seed for reproducibility.
         ckpt_path (str | None): Path to a checkpoint to resume training from.
+        model_path (str | None): Where to save the ONNX export of the best model
+            (a ``.ckpt`` copy is saved alongside with the same stem). Defaults
+            to the model the app serves, ``models/vit/vit.onnx``.
         data_kwargs (dict | None): Additional keyword arguments for the data module.
         model_kwargs (dict | None): Additional keyword arguments for the model.
         trainer_kwargs (dict | None): Additional keyword arguments for the trainer.
@@ -92,3 +98,11 @@ def train_vit(
     trainer.fit(model, datamodule=datamodule, ckpt_path=ckpt_path)
 
     trainer.test(model, ckpt_path="best", datamodule=datamodule)
+
+    if trainer.is_global_zero:
+        export_model(
+            model_cls=TFTViT,
+            ckpt_path=trainer.checkpoint_callback.best_model_path,
+            model_path=config.resolve(model_path or config.DEFAULT_VIT_ONNX),
+            sample_batch=next(iter(datamodule.test_dataloader())),
+        )
