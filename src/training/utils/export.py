@@ -4,10 +4,11 @@ import shutil
 from pathlib import Path
 
 import torch
+from lightning import LightningModule
 
 
 def export_model(
-    model_cls: type,
+    model_cls: type[LightningModule],
     ckpt_path: str,
     model_path: str | Path,
     sample_batch: tuple[torch.Tensor, ...],

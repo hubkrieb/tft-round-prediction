@@ -1,5 +1,6 @@
 from lightning import Trainer, seed_everything
 from lightning.pytorch.callbacks import (
+    Callback,
     EarlyStopping,
     LearningRateMonitor,
     ModelCheckpoint,
@@ -71,16 +72,17 @@ def train_vit(
         **data_kwargs,
     )
 
-    callbacks = [
+    checkpoint_cb = ModelCheckpoint(
+        monitor="val_loss",
+        mode="min",
+        save_top_k=1,
+        save_last=True,
+        filename="best-{epoch}-{val_loss:.4f}",
+    )
+    callbacks: list[Callback] = [
         EarlyStopping(monitor="val_loss", mode="min", patience=5),
         LearningRateMonitor(logging_interval="step"),
-        ModelCheckpoint(
-            monitor="val_loss",
-            mode="min",
-            save_top_k=1,
-            save_last=True,
-            filename="best-{epoch}-{val_loss:.4f}",
-        ),
+        checkpoint_cb,
     ]
 
     wandb_logger = WandbLogger(project="tft-vit")
@@ -102,7 +104,7 @@ def train_vit(
     if trainer.is_global_zero:
         export_model(
             model_cls=TFTViT,
-            ckpt_path=trainer.checkpoint_callback.best_model_path,
+            ckpt_path=checkpoint_cb.best_model_path,
             model_path=config.resolve(model_path or config.DEFAULT_VIT_ONNX),
             sample_batch=next(iter(datamodule.test_dataloader())),
         )

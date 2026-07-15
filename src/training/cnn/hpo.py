@@ -108,7 +108,7 @@ def objective(
 
         trainer = Trainer(
             accelerator="auto",
-            devices=1 if torch.cuda.is_available() else None,
+            devices=1 if torch.cuda.is_available() else "auto",
             max_epochs=max_epochs,
             logger=wandb_logger,
             callbacks=[
@@ -134,7 +134,8 @@ def objective(
         return best_val
 
     except optuna.TrialPruned:
-        wandb.run.summary["state"] = "pruned"
+        if wandb.run is not None:
+            wandb.run.summary["state"] = "pruned"
         raise
 
     finally:

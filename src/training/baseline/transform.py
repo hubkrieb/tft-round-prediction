@@ -64,7 +64,7 @@ def extract_traits_one_hot(team_data: pl.DataFrame, team_name: str) -> pl.DataFr
     trait_counts = (
         team_data.explode("traits")
         .group_by("round_idx", "traits")
-        .count()
+        .len(name="count")
         .join(trait_bps_df, left_on="traits", right_on="trait", how="left")
     )
 
@@ -87,8 +87,8 @@ def extract_traits_one_hot(team_data: pl.DataFrame, team_name: str) -> pl.DataFr
             pl.lit(1).cast(pl.Int8).alias("value"),
         )
         .pivot(
+            "feature_name",
             index="round_idx",
-            columns="feature_name",
             values="value",
             aggregate_function="first",  # 'first' or 'max' will work
         )
@@ -172,10 +172,10 @@ def process_team_features(base_df: pl.DataFrame, team_name: str) -> pl.DataFrame
             ).alias("feature_name")
         )
         .pivot(
+            "feature_name",
             index="round_idx",
-            columns="feature_name",
             values="unit",
-            aggregate_function="count",
+            aggregate_function="len",
         )
         .fill_null(0)
     )
@@ -224,7 +224,7 @@ def _process_chunk(df: pl.DataFrame) -> pl.DataFrame | None:
             *FEATURE_KEYS``, or ``None`` if the chunk has no valid rows.
     """
     df = df.with_columns(
-        pl.arange(0, pl.count())
+        pl.arange(0, pl.len())
         .over(["match_uuid", "player_uuid", "round_name"])
         .alias("round_instance")
     ).with_columns(
@@ -312,6 +312,7 @@ def extract_features(raw_data_path: str, feature_path: str) -> pl.DataFrame:
     chunk_frames: list[pl.DataFrame] = []
     for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
         df = pl.from_arrow(pf.read_row_groups(batch))
+        assert isinstance(df, pl.DataFrame)  # from_arrow on a Table, never a Series
         result = _process_chunk(df)
         del df
         if result is not None:

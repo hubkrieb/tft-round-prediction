@@ -32,14 +32,14 @@ IS_PLAYER_IDX = 7
 FIELDS = 8
 
 
-def loc_to_rc(loc_str: str) -> tuple[int, int]:
+def loc_to_rc(loc_str: str | None) -> tuple[int, int]:
     """
     Convert loc strings like "A2", "A_2", "D_7" to (row, col) indices.
 
     Assumes rows A-D -> 0-3, cols 1-7 -> 0-6.
 
     Args:
-        loc_str (str): String representig the location of a unit
+        loc_str (str | None): String representig the location of a unit
 
     Returns:
         tuple[int, int]: The (x, y) position of the unit
@@ -153,7 +153,7 @@ def assemble_tensors_numba(
         np.ndarray: The assembled board data
     """
     tensors = np.zeros((n_samples, CHANNELS, 2 * ROWS, COLS), dtype=np.int32)
-    for i in prange(n_samples):
+    for i in prange(n_samples):  # ty: ignore[not-iterable]
         cnt = counts[i]
         for k in range(cnt):
             r = units_all[i, k, R_IDX]
@@ -191,7 +191,7 @@ def _process_chunk(df: pl.DataFrame) -> dict | None:
             'timestamps', 'outcome', or ``None`` if the chunk has no valid rows.
     """
     df = df.with_columns(
-        pl.arange(0, pl.count())
+        pl.arange(0, pl.len())
         .over(["match_uuid", "player_uuid", "round_name"])
         .alias("round_instance")
     ).with_columns(
@@ -316,6 +316,7 @@ def extract_tensors(
     for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
         table = pf.read_row_groups(batch)
         df = pl.from_arrow(table)
+        assert isinstance(df, pl.DataFrame)  # from_arrow on a Table, never a Series
         del table
 
         result = _process_chunk(df)

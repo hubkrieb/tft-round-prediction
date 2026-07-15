@@ -1,6 +1,8 @@
 import lightning as L
 import torch
 import torch.nn as nn
+from lightning.pytorch.loggers import WandbLogger
+from lightning.pytorch.utilities.types import OptimizerLRScheduler
 from timm.models.vision_transformer import Block
 from torchmetrics import Accuracy
 
@@ -204,7 +206,9 @@ class TFTViT(L.LightningModule):
         logit = self.mlp(cls_output)
         return logit.squeeze(1)
 
-    def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def training_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
@@ -212,7 +216,9 @@ class TFTViT(L.LightningModule):
         self.log("train_loss", loss, prog_bar=True)
         return loss
 
-    def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def validation_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
@@ -230,7 +236,9 @@ class TFTViT(L.LightningModule):
         )
         return loss
 
-    def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def test_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, _, _, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy_with_logits(x_hat, y)
@@ -247,7 +255,9 @@ class TFTViT(L.LightningModule):
         )
         return loss
 
-    def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> torch.Tensor:  # noqa: D102
+    def predict_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, _, _, _ = batch
         return torch.sigmoid(self.forward(x_units, x_traits))
 
@@ -257,7 +267,7 @@ class TFTViT(L.LightningModule):
     def on_test_epoch_end(self) -> None:  # noqa: D102
         self.test_accuracy.reset()
 
-    def configure_optimizers(self) -> dict:  # noqa: D102
+    def configure_optimizers(self) -> OptimizerLRScheduler:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
         def lr_lambda(step: int) -> float:  # noqa: ANN202
@@ -275,7 +285,8 @@ class TFTViT(L.LightningModule):
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
-        self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
+        if isinstance(self.logger, WandbLogger):
+            self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
         return {
             "optimizer": optimizer,
             "lr_scheduler": {
@@ -286,4 +297,7 @@ class TFTViT(L.LightningModule):
         }
 
     def on_fit_start(self) -> None:  # noqa: D102
-        self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size
+        # `Trainer.datamodule` is attached dynamically, so ty can't see it.
+        datamodule = getattr(self.trainer, "datamodule", None)
+        if isinstance(self.logger, WandbLogger) and datamodule is not None:
+            self.logger.experiment.config["batch_size"] = datamodule.batch_size

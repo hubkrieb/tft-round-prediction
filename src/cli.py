@@ -44,11 +44,11 @@ def parse_kv_options(values: list[str] | None) -> dict:
 
 @app.command(name="extract-baseline-features")
 def extract_baseline_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features parquet file"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Path to features parquet file"
     ),
 ) -> None:
     """Transform raw TFT round data into features."""
@@ -59,8 +59,8 @@ def extract_baseline_feature_command(
 
 @app.command(name="train-baseline")
 def train_baseline_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features parquet file"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Path to features parquet file"
     ),
     model_path: str | None = typer.Option(
         None,
@@ -77,11 +77,11 @@ def train_baseline_command(
 
 @app.command(name="extract-cnn-features")
 def extract_cnn_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory for features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
@@ -92,8 +92,8 @@ def extract_cnn_feature_command(
 
 @app.command(name="train-cnn")
 def train_cnn_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         512, "--batch-size", "-b", help="Batch size to use for training"
@@ -140,8 +140,8 @@ def train_cnn_command(
 
 @app.command(name="hpo-cnn")
 def hpo_cnn_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"
@@ -184,11 +184,11 @@ def hpo_cnn_command(
 
 @app.command(name="extract-vit-features")
 def extract_vit_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory for features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
@@ -199,8 +199,8 @@ def extract_vit_feature_command(
 
 @app.command(name="train-vit")
 def train_vit_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         1024, "--batch-size", "-b", help="Batch size to use for training"
@@ -251,8 +251,8 @@ def train_vit_command(
 
 @app.command(name="hpo-vit")
 def hpo_vit_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"

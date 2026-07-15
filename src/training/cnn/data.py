@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset, Subset
 
 
-def _identity_collate(batch: tuple) -> tuple:
+def _identity_collate[T](batch: T) -> T:
     """Pass a pre-collated batch straight through.
 
     ``TFTBoardDataset.__getitems__`` already returns stacked batch tensors, so
@@ -76,6 +76,11 @@ class TFTBoardDataset(Dataset):
         tensors are already stacked, so the DataLoader uses ``_identity_collate``.
         """
         self._ensure_open()
+        assert (
+            self._X_units is not None
+            and self._X_traits is not None
+            and self._y is not None
+        )
         idx = np.asarray(indices)
 
         # One fancy-index gather per array: each yields a fresh, writable,
@@ -112,9 +117,9 @@ class TFTBoardDataset(Dataset):
 
         y[sel] = 1.0 - y[sel]
 
-    def __getitem__(self, idx: int) -> tuple[torch.Tensor, ...]:
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, ...]:
         # Single source of truth: reuse the batched path for one element.
-        x_units, x_traits, y = self.__getitems__([idx])
+        x_units, x_traits, y = self.__getitems__([index])
         return x_units[0], x_traits[0], y[0]
 
 

@@ -1,6 +1,8 @@
 import lightning as L
 import torch
 import torch.nn as nn
+from lightning.pytorch.loggers import WandbLogger
+from lightning.pytorch.utilities.types import OptimizerLRScheduler
 from torchmetrics import Accuracy
 
 
@@ -115,50 +117,58 @@ class TFTCNN(L.LightningModule):
         prob = torch.sigmoid(logit)  # win probability
         return prob.squeeze(1)
 
-    def training_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def training_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
         self.log("train_loss", loss, prog_bar=True)
         return loss
 
-    def validation_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def validation_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
 
         preds = (x_hat > 0.5).int()
 
-        self.val_accuracy.update(preds, y.int())
+        self.val_accuracy.update(preds, y.int())  # ty: ignore[invalid-argument-type]
 
         self.log("val_accuracy", self.val_accuracy, prog_bar=True)
         self.log("val_loss", loss, prog_bar=True)
         return loss
 
-    def test_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def test_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, y = batch
         x_hat = self.forward(x_units, x_traits)
         loss = nn.functional.binary_cross_entropy(x_hat, y)
 
         preds = (x_hat > 0.5).int()
 
-        self.test_accuracy.update(preds, y.int())
+        self.test_accuracy.update(preds, y.int())  # ty: ignore[invalid-argument-type]
 
         self.log("test_loss", loss)
         return loss
 
-    def predict_step(self, batch: tuple[torch.Tensor], batch_idx: int) -> float:  # noqa: D102
+    def predict_step(  # noqa: D102
+        self, batch: tuple[torch.Tensor, ...], batch_idx: int
+    ) -> torch.Tensor:
         x_units, x_traits, _ = batch
         return self.forward(x_units, x_traits)
 
     def on_test_epoch_end(self) -> None:  # noqa: D102
-        acc = self.test_accuracy.compute()
+        acc = self.test_accuracy.compute()  # ty: ignore[missing-argument]
 
         self.log("test_accuracy", acc)
 
         self.test_accuracy.reset()
 
-    def configure_optimizers(self) -> torch.optim.Optimizer:  # noqa: D102
+    def configure_optimizers(self) -> OptimizerLRScheduler:  # noqa: D102
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
 
         total_steps = self.trainer.estimated_stepping_batches
@@ -183,7 +193,8 @@ class TFTCNN(L.LightningModule):
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
-        self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
+        if isinstance(self.logger, WandbLogger):
+            self.logger.experiment.config["optimizer"] = optimizer.__class__.__name__
         return {
             "optimizer": optimizer,
             "lr_scheduler": {
@@ -194,4 +205,7 @@ class TFTCNN(L.LightningModule):
         }
 
     def on_fit_start(self) -> None:  # noqa: D102
-        self.logger.experiment.config["batch_size"] = self.trainer.datamodule.batch_size
+        # `Trainer.datamodule` is attached dynamically, so ty can't see it.
+        datamodule = getattr(self.trainer, "datamodule", None)
+        if isinstance(self.logger, WandbLogger) and datamodule is not None:
+            self.logger.experiment.config["batch_size"] = datamodule.batch_size

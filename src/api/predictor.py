@@ -57,7 +57,7 @@ class _OnnxPredictor(Predictor):
 
     def _run(self, x_units: np.ndarray, x_traits: np.ndarray) -> float:
         out = self.session.run(None, {"x_units": x_units, "x_traits": x_traits})
-        return float(out[0][0])
+        return float(np.asarray(out[0])[0])
 
 
 class VitPredictor(_OnnxPredictor):

@@ -180,7 +180,7 @@ def add_patch_ids(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def _process_chunk(df: pl.DataFrame, patch_df: pl.DataFrame) -> dict:
+def _process_chunk(df: pl.DataFrame, patch_df: pl.DataFrame) -> dict | None:
     """
     Process a single chunk of raw data through the full feature pipeline.
 
@@ -189,13 +189,13 @@ def _process_chunk(df: pl.DataFrame, patch_df: pl.DataFrame) -> dict:
         patch_df (pl.DataFrame): Patch lookup table.
 
     Returns:
-        dict: Dictionary with keys 'tensors', 'trait_features', 'patch_ids',
-              'outcome', 'round_idx'.
+        dict | None: Dictionary with keys 'tensors', 'trait_features', 'patch_ids',
+            'outcome', 'round_idx', or ``None`` if the chunk has no valid rows.
     """
     df = add_patch_ids(df, patch_df)
 
     df = df.with_columns(
-        pl.arange(0, pl.count())
+        pl.arange(0, pl.len())
         .over(["match_uuid", "player_uuid", "round_name"])
         .alias("round_instance")
     ).with_columns(
@@ -285,7 +285,7 @@ def _process_chunk(df: pl.DataFrame, patch_df: pl.DataFrame) -> dict:
 
 def extract_tensors(
     raw_data_path: str, feature_path: str
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Extracts and processes features from raw game data and saves them as per-array .npy files.
 
@@ -302,7 +302,8 @@ def extract_tensors(
             chronological train/val/test split.
 
     Returns:
-        tuple[np.ndarray, np.ndarray]: The board tensors and the round outcomes.
+        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: The board tensors,
+            trait features, patch ids and round outcomes.
 
     """
     patch_df = build_patch_df()
@@ -325,6 +326,7 @@ def extract_tensors(
     for batch in tqdm(group_batches, desc="Processing chunks", unit="chunk"):
         table = pf.read_row_groups(batch)
         df = pl.from_arrow(table)
+        assert isinstance(df, pl.DataFrame)  # from_arrow on a Table, never a Series
         del table
 
         result = _process_chunk(df, patch_df)
