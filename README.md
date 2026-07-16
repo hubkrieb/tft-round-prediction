@@ -31,9 +31,16 @@ src/
 
 This project uses uv for dependency management.
 
-1. Install dependencies:
+1. Install dependencies, choosing a torch backend via an extra — `cu130`
+   (CUDA 13.0, for GPU training machines) or `cpu` (CI and machines without
+   CUDA). The two extras are mutually exclusive, and a bare `uv sync` installs
+   an unpinned PyPI torch, so always pass one of them:
    ```bash
-   uv sync
+   # GPU (CUDA 13.0) training machine
+   uv sync --extra cu130
+
+   # CPU-only (CI, no CUDA)
+   uv sync --extra cpu
    ```
 2. Activate the virtual environment:
    ```bash

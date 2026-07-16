@@ -18,9 +18,7 @@ dependencies = [
     "requests>=2.32.5",
     "numba>=0.62.1",
     "lightning>=2.5.6",
-    "torch>=2.9.1",
     "wandb>=0.23.0",
-    "torchvision>=0.24.1",
     "optuna>=4.6.0",
     "optuna-integration[lightning]>=4.6.0",
     "timm>=1.0.24",
@@ -30,6 +28,20 @@ dependencies = [
     "joblib>=1.5.0",
     "onnx>=1.17",
     "onnxruntime>=1.27.0",
+]
+
+# Torch backend is an explicit choice: `uv sync --extra cu130` (GPU training
+# machines) or `uv sync --extra cpu` (CI, machines without CUDA). The two are
+# mutually exclusive (see [tool.uv] conflicts); bare `uv sync` resolves torch
+# transitively from PyPI, so always pass one of the extras.
+[project.optional-dependencies]
+cpu = [
+    "torch>=2.9.1",
+    "torchvision>=0.24.1",
+]
+cu130 = [
+    "torch>=2.9.1",
+    "torchvision>=0.24.1",
 ]
 
 [project.scripts]
@@ -63,13 +75,28 @@ dev = [
     "ty>=0.0.59",
 ]
 
+[tool.uv]
+conflicts = [
+    [
+        { extra = "cpu" },
+        { extra = "cu130" },
+    ],
+]
+
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cu130" },
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu130", extra = "cu130" },
 ]
 torchvision = [
-    { index = "pytorch-cu130" },
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu130", extra = "cu130" },
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cu130"
