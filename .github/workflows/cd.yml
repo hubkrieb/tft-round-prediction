@@ -1,0 +1,61 @@
+name: CD
+
+
+permissions:
+  id-token: write
+  contents: read
+
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+
+env:
+  AWS_REGION: eu-west-3
+  ECR_REPOSITORY: tft/tft-round-prediction
+  LAMBDA_FUNCTION: tft-round-prediction
+  MODELS_BUCKET: tft-round-prediction
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Mask registry hostname in logs
+        run: echo "::add-mask::${{ steps.ecr.outputs.registry }}"
+
+      - name: Download model artifacts
+        run: aws s3 cp "s3://$MODELS_BUCKET/models/" models/ --recursive
+
+      - name: Build and push image
+        env:
+          IMAGE: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+        run: |
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+
+      - name: Deploy to Lambda
+        env:
+          IMAGE: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+        run: |
+          aws lambda update-function-code --function-name "$LAMBDA_FUNCTION" --image-uri "$IMAGE" > /dev/null
+          aws lambda wait function-updated-v2 --function-name "$LAMBDA_FUNCTION"

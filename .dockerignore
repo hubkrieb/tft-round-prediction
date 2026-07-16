@@ -8,6 +8,6 @@
 !data/set16/static
 !models/vit/vit.onnx
 !models/cnn/cnn.onnx
-!models/baseline/xgboost.json
-!models/baseline/xgboost_features.json
+!models/xgboost/xgboost.json
+!models/xgboost/xgboost_features.json
 src/**/__pycache__

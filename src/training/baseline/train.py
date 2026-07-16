@@ -23,7 +23,7 @@ def train_baseline(
         model_path (str | None): If given, the fitted model is saved to this path
             (XGBoost JSON format) alongside a ``<stem>_features.json`` file holding
             the exact ordered feature-column list. Both are needed to score new
-            boards at inference time. Defaults to ``models/baseline/xgboost.json``.
+            boards at inference time. Defaults to ``models/xgboost/xgboost.json``.
 
     """
     data = pd.read_parquet(feature_path)
@@ -70,7 +70,7 @@ def train_baseline(
     # Persist the fitted model plus its exact feature ordering so the inference
     # API can rebuild the same wide feature vector for a user-supplied board.
     if model_path is None:
-        model_path = "models/baseline/xgboost.json"
+        model_path = "models/xgboost/xgboost.json"
     out = Path(model_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     model.save_model(str(out))

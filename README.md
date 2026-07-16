@@ -66,7 +66,7 @@ Takes the list of units, traits and the total board cost as input.
 trp extract-baseline-features --raw-path path/to/raw/data --feature-path path/to/features
 
 # Train & evaluate (optionally save the model for the app with -m)
-trp train-baseline --feature-path path/to/features -m models/baseline/xgboost.json
+trp train-baseline --feature-path path/to/features -m models/xgboost/xgboost.json
 ```
 
 ### CNN
@@ -136,7 +136,7 @@ featurized identically to the data the models were trained on.
 - **XGBoost** `train-baseline` saves the fitted model and its feature order:
 
   ```bash
-  trp train-baseline -f data/set16/feature/baseline/set16.parquet -m models/baseline/xgboost.json
+  trp train-baseline -f data/set16/feature/baseline/set16.parquet -m models/xgboost/xgboost.json
   ```
 
 - **CNN / ViT** `train-cnn` / `train-vit` automatically export the best model to
