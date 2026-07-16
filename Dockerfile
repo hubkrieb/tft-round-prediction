@@ -26,7 +26,7 @@ COPY data/set16/static/ data/set16/static/
 # Serving models only — the Lightning .ckpt checkpoints stay out of the image.
 COPY models/vit/vit.onnx models/vit/
 COPY models/cnn/cnn.onnx models/cnn/
-COPY models/baseline/xgboost.json models/baseline/xgboost_features.json models/baseline/
+COPY models/xgboost/xgboost.json models/xgboost/xgboost_features.json models/xgboost/
 
 # PYTHONDONTWRITEBYTECODE: Lambda's filesystem is read-only outside /tmp.
 # AWS_LWA_READINESS_CHECK_PATH: the adapter polls this until the app is up.

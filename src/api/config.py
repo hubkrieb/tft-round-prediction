@@ -15,7 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 DEFAULT_VIT_ONNX = "models/vit/vit.onnx"
 DEFAULT_CNN_ONNX = "models/cnn/cnn.onnx"
-DEFAULT_XGB_MODEL = "models/baseline/xgboost.json"
+DEFAULT_XGB_MODEL = "models/xgboost/xgboost.json"
 
 # Frontend lives in the sibling ``src/web`` package. The API serves it as static
 # files, and ``fetch_assets`` writes the icons + catalog into it.

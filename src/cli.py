@@ -66,7 +66,7 @@ def train_baseline_command(
         None,
         "--model-path",
         "-m",
-        help="Where to save the fitted model (defaults to models/baseline/xgboost.json)",
+        help="Where to save the fitted model (defaults to models/xgboost/xgboost.json)",
     ),
 ) -> None:
     """Train round prediction XGBoost model."""
