@@ -26,8 +26,8 @@ jobs:
           enable-cache: true
           cache-suffix: lint
       - run: uv sync --only-group dev --locked
-      - run: uv run ruff check
-      - run: uv run ruff format --check --diff
+      - run: uv run --no-sync ruff check
+      - run: uv run --no-sync ruff format --check --diff
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -38,5 +38,5 @@ jobs:
           enable-cache: true
           cache-suffix: test
       - run: uv sync --extra cpu --locked
-      - run: uv run ty check
-      - run: uv run pytest
+      - run: uv run --no-sync ty check
+      - run: uv run --no-sync pytest
