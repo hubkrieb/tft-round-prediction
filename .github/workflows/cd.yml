@@ -21,7 +21,7 @@ env:
   AWS_REGION: eu-west-3
   ECR_REPOSITORY: tft/tft-round-prediction
   LAMBDA_FUNCTION: tft-round-prediction
-  MODELS_BUCKET: tft-round-prediction
+  S3_BUCKET: tft-round-prediction
 
 
 jobs:
@@ -42,7 +42,12 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Download model artifacts
-        run: aws s3 cp "s3://$MODELS_BUCKET/models/" models/ --recursive
+        run: aws s3 cp "s3://$S3_BUCKET/models/" models/ --recursive
+
+      - name: Download frontend assets
+        run: |
+          aws s3 cp "s3://$S3_BUCKET/web/assets/" src/web/assets/ --recursive
+          aws s3 cp "s3://$S3_BUCKET/web/catalog.json" src/web/catalog.json
 
       - name: Build and push image
         env:
