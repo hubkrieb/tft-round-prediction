@@ -36,12 +36,10 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+          mask-aws-account-id: true
 
       - id: ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Mask registry hostname in logs
-        run: echo "::add-mask::${{ steps.ecr.outputs.registry }}"
 
       - name: Download model artifacts
         run: aws s3 cp "s3://$MODELS_BUCKET/models/" models/ --recursive
