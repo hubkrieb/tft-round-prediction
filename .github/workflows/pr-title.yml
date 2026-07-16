@@ -1,0 +1,26 @@
+name: PR Title
+
+
+permissions:
+  pull-requests: read
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [ master ]
+
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
