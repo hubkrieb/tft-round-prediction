@@ -15,8 +15,13 @@ wheels/
 # Environment variables
 .env
 
-# Data folder
-data/
+# Data folder: ignored except the small static game data (vocabularies,
+# unit/item/trait catalogs) needed by the tests and the Docker image build.
+
+data/*
+!data/set16/
+data/set16/*
+!data/set16/static/
 
 # Training logs
 lightning_logs/

@@ -44,11 +44,11 @@ def parse_kv_options(values: list[str] | None) -> dict:
 
 @app.command(name="extract-baseline-features")
 def extract_baseline_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features parquet file"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Path to features parquet file"
     ),
 ) -> None:
     """Transform raw TFT round data into features."""
@@ -59,8 +59,8 @@ def extract_baseline_feature_command(
 
 @app.command(name="train-baseline")
 def train_baseline_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Path to features parquet file"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Path to features parquet file"
     ),
     model_path: str | None = typer.Option(
         None,
@@ -77,11 +77,11 @@ def train_baseline_command(
 
 @app.command(name="extract-cnn-features")
 def extract_cnn_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory for features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
@@ -92,8 +92,8 @@ def extract_cnn_feature_command(
 
 @app.command(name="train-cnn")
 def train_cnn_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         512, "--batch-size", "-b", help="Batch size to use for training"
@@ -110,6 +110,13 @@ def train_cnn_command(
     seed: int = typer.Option(
         54, "--seed", "-s", help="Random seed for reproducibility"
     ),
+    model_path: str | None = typer.Option(
+        None,
+        "--model-path",
+        "-m",
+        help="Where to save the ONNX export of the best model, with a .ckpt "
+        "copy alongside (defaults to models/cnn/cnn.onnx, the model the app serves)",
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -124,6 +131,7 @@ def train_cnn_command(
         num_workers=num_workers,
         max_epochs=max_epochs,
         seed=seed,
+        model_path=model_path,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),
@@ -132,8 +140,8 @@ def train_cnn_command(
 
 @app.command(name="hpo-cnn")
 def hpo_cnn_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"
@@ -176,11 +184,11 @@ def hpo_cnn_command(
 
 @app.command(name="extract-vit-features")
 def extract_vit_feature_command(
-    raw_path: str | None = typer.Option(
-        None, "--raw-path", "-r", help="Path to the raw data parquet file"
+    raw_path: str = typer.Option(
+        ..., "--raw-path", "-r", help="Path to the raw data parquet file"
     ),
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory for features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory for features .npy files"
     ),
 ) -> None:
     """Transform raw TFT round data into feature tensors."""
@@ -191,8 +199,8 @@ def extract_vit_feature_command(
 
 @app.command(name="train-vit")
 def train_vit_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     batch_size: int = typer.Option(
         1024, "--batch-size", "-b", help="Batch size to use for training"
@@ -212,6 +220,13 @@ def train_vit_command(
     ckpt_path: str | None = typer.Option(
         None, "--ckpt-path", "-c", help="Path to checkpoint to resume from"
     ),
+    model_path: str | None = typer.Option(
+        None,
+        "--model-path",
+        "-m",
+        help="Where to save the ONNX export of the best model, with a .ckpt "
+        "copy alongside (defaults to models/vit/vit.onnx, the model the app serves)",
+    ),
     data_kw: list[str] | None = DATA_KW,
     model_kw: list[str] | None = MODEL_KW,
     trainer_kw: list[str] | None = TRAINER_KW,
@@ -227,6 +242,7 @@ def train_vit_command(
         max_epochs=max_epochs,
         seed=seed,
         ckpt_path=ckpt_path,
+        model_path=model_path,
         data_kwargs=parse_kv_options(data_kw),
         model_kwargs=parse_kv_options(model_kw),
         trainer_kwargs=parse_kv_options(trainer_kw),
@@ -235,8 +251,8 @@ def train_vit_command(
 
 @app.command(name="hpo-vit")
 def hpo_vit_command(
-    feature_path: str | None = typer.Option(
-        None, "--feature-path", "-f", help="Directory of features .npy files"
+    feature_path: str = typer.Option(
+        ..., "--feature-path", "-f", help="Directory of features .npy files"
     ),
     n_trials: int = typer.Option(
         30, "--n-trials", "-n", help="Number of HPO trials to run"

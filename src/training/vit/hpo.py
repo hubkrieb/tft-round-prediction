@@ -3,6 +3,7 @@ import os
 
 import optuna
 import torch
+import wandb
 from lightning import Trainer, seed_everything
 from lightning.pytorch.callbacks import (
     EarlyStopping,
@@ -12,7 +13,6 @@ from lightning.pytorch.callbacks import (
 from lightning.pytorch.loggers import WandbLogger
 from optuna.integration import PyTorchLightningPruningCallback
 
-import wandb
 from src.training.utils.static_data import ITEMS, TRAITS, UNITS
 from src.training.vit.data import TFTBoardDataModule
 from src.training.vit.model import TFTViT
@@ -131,7 +131,7 @@ def objective(
 
         trainer = Trainer(
             accelerator="auto",
-            devices=1 if torch.cuda.is_available() else None,
+            devices=1 if torch.cuda.is_available() else "auto",
             max_epochs=max_epochs,
             logger=wandb_logger,
             callbacks=[
@@ -157,7 +157,8 @@ def objective(
         return best_val
 
     except optuna.TrialPruned:
-        wandb.run.summary["state"] = "pruned"
+        if wandb.run is not None:
+            wandb.run.summary["state"] = "pruned"
         raise
 
     finally:

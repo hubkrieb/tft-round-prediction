@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import torch
 
@@ -5,7 +7,7 @@ from src.training.cnn.data import TFTBoardDataset, _identity_collate
 
 
 def _make_dataset(
-    tmp_path: object, n: int = 4, n_traits: int = 6, transform_prob: float = 0.0
+    tmp_path: Path, n: int = 4, n_traits: int = 6, transform_prob: float = 0.0
 ) -> TFTBoardDataset:
     """Write minimal per-array .npy files and return a dataset over them."""
     np.save(tmp_path / "x_units.npy", np.zeros((n, 5, 8, 7), dtype=np.int32))
@@ -14,7 +16,7 @@ def _make_dataset(
     return TFTBoardDataset(str(tmp_path), transform_prob=transform_prob)
 
 
-def test_augment_inverts_y(tmp_path: object) -> None:
+def test_augment_inverts_y(tmp_path: Path) -> None:
     """With transform_prob=1.0 every row is rotated, so y is inverted."""
     ds = _make_dataset(tmp_path, transform_prob=1.0)
 
@@ -27,7 +29,7 @@ def test_augment_inverts_y(tmp_path: object) -> None:
     assert torch.equal(y, torch.tensor([0.0, 1.0]))
 
 
-def test_augment_swaps_trait_halves_even(tmp_path: object) -> None:
+def test_augment_swaps_trait_halves_even(tmp_path: Path) -> None:
     """The first and second half of the trait vector swap (player <-> opponent)."""
     ds = _make_dataset(tmp_path, transform_prob=1.0)
 
@@ -40,7 +42,7 @@ def test_augment_swaps_trait_halves_even(tmp_path: object) -> None:
     assert torch.equal(x_traits, torch.tensor([[4, 5, 6, 1, 2, 3]], dtype=torch.int8))
 
 
-def test_augment_swaps_trait_halves_odd(tmp_path: object) -> None:
+def test_augment_swaps_trait_halves_odd(tmp_path: Path) -> None:
     """Odd-length trait vectors rotate by n // 2 (matches the ViT augment)."""
     ds = _make_dataset(tmp_path, n_traits=5, transform_prob=1.0)
 
@@ -54,7 +56,7 @@ def test_augment_swaps_trait_halves_odd(tmp_path: object) -> None:
     assert torch.equal(x_traits, torch.tensor([[3, 4, 5, 1, 2]], dtype=torch.int8))
 
 
-def test_augment_rotates_units(tmp_path: object) -> None:
+def test_augment_rotates_units(tmp_path: Path) -> None:
     """Units are rotated 180° (flip on both spatial axes), per channel."""
     ds = _make_dataset(tmp_path, transform_prob=1.0)
 
@@ -69,7 +71,7 @@ def test_augment_rotates_units(tmp_path: object) -> None:
     assert torch.equal(x_units, expected)
 
 
-def test_augment_noop_when_unselected(tmp_path: object) -> None:
+def test_augment_noop_when_unselected(tmp_path: Path) -> None:
     """transform_prob=0 selects no rows, leaving the batch untouched."""
     ds = _make_dataset(tmp_path, transform_prob=0.0)
 
@@ -85,7 +87,7 @@ def test_augment_noop_when_unselected(tmp_path: object) -> None:
     assert y.item() == 1.0
 
 
-def test_getitem_and_getitems_shapes(tmp_path: object) -> None:
+def test_getitem_and_getitems_shapes(tmp_path: Path) -> None:
     """__getitem__ returns single samples; __getitems__ returns a stacked batch."""
     ds = _make_dataset(tmp_path, n=4, n_traits=6, transform_prob=0.0)
 

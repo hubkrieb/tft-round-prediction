@@ -52,4 +52,4 @@ def generate_static_data(
 
 
 if __name__ == "__main__":
-    generate_static_data(16)
+    generate_static_data(16, "data/set16/static")

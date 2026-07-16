@@ -20,7 +20,12 @@ select = [
     "TCH", # type-checking imports
     "ANN", # flake8-annotations
 ]
-ignore = ["D100", "D104", "D105", "D107", "D212", "ISC001", "ANN101", "ANN204"]
+ignore = ["D100", "D104", "D105", "D107", "D212", "ISC001", "ANN204"]
+
+[lint.isort]
+# A local (gitignored) wandb/ run-logs directory makes ruff auto-classify
+# `wandb` as first-party on dev machines; pin it so CI and local agree.
+known-third-party = ["wandb"]
 
 [lint.pydocstyle]
 convention = "google"

@@ -61,7 +61,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .brand { display: flex; align-items: baseline; gap: 14px; }
 .topbar h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: #f2f2f8; }
-.subtitle { margin: 0; font-size: 13px; color: #6f6f82; }
+.subtitle { margin: 0; font-family: var(--mono); font-size: 11px; color: #6f6f82; text-transform: uppercase; letter-spacing: 0.12em; }
 
 /* ---------- Layout ---------- */
 .layout {
@@ -334,7 +334,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   border-bottom: 2px solid transparent;
 }
 .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-.tab-body { padding: 16px; }
+.tab-body { padding: 16px; display: flex; flex-direction: column; height: calc(62vh + 120px); }
 .picker-toolbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
 .search {
   width: 100%; background: #111118; border: 1px solid rgba(255, 255, 255, 0.1);
@@ -351,7 +351,11 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 .hint { font-family: var(--mono); font-size: 10.5px; color: var(--text-faint); margin-bottom: 10px; line-height: 1.6; }
 
 .unit-grid, .item-grid {
-  display: grid; gap: 8px; max-height: 62vh; overflow-y: auto; padding-right: 4px;
+  display: grid; gap: 8px; flex: 1; min-height: 0; align-content: start;
+  /* explicit row size: with the definite flex height, `auto` rows and the
+     picks' aspect-ratio resolve circularly and the cells get distorted */
+  grid-auto-rows: min-content;
+  overflow-y: auto; padding-right: 4px;
   scrollbar-width: thin; scrollbar-color: #33334a transparent;
 }
 .unit-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); }
@@ -387,6 +391,32 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
 }
 
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 20px 32px 28px;
+  border-top: 1px solid var(--border);
+}
+.footer-disclaimer {
+  margin: 0;
+  max-width: 760px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-faint);
+}
+.footer-github {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--text-dim);
+  transition: color 0.15s ease;
+}
+.footer-github:hover { color: var(--gold); }
+
 /* Medium: board + pickers side by side, traits tucked under the board. */
 @media (max-width: 1180px) {
   .layout {
@@ -411,4 +441,5 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   .picker-panel { position: static; }
   .topbar { padding: 12px 16px; }
   .topbar h1 { font-size: 18px; }
+  .footer { flex-direction: column; gap: 14px; padding: 16px 16px 24px; text-align: center; }
 }

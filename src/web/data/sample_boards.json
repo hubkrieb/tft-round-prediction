@@ -1,0 +1,8609 @@
+{
+ "boards": [
+  {
+   "stage": "2-6",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Qiyana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Bard",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Milio",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "2-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Zoe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "2-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ChainVest"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BFSword",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "2-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Qiyana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GiantsBelt"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Qiyana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BFSword"
+     ],
+     "row": 1,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "2-5",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BFSword"
+     ],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_RecurveBow"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "2-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_NeedlesslyLargeRod"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Leblanc",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Viego",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "2-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "2-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Viego",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "2-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Zoe",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Leona",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "2-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 1,
+     "items": [
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "3-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yasuo",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "3-5",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_TitansResolve",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ekko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Jinx",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_GiantsBelt"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Vayne",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [
+      "TFT_Item_IonicSpark"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "3-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Aphelios",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Vayne",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "3-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Artifact_BlightingJewel"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Leona",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Quicksilver",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vayne",
+     "tier": 2,
+     "items": [
+      "TFT_Item_LastWhisper",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_RecurveBow"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Deathblade",
+      "TFT_Item_NegatronCloak"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "3-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Blitzcrank",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "3-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 1,
+     "items": [
+      "TFT5_Item_ThiefsGlovesRadiant",
+      "TFT5_Item_BlueBuffRadiant",
+      "TFT5_Item_DeathbladeRadiant"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_RecurveBow"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_Leviathan",
+      "TFT_Item_NegatronCloak"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Artifact_AegisOfDawn"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "3-5",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Bard",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 1,
+     "items": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_ArchangelsStaff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "3-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Viego",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Gwen",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_TheIndomitable",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "3-5",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_SparringGloves",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fizz",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 1,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_SteraksGage",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "3-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_RecurveBow",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 1,
+     "items": [
+      "TFT_Item_NegatronCloak"
+     ],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [
+      "TFT_Item_NightHarvester",
+      "TFT_Item_NegatronCloak",
+      "TFT16_Item_DemaciaEmblemItem"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "4-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_RedBuff",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Tryndamere",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_NoxusEmblemItem",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_FreljordEmblemItem"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Darius",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 2,
+     "items": [],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Blitzcrank",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Warwick",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_TitansResolve",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_ZaunEmblemItem",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_RapidfireEmblemItem",
+      "TFT16_Item_YordleEmblemItem"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Jinx",
+     "tier": 1,
+     "items": [
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "4-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 3,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Bard",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_BlueBuff",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_ChainVest"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Aphelios",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_DrMundo",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 1,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_RecurveBow",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Vayne",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "4-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_FreljordEmblemItem"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_BilgewaterEmblemItem"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_AnnieTibbers",
+     "tier": 1,
+     "items": [
+      "TFT_Item_IonicSpark",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Crownguard",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Gwen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kalista",
+     "tier": 2,
+     "items": [
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_BlueBuff",
+      "TFT_Item_BFSword"
+     ],
+     "row": 3,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "4-6",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lux",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Bard",
+     "tier": 3,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 3,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 3,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_Redemption",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "4-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_DrMundo",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Caitlyn",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Garen",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "4-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 1,
+     "items": [
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 2,
+     "items": [],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "4-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT16_Item_InvokerEmblemItem",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_DrMundo",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_StatikkShiv"
+     ],
+     "row": 3,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 1,
+     "items": [
+      "TFT_Item_TitansResolve"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Darius",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT16_TheDarkinBow"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Leblanc",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "4-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Leona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT5_Item_RedemptionRadiant"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Diana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Zilean",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Fizz",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Deathblade",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_SteraksGage",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_Deathblade",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Deathblade",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT16_Item_Bilgewater_CaptainsBrew",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "4-6",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_LudensTempest",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Zoe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Diana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_AurelionSol",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Leona",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_NightHarvester"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_BrawlerEmblemItem"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "4-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Tristana",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lulu",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Rumble",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Teemo",
+     "tier": 2,
+     "items": [
+      "TFT5_Item_AdaptiveHelmRadiant",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_ArchangelsStaff"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Fizz",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 2,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 1,
+     "items": [
+      "TFT_Item_LastWhisper",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 1,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_TitansResolve"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_NightHarvester"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Milio",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NightHarvester",
+      "TFT_Item_RedBuff",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 3,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_Leviathan",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [
+      "TFT_Item_IonicSpark",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Zilean",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_StatikkShiv"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Qiyana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Deathblade",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_DeadmansDagger",
+      "TFT_Item_BlueBuff",
+      "TFT16_Item_Bilgewater_LuckyEyepatch"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT16_Item_Bilgewater_FreebootersFrock",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [
+      "TFT16_TheDarkinBow",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 3,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_SteraksGage",
+      "TFT4_Item_OrnnZhonyasParadox"
+     ],
+     "row": 2,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_AnnieTibbers",
+     "tier": 2,
+     "items": [
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_BrambleVest",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT16_TheDarkinBow",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_SorcererEmblemItem",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sylas",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_Leviathan"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Morellonomicon",
+      "TFT16_Item_IoniaEmblemItem"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 1,
+     "items": [
+      "TFT5_Item_ThiefsGlovesRadiant",
+      "TFT5_Item_MorellonomiconRadiant",
+      "TFT5_Item_GuardianAngelRadiant"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_RedBuff",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT5_Item_ThiefsGlovesRadiant",
+      "TFT5_Item_RapidFirecannonRadiant",
+      "TFT5_Item_GuardianAngelRadiant"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_BlueBuff",
+      "TFT_Item_PowerGauntlet",
+      "TFT_Item_ThiefsGloves"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_AnnieTibbers",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_GunslingerEmblemItem"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_VoidEmblemItem",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_SorcererEmblemItem",
+      "TFT16_Item_IoniaEmblemItem",
+      "TFT16_Item_LongshotEmblemItem"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_IoniaEmblemItem"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT16_Item_IoniaEmblemItem",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Diana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_TitansResolve",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_ZaunEmblemItem"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Singed",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_MagusEmblemItem",
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_ArchangelsStaff"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_PiltoverEmblemItem",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "5-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_ChainVest",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kobuko",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Gwen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kalista",
+     "tier": 2,
+     "items": [
+      "TFT_Item_LastWhisper",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Thresh",
+     "tier": 1,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Thresh",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_RapidfireEmblemItem"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kalista",
+     "tier": 1,
+     "items": [
+      "TFT_Item_MadredsBloodrazor",
+      "TFT16_Item_RapidfireEmblemItem"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Viego",
+     "tier": 3,
+     "items": [
+      "TFT5_Item_GuardianAngelRadiant",
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_TitansResolve"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NightHarvester"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Gwen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Deathblade",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 1,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT9_Item_OrnnHullbreaker"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_LastWhisper",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_IonicSpark"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "5-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_RabadonsDeathcap",
+      "TFT16_Item_Bilgewater_LuckyEyepatch"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_BilgewaterEmblemItem",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_RecurveBow"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_WardenEmblemItem",
+      "TFT_Item_Crownguard",
+      "TFT16_Item_Bilgewater_BilgeratCutlass"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "5-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GiantsBelt"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 2,
+     "items": [
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 1,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_RedBuff",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 1,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Draven",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Aatrox",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 3,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_Quicksilver",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "6-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT9_Item_OrnnHorizonFocus",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Artifact_LichBane"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_LastWhisper",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 1,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "6-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT16_Item_IoniaEmblemItem",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Jhin",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [],
+     "row": 2,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_DemaciaEmblemItem",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Vayne",
+     "tier": 3,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Garen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_RedBuff",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    }
+   ]
+  },
+  {
+   "stage": "6-3",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 3,
+     "items": [
+      "TFT_Item_Quicksilver",
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Aatrox",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sion",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_RedBuff",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_SteraksGage",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "6-6",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Anivia",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_WitsEnd",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_Leviathan"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_Crownguard",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT4_Item_OrnnTheCollector",
+      "TFT_Item_Deathblade",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_StatikkShiv"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT16_Item_Bilgewater_PileOCitrus",
+      "TFT16_Item_Bilgewater_FreebootersFrock"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_RedBuff",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    }
+   ]
+  },
+  {
+   "stage": "6-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_RapidFireCannon"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT4_Item_OrnnZhonyasParadox",
+      "TFT16_Item_Bilgewater_PileOCitrus"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock",
+      "TFT_Item_BlueBuff",
+      "TFT16_Item_Bilgewater_DeadmansDagger"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NightHarvester",
+      "TFT_Item_Crownguard",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Artifact_LudensTempest",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 0,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 3,
+     "items": [
+      "TFT4_Item_OrnnDeathsDefiance",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 3,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_Redemption",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 3,
+     "items": [
+      "TFT_Item_Artifact_LichBane",
+      "TFT_Item_StatikkShiv",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT16_Item_Bilgewater_CaptainsBrew",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Deathblade",
+      "TFT_Item_Leviathan"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "6-3",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Leviathan",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_GiantsBelt",
+      "TFT_Item_Artifact_AegisOfDusk"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock",
+      "TFT16_Item_Bilgewater_CaptainsBrew"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_IonicSpark",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_BilgewaterEmblemItem",
+      "TFT_Item_Crownguard",
+      "TFT16_Item_RapidfireEmblemItem"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT16_Item_Bilgewater_FreebootersFrock",
+      "TFT16_Item_Bilgewater_PileOCitrus"
+     ],
+     "row": 0,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff",
+      "TFT_Item_NegatronCloak"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_DeadmansDagger",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock",
+      "TFT_Item_Artifact_RapidFirecannon"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT5_Item_SpectralGauntletRadiant",
+      "TFT_Item_BrambleVest",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Artifact_Fishbones"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Deathblade",
+      "TFT16_Item_RapidfireEmblemItem"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "6-5",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_RedBuff",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 3,
+     "items": [
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_Artifact_TitanicHydra",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_DeadmansDagger",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock",
+      "TFT16_Item_Bilgewater_BilgeratCutlass"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Quicksilver",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_RunaansHurricane",
+      "TFT9_Item_OrnnHorizonFocus"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_HellfireHatchet",
+      "TFT_Item_Redemption",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Artifact_SeekersArmguard",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_NavoriFlickerblades",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Crownguard",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ChainVest"
+     ],
+     "row": 0,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "6-5",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_BrambleVest",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_Bilgewater_CaptainsBrew",
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_Morellonomicon",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_PileOCitrus",
+      "TFT16_Item_Bilgewater_FreebootersFrock",
+      "TFT_Item_Artifact_VoidGauntlet"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 1,
+     "items": [
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 3,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_DragonsClaw",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Leviathan",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Quicksilver",
+      "TFT16_TheDarkinBow"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Aatrox",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_SteraksGage",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_LightshieldCrest",
+      "TFT_Item_DragonsClaw",
+      "TFT5_Item_BrambleVestRadiant"
+     ],
+     "row": 0,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "6-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_JarvanIV",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT16_Item_DemaciaEmblemItem"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Garen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_WarmogsArmor",
+      "TFT16_TheDarkinAegis",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Sona",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Lux",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 1,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT16_Item_InvokerEmblemItem",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_AnnieTibbers",
+     "tier": 1,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Poppy",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Deathblade",
+      "TFT16_Item_RapidfireEmblemItem"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff",
+      "TFT_Item_Artifact_AegisOfDawn"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_WardenEmblemItem",
+      "TFT_Item_Crownguard",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 1,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "6-5",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT16_Item_Bilgewater_FreebootersFrock",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 3,
+     "items": [
+      "TFT16_Item_BilgewaterEmblemItem",
+      "TFT_Item_Crownguard",
+      "TFT16_Item_Bilgewater_BlackmarketExplosives"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT5_Item_RapidFirecannonRadiant",
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT16_Item_BilgewaterEmblemItem"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Graves",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_BrawlerEmblemItem",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fizz",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RunaansHurricane",
+      "TFT16_Item_BilgewaterEmblemItem",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 3,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_FrozenHeart",
+      "TFT16_Item_JuggernautEmblemItem"
+     ],
+     "row": 0,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_Artifact_BlightingJewel",
+      "TFT_Item_Artifact_TalismanOfAscension"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 3,
+     "items": [
+      "TFT4_Item_OrnnDeathsDefiance",
+      "TFT_Item_WarmogsArmor",
+      "TFT4_Item_OrnnZhonyasParadox"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT9_Item_OrnnHullbreaker",
+      "TFT_Item_Artifact_TheIndomitable",
+      "TFT_Item_Artifact_Mittens"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [],
+     "row": 2,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_InvokerEmblemItem",
+      "TFT_Item_ForceOfNature",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT4_Item_OrnnTheCollector",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT16_TheDarkinBow",
+      "TFT_Item_Quicksilver",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_AegisOfDusk",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_InfinityEdge",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT16_Item_Bilgewater_PileOCitrus",
+      "TFT16_Item_Bilgewater_BilgeratCutlass"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_TitansResolve"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 0,
+     "col": 6
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [
+      "TFT_Item_Artifact_BlightingJewel",
+      "TFT_Item_ArchangelsStaff"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_LastWhisper",
+      "TFT16_Item_Bilgewater_DeadmansDagger"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT16_Item_Bilgewater_PileOCitrus",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_Artifact_VoidGauntlet",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SparringGloves"
+     ],
+     "row": 1,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Deathblade",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_RedBuff",
+      "TFT_Item_BrambleVest"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_Mittens",
+      "TFT_Item_Artifact_WitsEnd",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_Artifact_SilvermereDawn",
+      "TFT_Item_DragonsClaw"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 1
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_NightHarvester",
+      "TFT_Item_Quicksilver"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_RedBuff",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_IonicSpark",
+      "TFT16_Item_VoidEmblemItem"
+     ],
+     "row": 1,
+     "col": 2
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_Artifact_AegisOfDawn"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Illaoi",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_HextechGunblade"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_RedBuff",
+      "TFT16_Item_BrawlerEmblemItem"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT16_Item_Bilgewater_BilgeratCutlass"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_LichBane",
+      "TFT_Item_GuardianAngel",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Redemption",
+      "TFT16_Item_Bilgewater_PileOCitrus"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Fizz",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_LuckyEyepatch",
+      "TFT_Item_GuardianAngel",
+      "TFT16_Item_Bilgewater_CaptainsBrew"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_BlueBuff",
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT5_Item_ThiefsGlovesRadiant",
+      "TFT5_Item_AdaptiveHelmRadiant",
+      "TFT5_Item_TitansResolveRadiant"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Yorick",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Quicksilver",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Gwen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_Leviathan",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_BlueBuff",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ForceOfNature"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_TitansResolve",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Kalista",
+     "tier": 2,
+     "items": [
+      "TFT4_Item_OrnnTheCollector",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_BrambleVest",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT4_Item_OrnnZhonyasParadox",
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_PowerGauntlet"
+     ],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Thresh",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_JeweledGauntlet",
+      "TFT4_Item_OrnnDeathsDefiance"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Leviathan",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NegatronCloak"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuardianAngel",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 2,
+     "col": 2
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_InfinityEdge",
+      "TFT4_Item_OrnnTheCollector"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_TahmKench",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_PileOCitrus",
+      "TFT_Item_Redemption",
+      "TFT_Item_FrozenHeart"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_MissFortune",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_Bilgewater_BilgeratCutlass",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT16_Item_Bilgewater_FirstMatesFlintlock"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Deathblade",
+      "TFT_Item_Quicksilver",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_Quicksilver",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Volibear",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_EternalPact",
+      "TFT_Item_TearOfTheGoddess"
+     ],
+     "row": 2,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 3,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_RunaansHurricane"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_ArchangelsStaff",
+      "TFT7_Item_ShimmerscaleGamblersBlade"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TearOfTheGoddess"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NightHarvester",
+      "TFT7_Item_ShimmerscaleMogulsMail",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Deathblade",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "7-2",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_BrambleVest",
+      "TFT_Item_Artifact_LightshieldCrest"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ahri",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_BFSword"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Shen",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Wukong",
+     "tier": 2,
+     "items": [
+      "TFT_Item_NightHarvester",
+      "TFT_Item_RedBuff",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_XinZhao",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Kennen",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_HorizonFocus"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Yunara",
+     "tier": 2,
+     "items": [
+      "TFT4_Item_OrnnInfinityForce",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Artifact_NavoriFlickerblades"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Sett",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [
+      "TFT_Item_RecurveBow"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Sylas",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ForceOfNature",
+      "TFT5_Item_CrownguardRadiant",
+      "TFT_Item_GuardianAngel"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_Artifact_AegisOfDawn"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 1,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_Leviathan",
+      "TFT_Item_Artifact_Fishbones"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RabadonsDeathcap",
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_IonicSpark",
+      "TFT_Item_Artifact_SeekersArmguard",
+      "TFT_Item_RabadonsDeathcap"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_Crownguard",
+      "TFT4_Item_OrnnDeathsDefiance"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 3,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_Artifact_Mittens"
+     ],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT_Item_SpectralGauntlet",
+      "TFT_Item_RedBuff",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 3,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_InfinityEdge",
+      "TFT_Item_Deathblade",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 2,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff",
+      "TFT_Item_IonicSpark",
+      "TFT16_Item_BrawlerEmblemItem"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Bloodthirster",
+      "TFT_Item_TitansResolve",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RabadonsDeathcap"
+     ],
+     "row": 3,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_WarmogsArmor",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ThiefsGloves",
+      "TFT_Item_MadredsBloodrazor",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 1,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_KogMaw",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_BelVeth",
+     "tier": 2,
+     "items": [
+      "TFT_Item_LastWhisper"
+     ],
+     "row": 1,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_ChoGath",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_BaronNashor",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_SteraksGage"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_RekSai",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Malzahar",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kaisa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT5_Item_GuinsoosRagebladeRadiant"
+     ],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_RiftHerald",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Redemption",
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_WarmogsArmor"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_Morellonomicon"
+     ],
+     "row": 1,
+     "col": 4
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Neeko",
+     "tier": 3,
+     "items": [
+      "TFT_Item_FrozenHeart",
+      "TFT_Item_IonicSpark",
+      "TFT_Item_GargoyleStoneplate"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Lissandra",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Orianna",
+     "tier": 2,
+     "items": [
+      "TFT_Item_TacticiansScepter"
+     ],
+     "row": 2,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Skarner",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Milio",
+     "tier": 3,
+     "items": [
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Nidalee",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 1,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Brock",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_UnstableConcoction",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Bard",
+     "tier": 3,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT16_Item_InvokerEmblemItem"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  },
+  {
+   "stage": "7-2",
+   "outcome": "defeat",
+   "player": [
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_Crownguard",
+      "TFT_Item_Crownguard"
+     ],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 3,
+     "items": [
+      "TFT16_Item_Bilgewater_FreebootersFrock",
+      "TFT_Item_RedBuff",
+      "TFT_Item_SpectralGauntlet"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Briar",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Draven",
+     "tier": 3,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_MadredsBloodrazor"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_TwistedFate",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Gangplank",
+     "tier": 3,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT_Item_Quicksilver",
+      "TFT16_Item_Bilgewater_BilgeratCutlass"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT16_Item_RapidfireEmblemItem",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 1,
+     "items": [],
+     "row": 3,
+     "col": 5
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Braum",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_GargoyleStoneplate",
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [
+      "TFT16_Item_WardenEmblemItem"
+     ],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Kindred",
+     "tier": 2,
+     "items": [
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_RunaansHurricane",
+      "TFT_Item_GuinsoosRageblade"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sejuani",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_LastWhisper",
+      "TFT_Item_InfinityEdge"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_FreljordProp",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ashe",
+     "tier": 2,
+     "items": [
+      "TFT_Item_ArchangelsStaff",
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_Artifact_WitsEnd"
+     ],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Nautilus",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Loris",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Morellonomicon",
+      "TFT16_TheDarkinStaff",
+      "TFT_Item_JeweledGauntlet"
+     ],
+     "row": 1,
+     "col": 3
+    }
+   ]
+  },
+  {
+   "stage": "7-1",
+   "outcome": "victory",
+   "player": [
+    {
+     "unit": "TFT16_Seraphine",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SpearOfShojin",
+      "TFT_Item_GuinsoosRageblade",
+      "TFT_Item_Deathblade"
+     ],
+     "row": 3,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Ambessa",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [
+      "TFT_Item_AdaptiveHelm",
+      "TFT_Item_RapidFireCannon",
+      "TFT_Item_BlueBuff"
+     ],
+     "row": 3,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Sylas",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Crownguard",
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_Bloodthirster"
+     ],
+     "row": 0,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Vi",
+     "tier": 1,
+     "items": [],
+     "row": 0,
+     "col": 6
+    },
+    {
+     "unit": "TFT16_Taric",
+     "tier": 2,
+     "items": [],
+     "row": 0,
+     "col": 5
+    },
+    {
+     "unit": "TFT16_Swain",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_HorizonFocus"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_HextechGunblade",
+      "TFT_Item_Artifact_SilvermereDawn",
+      "TFT_Item_Artifact_HellfireHatchet"
+     ],
+     "row": 0,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 1,
+     "items": [
+      "TFT_Item_AdaptiveHelm"
+     ],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Atakhan",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 0
+    }
+   ],
+   "opponent": [
+    {
+     "unit": "TFT16_Annie",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Ornn",
+     "tier": 2,
+     "items": [
+      "TFT_Item_RedBuff"
+     ],
+     "row": 0,
+     "col": 1
+    },
+    {
+     "unit": "TFT_BlueGolem",
+     "tier": 3,
+     "items": [
+      "TFT5_Item_WarmogsArmorRadiant",
+      "TFT_Item_Artifact_TheIndomitable",
+      "TFT_Item_Redemption"
+     ],
+     "row": 0,
+     "col": 2
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 1,
+     "items": [],
+     "row": 2,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Shyvana",
+     "tier": 2,
+     "items": [
+      "TFT_Item_SteraksGage",
+      "TFT5_Item_SunfireCapeRadiant",
+      "TFT_Item_UnstableConcoction"
+     ],
+     "row": 0,
+     "col": 0
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 2,
+     "items": [],
+     "row": 3,
+     "col": 4
+    },
+    {
+     "unit": "TFT16_Mel",
+     "tier": 2,
+     "items": [
+      "TFT_Item_JeweledGauntlet",
+      "TFT_Item_Leviathan",
+      "TFT_Item_SpearOfShojin"
+     ],
+     "row": 3,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Annie",
+     "tier": 1,
+     "items": [],
+     "row": 1,
+     "col": 3
+    },
+    {
+     "unit": "TFT16_Fiddlesticks",
+     "tier": 2,
+     "items": [],
+     "row": 1,
+     "col": 1
+    },
+    {
+     "unit": "TFT16_Lucian",
+     "tier": 2,
+     "items": [
+      "TFT_Item_Artifact_Fishbones",
+      "TFT_Item_Artifact_NavoriFlickerblades",
+      "TFT_Item_Artifact_StatikkShiv"
+     ],
+     "row": 3,
+     "col": 0
+    }
+   ]
+  }
+ ]
+}

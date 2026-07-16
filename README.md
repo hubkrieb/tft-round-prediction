@@ -2,6 +2,8 @@
 
 A machine learning project designed to predict the outcomes of combat rounds in Teamfight Tactics (TFT). This repository contains the full pipeline for raw data processing, feature engineering, and model training. It evaluates multiple machine learning architectures, ranging from a baseline tree-based model (XGBoost) to deep learning models (Convolutional Neural Networks and Vision Transformers). The models process comprehensive game states, including unit placements, item distributions, and active traits.
 
+### Live demo available at: [tft-round-prediction.com](https://tft-round-prediction.com)
+
 ![Board builder with a full matchup and the ViT-predicted win probability](assets/app_screen.png)
 
 ## Project structure
@@ -29,9 +31,16 @@ src/
 
 This project uses uv for dependency management.
 
-1. Install dependencies:
+1. Install dependencies, choosing a torch backend via an extra — `cu130`
+   (CUDA 13.0, for GPU training machines) or `cpu` (CI and machines without
+   CUDA). The two extras are mutually exclusive, and a bare `uv sync` installs
+   an unpinned PyPI torch, so always pass one of them:
    ```bash
-   uv sync
+   # GPU (CUDA 13.0) training machine
+   uv sync --extra cu130
+
+   # CPU-only (CI, no CUDA)
+   uv sync --extra cpu
    ```
 2. Activate the virtual environment:
    ```bash
@@ -90,15 +99,29 @@ trp train-vit --feature-path path/to/features --batch-size 512 --model-kw dropou
 trp hpo-vit --feature-path path/to/features --n-trials 50
 ```
 
+### Data
+
+Each sample is one PVP combat round. both boards at round
+start (units, star levels, items, positions) plus the
+round outcome as a binary label. PVE and stage-1
+rounds, and rounds with missing boards or outcomes, are filtered out.
+
+- **Scale**: ~4.8M usable rounds from ~258k matches and ~1,500 tracked players.
+- **Coverage**: December 2025 – February 2026, patches 16.1 → 16.4. All regions.
+- **Split**: chronological 80/10/10 (oldest rounds train, newest 10% test) so
+  models are always evaluated on rounds played *after* everything they trained
+  on, never on shuffled future data.
+
 ### Results
 
-Comparison of the different models evaluated on the test set.
+Comparison of the different models, all evaluated on the same chronological
+test split (the newest 10% of rounds).
 
-| Model | Accuracy |
-| :--- | :---: |
-| **XGBoost** | 73.0% |
-| **CNN** | 79.1% |
-| **ViT** | 80.4% |
+| Model | ROC AUC | Accuracy | Log-loss | Brier |
+| :--- | :---: | :---: | :---: | :---: |
+| **XGBoost** | 0.802 | 0.722 | 0.537 | 0.181 |
+| **CNN** | 0.882 | 0.791 | 0.434 | 0.142 |
+| **ViT** | **0.907** | **0.819** | **0.381** | **0.124** |
 
 ## App
 
@@ -116,8 +139,10 @@ featurized identically to the data the models were trained on.
   trp train-baseline -f data/set16/feature/baseline/set16.parquet -m models/baseline/xgboost.json
   ```
 
-- **CNN / ViT** use any Lightning `.ckpt` produced by `train-cnn` / `train-vit`
-  (the serving defaults point at the best ViT checkpoint).
+- **CNN / ViT** `train-cnn` / `train-vit` automatically export the best model to
+  ONNX at the serving defaults (`models/cnn/cnn.onnx`, `models/vit/vit.onnx`),
+  with a Lightning `.ckpt` copy alongside for resuming / re-export. Use
+  `--model-path` to save elsewhere.
 
 ### 2. Download the set 16 assets
 
@@ -147,8 +172,11 @@ trp serve            # http://127.0.0.1:8000
 Open the page, drag champions onto the hex grids for both sides, drop items onto
 units, hover a placed unit to set its star level, pick a model, and hit
 **Predict outcome** or hit **🎲 random board** to load a real board instead of
-building one. Set the compute device with `TRP_DEVICE=cuda` (defaults to
-`cpu`).
+building one.
+
+Inference runs on ONNX Runtime, so serving needs neither torch nor a GPU. It
+defaults to CPU; setting `TRP_DEVICE=cuda` requests the CUDA execution provider
+instead (requires the `onnxruntime-gpu` package).
 
 ### API
 
@@ -156,6 +184,24 @@ building one. Set the compute device with `TRP_DEVICE=cuda` (defaults to
 - `POST /api/predict` body: `{"model": "vit|cnn|xgboost", "player": [...], "opponent": [...]}`
   where each unit is `{"unit": "TFT16_Tristana", "tier": 2, "items": [...], "row": 0, "col": 0}`.
   Returns `{"model", "win_probability", "prediction"}`.
+
+## Limitations
+
+- **Board-only inputs, no match context.** The models see units, star levels,
+  items, positions and traits, nothing else. Augments are invisible,
+  even though they can decide a fight.
+- **Combat RNG caps accuracy.** Crits, target selection and ability variance
+  mean identical boards can produce different outcomes, so no model can reach
+  100%.
+- **No damage information.** The raw data records only a binary win/loss per
+  round, not the damage inflicted. The models therefore cannot learn the richer
+  target used in the Riot references below, where combat is modeled as a
+  distribution over damage dealt, a formulation that captures how decisively
+  a board wins and from which win probability can be derived.
+- **Out-of-distribution boards.** The board builder accepts positions that
+  never occur in real games (illegal item stacks, unit counts no player level
+  allows). The models still return a confident probability for them, so treat
+  predictions on unrealistic hand-built boards with skepticism.
 
 ## References
 

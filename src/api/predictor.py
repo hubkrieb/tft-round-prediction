@@ -2,21 +2,23 @@
 
 Three backends share one interface (:meth:`Predictor.predict_proba`):
 
-* :class:`VitPredictor`  - loads a ViT ``.ckpt`` (board tensor + trait IDs).
-* :class:`CnnPredictor`  - loads a CNN ``.ckpt`` (board tensor + one-hot traits).
+* :class:`VitPredictor`  - loads a ViT ``.onnx`` (board tensor + trait IDs).
+* :class:`CnnPredictor`  - loads a CNN ``.onnx`` (board tensor + one-hot traits).
 * :class:`XgbPredictor`  - loads a saved XGBoost model (wide one-hot features).
 
-Models are loaded lazily and cached by (kind, path) so the API pays the load
-cost once. All default paths resolve against the repo root.
+The neural backends run on onnxruntime, so serving does not need torch or
+lightning at all. Models are loaded lazily and cached by (kind, path) so the
+API pays the load cost once. All default paths resolve against the repo root.
 """
 
 from __future__ import annotations
 
 import json
+import math
 from functools import cache
 from typing import TYPE_CHECKING
 
-import torch
+import numpy as np
 
 from src.api import config
 from src.api import featurize as F
@@ -33,52 +35,56 @@ class Predictor:
         raise NotImplementedError
 
 
-class VitPredictor(Predictor):
+class _OnnxPredictor(Predictor):
+    """Shared onnxruntime session handling for the ViT and CNN backends."""
+
+    #: CLI command that produces the missing .onnx file (set by subclasses).
+    train_cmd = ""
+
+    def __init__(self, model_path: str, device: str = "cpu") -> None:
+        import onnxruntime as ort
+
+        path = config.resolve(model_path)
+        if not path.exists():
+            raise FileNotFoundError(
+                f"ONNX model not found at {path}. Train it first with "
+                f"`{self.train_cmd}` (which also exports ONNX)."
+            )
+        providers = ["CPUExecutionProvider"]
+        if device != "cpu":
+            providers.insert(0, "CUDAExecutionProvider")
+        self.session = ort.InferenceSession(str(path), providers=providers)
+
+    def _run(self, x_units: np.ndarray, x_traits: np.ndarray) -> float:
+        out = self.session.run(None, {"x_units": x_units, "x_traits": x_traits})
+        return float(np.asarray(out[0])[0])
+
+
+class VitPredictor(_OnnxPredictor):
     """Vision-Transformer backend."""
 
-    def __init__(self, ckpt_path: str, device: str = "cpu") -> None:
-        from src.training.vit.model import TFTViT
+    train_cmd = "trp train-vit -f <features-dir>"
 
-        self.device = device
-        self.model = (
-            TFTViT.load_from_checkpoint(
-                str(config.resolve(ckpt_path)), map_location=device
-            )
-            .to(device)
-            .eval()
-        )
-
-    @torch.no_grad()
     def predict_proba(self, board: BoardState) -> float:
         """Return the ViT win probability for the matchup."""
-        x_units = torch.from_numpy(F.board_tensor(board)).long().to(self.device)
-        x_traits = torch.from_numpy(F.vit_trait_ids(board)).long().to(self.device)
-        logit = self.model(x_units, x_traits)
-        return float(torch.sigmoid(logit).item())
+        x_units = F.board_tensor(board).astype(np.int64)
+        x_traits = F.vit_trait_ids(board).astype(np.int64)
+        # The ViT graph outputs a logit; squash it to a probability.
+        logit = self._run(x_units, x_traits)
+        return 1.0 / (1.0 + math.exp(-logit))
 
 
-class CnnPredictor(Predictor):
+class CnnPredictor(_OnnxPredictor):
     """Convolutional backend."""
 
-    def __init__(self, ckpt_path: str, device: str = "cpu") -> None:
-        from src.training.cnn.model import TFTCNN
+    train_cmd = "trp train-cnn -f <features-dir>"
 
-        self.device = device
-        self.model = (
-            TFTCNN.load_from_checkpoint(
-                str(config.resolve(ckpt_path)), map_location=device
-            )
-            .to(device)
-            .eval()
-        )
-
-    @torch.no_grad()
     def predict_proba(self, board: BoardState) -> float:
         """Return the CNN win probability for the matchup."""
-        x_units = torch.from_numpy(F.board_tensor(board)).long().to(self.device)
-        x_traits = torch.from_numpy(F.cnn_trait_onehot(board)).float().to(self.device)
-        # TFTCNN.forward already applies the sigmoid and returns a win probability.
-        return float(self.model(x_units, x_traits).item())
+        x_units = F.board_tensor(board).astype(np.int64)
+        x_traits = F.cnn_trait_onehot(board).astype(np.float32)
+        # The CNN graph already applies the sigmoid and outputs a probability.
+        return self._run(x_units, x_traits)
 
 
 class XgbPredictor(Predictor):
@@ -110,8 +116,8 @@ class XgbPredictor(Predictor):
 
 _KINDS = ("vit", "cnn", "xgboost")
 _DEFAULT_PATHS = {
-    "vit": config.DEFAULT_VIT_CKPT,
-    "cnn": config.DEFAULT_CNN_CKPT,
+    "vit": config.DEFAULT_VIT_ONNX,
+    "cnn": config.DEFAULT_CNN_ONNX,
     "xgboost": config.DEFAULT_XGB_MODEL,
 }
 

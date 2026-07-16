@@ -1,0 +1,13 @@
+# Whitelist: the build context only needs the serving code, static game data
+# and exported models. Everything else (14 GB of raw data, wandb runs, ...)
+# stays out so builds are fast.
+*
+!pyproject.toml
+!uv.lock
+!src
+!data/set16/static
+!models/vit/vit.onnx
+!models/cnn/cnn.onnx
+!models/baseline/xgboost.json
+!models/baseline/xgboost_features.json
+src/**/__pycache__
