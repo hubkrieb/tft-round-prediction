@@ -61,7 +61,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .brand { display: flex; align-items: baseline; gap: 14px; }
 .topbar h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: #f2f2f8; }
-.subtitle { margin: 0; font-size: 13px; color: #6f6f82; }
+.subtitle { margin: 0; font-family: var(--mono); font-size: 11px; color: #6f6f82; text-transform: uppercase; letter-spacing: 0.12em; }
 
 /* ---------- Layout ---------- */
 .layout {
