@@ -1,0 +1,221 @@
+{
+    "Poison Pals": [
+        2
+    ],
+    "Ascendant": [
+        1
+    ],
+    "Freljord": [
+        3,
+        5,
+        7
+    ],
+    "Juggernaut": [
+        2,
+        4,
+        6
+    ],
+    "Quickstriker": [
+        2,
+        3,
+        4,
+        5
+    ],
+    "Longshot": [
+        2,
+        3,
+        4,
+        5
+    ],
+    "Vanquisher": [
+        2,
+        3,
+        4,
+        5
+    ],
+    "Caretaker": [
+        1
+    ],
+    "Ixtal": [
+        3,
+        5,
+        7
+    ],
+    "Slayer": [
+        2,
+        4,
+        6
+    ],
+    "Arcanist": [
+        2,
+        4,
+        6
+    ],
+    "Emperor": [
+        1
+    ],
+    "Star Forger": [
+        1
+    ],
+    "Dragonborn": [
+        1
+    ],
+    "Gunslinger": [
+        2,
+        4
+    ],
+    "HexMech": [
+        1
+    ],
+    "Chosen Wolves": [
+        2
+    ],
+    "Chainbreaker": [
+        1
+    ],
+    "Soulbound": [
+        1
+    ],
+    "Piltover": [
+        2,
+        4,
+        6
+    ],
+    "Timewinders": [
+        1,
+        2
+    ],
+    "Darkin": [
+        1,
+        2,
+        3
+    ],
+    "Eternal": [
+        1
+    ],
+    "Dark Child": [
+        1
+    ],
+    "World Ender": [
+        1
+    ],
+    "Assimilator": [
+        1
+    ],
+    "Dragonguards": [
+        2
+    ],
+    "Disruptor": [
+        2,
+        4
+    ],
+    "Void": [
+        2,
+        4,
+        6,
+        9
+    ],
+    "Rune Mage": [
+        1
+    ],
+    "The Boss": [
+        1
+    ],
+    "Glutton": [
+        1
+    ],
+    "Invoker": [
+        2,
+        4
+    ],
+    "Demacia": [
+        3,
+        5,
+        7,
+        11
+    ],
+    "Bilgewater": [
+        3,
+        5,
+        7,
+        10
+    ],
+    "Riftscourge": [
+        1
+    ],
+    "Targon": [
+        1
+    ],
+    "Shurima": [
+        2,
+        3,
+        4
+    ],
+    "Blacksmith": [
+        1
+    ],
+    "Shadow Isles": [
+        2,
+        3,
+        4,
+        5
+    ],
+    "Harvester": [
+        1
+    ],
+    "Immortal": [
+        1
+    ],
+    "Heroic": [
+        1
+    ],
+    "Noxus": [
+        3,
+        5,
+        7,
+        10
+    ],
+    "Yordle": [
+        2,
+        4,
+        6,
+        8,
+        10
+    ],
+    "Zaun": [
+        3,
+        5,
+        7
+    ],
+    "Bruiser": [
+        2,
+        4,
+        6
+    ],
+    "Chronokeeper": [
+        1
+    ],
+    "Warden": [
+        2,
+        3,
+        4,
+        5
+    ],
+    "Ionia": [
+        3,
+        5,
+        7,
+        10
+    ],
+    "Defender": [
+        2,
+        4,
+        6
+    ],
+    "Sentinels of Light": [
+        2
+    ],
+    "Huntress": [
+        1
+    ]
+}

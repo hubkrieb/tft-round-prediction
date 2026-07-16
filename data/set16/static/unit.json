@@ -1,0 +1,751 @@
+{
+    "TFT16_Tristana": {
+        "traits": [
+            "Yordle",
+            "Gunslinger"
+        ],
+        "cost": 2
+    },
+    "TFT16_Lulu": {
+        "traits": [
+            "Yordle",
+            "Arcanist"
+        ],
+        "cost": 1
+    },
+    "TFT16_Teemo": {
+        "traits": [
+            "Yordle",
+            "Longshot"
+        ],
+        "cost": 2
+    },
+    "TFT16_Rumble": {
+        "traits": [
+            "Yordle",
+            "Defender"
+        ],
+        "cost": 1
+    },
+    "TFT16_Nautilus": {
+        "traits": [
+            "Bilgewater",
+            "Juggernaut",
+            "Warden"
+        ],
+        "cost": 3
+    },
+    "TFT16_TwistedFate": {
+        "traits": [
+            "Bilgewater",
+            "Quickstriker"
+        ],
+        "cost": 2
+    },
+    "TFT16_Gangplank": {
+        "traits": [
+            "Bilgewater",
+            "Slayer",
+            "Vanquisher"
+        ],
+        "cost": 3
+    },
+    "TFT16_Illaoi": {
+        "traits": [
+            "Bilgewater",
+            "Bruiser"
+        ],
+        "cost": 1
+    },
+    "TFT16_MissFortune": {
+        "traits": [
+            "Bilgewater",
+            "Gunslinger"
+        ],
+        "cost": 4
+    },
+    "TFT16_Sion": {
+        "traits": [
+            "Noxus",
+            "Bruiser"
+        ],
+        "cost": 2
+    },
+    "TFT16_Briar": {
+        "traits": [
+            "Noxus",
+            "Slayer",
+            "Juggernaut"
+        ],
+        "cost": 1
+    },
+    "TFT16_Draven": {
+        "traits": [
+            "Noxus",
+            "Quickstriker"
+        ],
+        "cost": 3
+    },
+    "TFT16_Ambessa": {
+        "traits": [
+            "Noxus",
+            "Vanquisher"
+        ],
+        "cost": 4
+    },
+    "TFT16_Zoe": {
+        "traits": [
+            "Targon"
+        ],
+        "cost": 3
+    },
+    "TFT16_Leona": {
+        "traits": [
+            "Targon"
+        ],
+        "cost": 3
+    },
+    "TFT16_Aphelios": {
+        "traits": [
+            "Targon"
+        ],
+        "cost": 2
+    },
+    "TFT16_Taric": {
+        "traits": [
+            "Targon"
+        ],
+        "cost": 4
+    },
+    "TFT16_JarvanIV": {
+        "traits": [
+            "Demacia",
+            "Defender"
+        ],
+        "cost": 1
+    },
+    "TFT16_Sona": {
+        "traits": [
+            "Demacia",
+            "Invoker"
+        ],
+        "cost": 1
+    },
+    "TFT16_Garen": {
+        "traits": [
+            "Demacia",
+            "Defender"
+        ],
+        "cost": 4
+    },
+    "TFT16_Lux": {
+        "traits": [
+            "Demacia",
+            "Arcanist"
+        ],
+        "cost": 4
+    },
+    "TFT16_Anivia": {
+        "traits": [
+            "Freljord",
+            "Invoker"
+        ],
+        "cost": 1
+    },
+    "TFT16_Ashe": {
+        "traits": [
+            "Freljord",
+            "Quickstriker"
+        ],
+        "cost": 2
+    },
+    "TFT16_Braum": {
+        "traits": [
+            "Freljord",
+            "Warden"
+        ],
+        "cost": 4
+    },
+    "TFT16_Lissandra": {
+        "traits": [
+            "Freljord",
+            "Invoker"
+        ],
+        "cost": 4
+    },
+    "TFT16_Milio": {
+        "traits": [
+            "Ixtal",
+            "Invoker"
+        ],
+        "cost": 3
+    },
+    "TFT16_Neeko": {
+        "traits": [
+            "Ixtal",
+            "Arcanist",
+            "Defender"
+        ],
+        "cost": 2
+    },
+    "TFT16_Jinx": {
+        "traits": [
+            "Zaun",
+            "Gunslinger"
+        ],
+        "cost": 3
+    },
+    "TFT16_Caitlyn": {
+        "traits": [
+            "Piltover",
+            "Longshot"
+        ],
+        "cost": 1
+    },
+    "TFT16_Vi": {
+        "traits": [
+            "Piltover",
+            "Zaun",
+            "Defender"
+        ],
+        "cost": 2
+    },
+    "TFT16_Seraphine": {
+        "traits": [
+            "Piltover",
+            "Disruptor"
+        ],
+        "cost": 4
+    },
+    "TFT16_Yasuo": {
+        "traits": [
+            "Ionia",
+            "Slayer"
+        ],
+        "cost": 2
+    },
+    "TFT16_Ahri": {
+        "traits": [
+            "Ionia",
+            "Arcanist"
+        ],
+        "cost": 3
+    },
+    "TFT16_Wukong": {
+        "traits": [
+            "Ionia",
+            "Bruiser"
+        ],
+        "cost": 4
+    },
+    "TFT16_Shen": {
+        "traits": [
+            "Ionia",
+            "Bruiser"
+        ],
+        "cost": 1
+    },
+    "TFT16_Malzahar": {
+        "traits": [
+            "Void",
+            "Disruptor"
+        ],
+        "cost": 3
+    },
+    "TFT16_RekSai": {
+        "traits": [
+            "Void",
+            "Vanquisher"
+        ],
+        "cost": 2
+    },
+    "TFT16_ChoGath": {
+        "traits": [
+            "Void",
+            "Juggernaut"
+        ],
+        "cost": 2
+    },
+    "TFT16_KogMaw": {
+        "traits": [
+            "Void",
+            "Arcanist",
+            "Longshot"
+        ],
+        "cost": 1
+    },
+    "TFT16_Annie": {
+        "traits": [
+            "Dark Child",
+            "Arcanist"
+        ],
+        "cost": 5
+    },
+    "TFT16_Ornn": {
+        "traits": [
+            "Blacksmith",
+            "Warden"
+        ],
+        "cost": 5
+    },
+    "TFT16_Kindred": {
+        "traits": [
+            "Eternal",
+            "Quickstriker"
+        ],
+        "cost": 5
+    },
+    "TFT16_Azir": {
+        "traits": [
+            "Shurima",
+            "Emperor",
+            "Disruptor"
+        ],
+        "cost": 5
+    },
+    "TFT16_Zilean": {
+        "traits": [
+            "Chronokeeper",
+            "Invoker"
+        ],
+        "cost": 5
+    },
+    "TFT16_Fiddlesticks": {
+        "traits": [
+            "Harvester",
+            "Vanquisher"
+        ],
+        "cost": 5
+    },
+    "TFT16_Shyvana": {
+        "traits": [
+            "Dragonborn",
+            "Juggernaut"
+        ],
+        "cost": 5
+    },
+    "TFT16_Galio": {
+        "traits": [
+            "Demacia",
+            "Heroic"
+        ],
+        "cost": 5
+    },
+    "TFT16_TahmKench": {
+        "traits": [
+            "Bilgewater",
+            "Glutton",
+            "Bruiser"
+        ],
+        "cost": 5
+    },
+    "TFT16_Sejuani": {
+        "traits": [
+            "Freljord",
+            "Defender"
+        ],
+        "cost": 3
+    },
+    "TFT16_Sett": {
+        "traits": [
+            "Ionia",
+            "The Boss"
+        ],
+        "cost": 5
+    },
+    "TFT16_Brock": {
+        "traits": [
+            "Ixtal"
+        ],
+        "cost": 5
+    },
+    "TFT16_THex": {
+        "traits": [
+            "HexMech",
+            "Piltover",
+            "Gunslinger"
+        ],
+        "cost": 5
+    },
+    "TFT16_BelVeth": {
+        "traits": [
+            "Void",
+            "Slayer"
+        ],
+        "cost": 4
+    },
+    "TFT16_Singed": {
+        "traits": [
+            "Zaun",
+            "Juggernaut"
+        ],
+        "cost": 4
+    },
+    "TFT16_AurelionSol": {
+        "traits": [
+            "Star Forger",
+            "Targon"
+        ],
+        "cost": 5
+    },
+    "TFT16_Veigar": {
+        "traits": [
+            "Yordle",
+            "Arcanist"
+        ],
+        "cost": 4
+    },
+    "TFT16_BaronNashor": {
+        "traits": [
+            "Void",
+            "Riftscourge"
+        ],
+        "cost": 5
+    },
+    "TFT16_Darius": {
+        "traits": [
+            "Noxus",
+            "Defender"
+        ],
+        "cost": 3
+    },
+    "TFT16_Yone": {
+        "traits": [
+            "Ionia",
+            "Slayer"
+        ],
+        "cost": 4
+    },
+    "TFT16_Warwick": {
+        "traits": [
+            "Zaun",
+            "Quickstriker"
+        ],
+        "cost": 4
+    },
+    "TFT16_Fizz": {
+        "traits": [
+            "Bilgewater",
+            "Yordle"
+        ],
+        "cost": 4
+    },
+    "TFT16_Poppy": {
+        "traits": [
+            "Demacia",
+            "Yordle",
+            "Juggernaut"
+        ],
+        "cost": 2
+    },
+    "TFT16_Kennen": {
+        "traits": [
+            "Ionia",
+            "Yordle",
+            "Defender"
+        ],
+        "cost": 3
+    },
+    "TFT16_Ziggs": {
+        "traits": [
+            "Zaun",
+            "Yordle",
+            "Longshot"
+        ],
+        "cost": 5
+    },
+    "TFT16_Aatrox": {
+        "traits": [
+            "Darkin",
+            "World Ender",
+            "Slayer"
+        ],
+        "cost": 5
+    },
+    "TFT16_Volibear": {
+        "traits": [
+            "Freljord",
+            "Bruiser"
+        ],
+        "cost": 5
+    },
+    "TFT16_Jhin": {
+        "traits": [
+            "Ionia",
+            "Gunslinger"
+        ],
+        "cost": 1
+    },
+    "TFT16_PiltoverInvention": {
+        "traits": [],
+        "cost": 1
+    },
+    "TFT16_MalzaharVoidling": {
+        "traits": [],
+        "cost": 11
+    },
+    "TFT16_AzirUltSoldier": {
+        "traits": [],
+        "cost": 11
+    },
+    "TFT16_Sylas": {
+        "traits": [
+            "Chainbreaker",
+            "Arcanist",
+            "Defender"
+        ],
+        "cost": 5
+    },
+    "TFT16_Ryze": {
+        "traits": [
+            "Rune Mage"
+        ],
+        "cost": 5
+    },
+    "TFT16_Nidalee": {
+        "traits": [
+            "Ixtal",
+            "Huntress"
+        ],
+        "cost": 4
+    },
+    "TFT16_Tryndamere": {
+        "traits": [
+            "Freljord",
+            "Slayer"
+        ],
+        "cost": 2
+    },
+    "TFT16_RiftHerald": {
+        "traits": [
+            "Void",
+            "Bruiser"
+        ],
+        "cost": 4
+    },
+    "TFT16_Mel": {
+        "traits": [
+            "Noxus",
+            "Disruptor"
+        ],
+        "cost": 5
+    },
+    "TFT16_Graves": {
+        "traits": [
+            "Bilgewater",
+            "Gunslinger"
+        ],
+        "cost": 2
+    },
+    "TFT16_Skarner": {
+        "traits": [
+            "Ixtal"
+        ],
+        "cost": 4
+    },
+    "TFT16_Diana": {
+        "traits": [
+            "Targon"
+        ],
+        "cost": 4
+    },
+    "TFT16_Kaisa": {
+        "traits": [
+            "Assimilator",
+            "Void",
+            "Longshot"
+        ],
+        "cost": 4
+    },
+    "TFT16_Renekton": {
+        "traits": [
+            "Shurima"
+        ],
+        "cost": 4
+    },
+    "TFT16_Nasus": {
+        "traits": [
+            "Shurima"
+        ],
+        "cost": 4
+    },
+    "TFT16_Xerath": {
+        "traits": [
+            "Shurima",
+            "Ascendant"
+        ],
+        "cost": 5
+    },
+    "TFT16_Thresh": {
+        "traits": [
+            "Shadow Isles",
+            "Warden"
+        ],
+        "cost": 5
+    },
+    "TFT16_Gwen": {
+        "traits": [
+            "Shadow Isles",
+            "Disruptor"
+        ],
+        "cost": 3
+    },
+    "TFT16_Kalista": {
+        "traits": [
+            "Shadow Isles",
+            "Vanquisher"
+        ],
+        "cost": 4
+    },
+    "TFT16_Leblanc": {
+        "traits": [
+            "Noxus",
+            "Invoker"
+        ],
+        "cost": 3
+    },
+    "TFT16_Viego": {
+        "traits": [
+            "Shadow Isles",
+            "Quickstriker"
+        ],
+        "cost": 1
+    },
+    "TFT16_Ekko": {
+        "traits": [
+            "Zaun",
+            "Disruptor"
+        ],
+        "cost": 2
+    },
+    "TFT16_Bard": {
+        "traits": [
+            "Caretaker"
+        ],
+        "cost": 2
+    },
+    "TFT16_Vayne": {
+        "traits": [
+            "Demacia",
+            "Longshot"
+        ],
+        "cost": 3
+    },
+    "TFT16_Atakhan": {
+        "traits": [],
+        "cost": 11
+    },
+    "TFT16_Yunara": {
+        "traits": [
+            "Ionia",
+            "Quickstriker"
+        ],
+        "cost": 4
+    },
+    "TFT16_Swain": {
+        "traits": [
+            "Noxus",
+            "Arcanist",
+            "Juggernaut"
+        ],
+        "cost": 4
+    },
+    "TFT16_XinZhao": {
+        "traits": [
+            "Demacia",
+            "Ionia",
+            "Warden"
+        ],
+        "cost": 2
+    },
+    "TFT16_Yorick": {
+        "traits": [
+            "Shadow Isles",
+            "Warden"
+        ],
+        "cost": 2
+    },
+    "TFT16_Orianna": {
+        "traits": [
+            "Piltover",
+            "Invoker"
+        ],
+        "cost": 2
+    },
+    "TFT16_Qiyana": {
+        "traits": [
+            "Ixtal",
+            "Slayer"
+        ],
+        "cost": 1
+    },
+    "TFT16_Loris": {
+        "traits": [
+            "Piltover",
+            "Warden"
+        ],
+        "cost": 3
+    },
+    "TFT16_Blitzcrank": {
+        "traits": [
+            "Zaun",
+            "Juggernaut"
+        ],
+        "cost": 1
+    },
+    "TFT16_FreljordProp": {
+        "traits": [],
+        "cost": 11
+    },
+    "TFT16_DrMundo": {
+        "traits": [
+            "Zaun",
+            "Bruiser"
+        ],
+        "cost": 3
+    },
+    "TFT16_Zaahen": {
+        "traits": [
+            "Darkin",
+            "Immortal"
+        ],
+        "cost": 5
+    },
+    "TFT16_AnnieTibbers": {
+        "traits": [
+            "Arcanist"
+        ],
+        "cost": 11
+    },
+    "TFT16_Lucian": {
+        "traits": [
+            "Soulbound",
+            "Gunslinger"
+        ],
+        "cost": 5
+    },
+    "TFT16_Kobuko": {
+        "traits": [
+            "Yordle",
+            "Bruiser",
+            "Invoker"
+        ],
+        "cost": 3
+    },
+    "TFT_BlueGolem": {
+        "traits": [],
+        "cost": 1
+    },
+    "TFT9_SLIME_Crab": {
+        "traits": [],
+        "cost": 1
+    },
+    "TFT_TrainingDummy": {
+        "traits": [],
+        "cost": 1
+    },
+    "TFT_ElderDragon": {
+        "traits": [],
+        "cost": 1
+    }
+}
