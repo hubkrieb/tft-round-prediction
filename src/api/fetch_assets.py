@@ -46,6 +46,7 @@ SPECIAL_UNITS = {
     "TFT16_FreljordProp",
     "TFT16_AnnieTibbers",
     "TFT16_AzirUltSoldier",
+    "TFT16_PiltoverInvention",
 }
 
 # Display order of the item categories in the picker's "All" pane: normal

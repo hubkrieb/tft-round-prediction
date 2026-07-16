@@ -334,7 +334,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   border-bottom: 2px solid transparent;
 }
 .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-.tab-body { padding: 16px; }
+.tab-body { padding: 16px; display: flex; flex-direction: column; height: calc(62vh + 120px); }
 .picker-toolbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
 .search {
   width: 100%; background: #111118; border: 1px solid rgba(255, 255, 255, 0.1);
@@ -351,7 +351,11 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 .hint { font-family: var(--mono); font-size: 10.5px; color: var(--text-faint); margin-bottom: 10px; line-height: 1.6; }
 
 .unit-grid, .item-grid {
-  display: grid; gap: 8px; max-height: 62vh; overflow-y: auto; padding-right: 4px;
+  display: grid; gap: 8px; flex: 1; min-height: 0; align-content: start;
+  /* explicit row size: with the definite flex height, `auto` rows and the
+     picks' aspect-ratio resolve circularly and the cells get distorted */
+  grid-auto-rows: min-content;
+  overflow-y: auto; padding-right: 4px;
   scrollbar-width: thin; scrollbar-color: #33334a transparent;
 }
 .unit-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); }
