@@ -35,6 +35,36 @@ const costVar = (cost) => `var(${COST_COLORS[Math.min(cost || 1, 6)]})`;
 // Special units (dummy, Atakhan, …) have no meaningful cost: neutral colour.
 const unitCostVar = (u) => (u.special ? "var(--c1)" : costVar(u.cost));
 
+// Retry a failed image load with exponential backoff. On a serverless cold
+// start the first burst of icon requests can overwhelm the function and some
+// return 502/503 — a short retry usually succeeds once the instance is warm.
+const MAX_RETRIES = 3;
+function wireImageRetry(img, src) {
+  let attempts = 0;
+  const tryLoad = () => {
+    img.src = src;
+    img.classList.add("img-loading");
+  };
+  img.addEventListener("error", function handler(e) {
+    if (attempts >= MAX_RETRIES) {
+      img.classList.remove("img-loading");
+      img.classList.add("img-error");
+      return;
+    }
+    attempts++;
+    const delay = Math.min(200 * Math.pow(2, attempts), 2000);
+    setTimeout(() => {
+      tryLoad();
+      img.addEventListener("error", handler, { once: true });
+    }, delay);
+  });
+  img.addEventListener("load", () => {
+    img.classList.remove("img-loading");
+    img.classList.add("img-loaded");
+  });
+  tryLoad();
+}
+
 /* ------------------------------------------------------------------ *
  * Boot
  * ------------------------------------------------------------------ */
@@ -112,9 +142,11 @@ function renderBoards() {
 
       const portrait = document.createElement("img");
       portrait.className = "unit-portrait";
-      portrait.src = u.icon || "";
       portrait.alt = u.name || cell.unit;
       portrait.draggable = false;
+      portrait.loading = "eager";
+      portrait.decoding = "async";
+      if (u.icon) wireImageRetry(portrait, u.icon);
       const frame = document.createElement("div");
       frame.className = "unit-frame";
       // Persistent star pips (hidden while the hover selector is showing).
@@ -153,9 +185,12 @@ function renderBoards() {
       items.className = "items";
       cell.items.forEach((it, idx) => {
         const im = document.createElement("img");
-        im.src = (itemsByApi[it] || {}).icon || "";
+        im.alt = `${(itemsByApi[it] || {}).name || it}`;
         im.title = `${(itemsByApi[it] || {}).name || it} — drag to move, drop outside to remove`;
         im.draggable = false;
+        im.loading = "eager";
+        im.decoding = "async";
+        if ((itemsByApi[it] || {}).icon) wireImageRetry(im, (itemsByApi[it] || {}).icon);
         // Drag the item to another unit to move it, or off the boards to
         // discard it. stopPropagation keeps the unit itself from dragging.
         im.addEventListener("pointerdown", (e) => {
@@ -474,8 +509,19 @@ function makeUnitPick(u) {
   el.style.setProperty("--cost-color", unitCostVar(u));
   const traits = (u.traits || []).join(", ");
   el.title = u.special ? u.name : `${u.name} · ${u.cost}★${traits ? ` · ${traits}` : ""}`;
-  const costBadge = u.special ? "" : `<span class="pick-cost">${u.cost}</span>`;
-  el.innerHTML = `<img src="${u.icon}" alt="${u.name}" draggable="false" />${costBadge}`;
+  const img = document.createElement("img");
+  img.alt = u.name;
+  img.loading = "lazy";
+  img.decoding = "async";
+  img.draggable = false;
+  if (u.icon) wireImageRetry(img, u.icon);
+  el.appendChild(img);
+  if (!u.special) {
+    const costBadge = document.createElement("span");
+    costBadge.className = "pick-cost";
+    costBadge.textContent = u.cost;
+    el.appendChild(costBadge);
+  }
   wirePick(el, "unit", u.apiName, u.icon);
   return el;
 }
@@ -551,7 +597,13 @@ function renderItemGrid() {
       const el = document.createElement("div");
       el.className = "pick item";
       el.title = it.name;
-      el.innerHTML = `<img src="${it.icon}" alt="${it.name}" draggable="false" />`;
+      const img = document.createElement("img");
+      img.alt = it.name;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.draggable = false;
+      if (it.icon) wireImageRetry(img, it.icon);
+      el.appendChild(img);
       wirePick(el, "item", it.apiName, it.icon);
       grid.appendChild(el);
     });
@@ -625,10 +677,22 @@ function renderTraits() {
     rows.forEach((t) => {
       const li = document.createElement("li");
       li.className = "trait-row " + tierClass(t);
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "trait-name";
+      nameSpan.textContent = t.name;
+      const countSpan = document.createElement("span");
+      countSpan.className = "trait-count";
+      countSpan.textContent = `${t.count}/${t.next}`;
+      li.append(nameSpan, countSpan);
       const icon = traitsByName[t.name]?.icon;
-      li.innerHTML = `${icon ? `<img src="${icon}" alt="" />` : ""}
-        <span class="trait-name">${t.name}</span>
-        <span class="trait-count">${t.count}/${t.next}</span>`;
+      if (icon) {
+        const img = document.createElement("img");
+        img.alt = "";
+        img.loading = "eager";
+        img.decoding = "async";
+        wireImageRetry(img, icon);
+        li.insertBefore(img, nameSpan);
+      }
       ul.appendChild(li);
     });
   }
