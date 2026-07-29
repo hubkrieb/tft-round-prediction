@@ -225,6 +225,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   width: 100%; height: 100%;
   object-fit: cover; z-index: 2;
   transform: scale(0.9);
+  transition: opacity 0.2s ease;
 }
 .hex .unit-frame { display: none; }
 .hex .stars {
@@ -368,7 +369,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   transition: transform 0.12s ease, box-shadow 0.12s ease;
   user-select: none; -webkit-user-select: none;
 }
-.pick img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pick img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.2s ease; }
 .pick.selected { outline: 2px solid var(--gold-bright); outline-offset: 1px; }
 .pick:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45); }
 .pick .pick-cost {
@@ -377,6 +378,22 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 .pick.item { cursor: grab; border-width: 1px; border-color: rgba(255, 255, 255, 0.13); }
 .pick.noimg { display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: var(--text-dim); padding: 2px; }
+
+/* Image loading / error states — helps when icons fail on a cold serverless
+   start and need a retry. */
+.img-loading { opacity: 0.4; }
+.img-error {
+  background: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-size: 9px;
+  font-family: var(--mono);
+  text-align: center;
+  padding: 2px;
+}
+.img-loaded { opacity: 1; }
 
 /* scrollbars */
 .unit-grid::-webkit-scrollbar, .item-grid::-webkit-scrollbar { width: 8px; }

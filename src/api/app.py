@@ -28,12 +28,15 @@ def create_app() -> FastAPI:
 
     @app.middleware("http")
     async def revalidate_app_files(request, call_next):  # noqa: ANN001, ANN202
-        """Make browsers revalidate the app shell on every load.
+        """Set Cache-Control per asset type.
 
-        Without Cache-Control, browsers apply heuristic caching and can keep
-        serving a stale ``app.js``/``style.css`` after a deploy. ``no-cache``
-        still allows cheap 304s via the ETag that StaticFiles already sends.
-        Icons under /assets are immutable-ish and keep the default behaviour.
+        App shell (HTML/JS/CSS/catalog.json) is revalidated on every load so
+        deploys aren't masked by stale bundles — ``no-cache`` still allows cheap
+        304s via the ETag that StaticFiles already sends.
+
+        Icons under /assets are immutable-ish (content-addressed filenames,
+        rebuilt per patch) and get a year-long cache so cold starts don't
+        re-fetch every icon the browser already has.
         """
         response = await call_next(request)
         path = request.url.path
@@ -41,6 +44,8 @@ def create_app() -> FastAPI:
             (".html", ".js", ".css", "catalog.json", "sample_boards.json")
         ):
             response.headers["Cache-Control"] = "no-cache"
+        elif path.startswith("/assets/"):
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
         return response
 
     if not config.CATALOG_PATH.exists():
